@@ -1,0 +1,22 @@
+{
+  "name": "attendance",
+  "version": "1.0.0",
+  "description": "考勤系统",
+  "main": "app.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrucesJiang/attendance.git"
+  },
+  "author": "Bruce Jiang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BrucesJiang/attendance/issues"
+  },
+  "homepage": "https://github.com/BrucesJiang/attendance#readme"
+}

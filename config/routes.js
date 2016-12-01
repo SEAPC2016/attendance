@@ -1,6 +1,6 @@
 var Index = require('../app/controllers/index');
 var User = require('../app/controllers/user');
-
+var Role = require('../app/controllers/role');
 
 module.exports = function(app){
 
@@ -13,6 +13,12 @@ module.exports = function(app){
   app.get('/userlist', User.userlist);
 
   app.post('/user/new',User.new);
+
+  //Role
+  app.post('/role/new',Role.new);
+
+
+
 
   // catch 404 and forward to error handler
   app.use(function(req, res, next) {

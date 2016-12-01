@@ -1,5 +1,9 @@
 var mongoose = require('mongoose');
 
+var Schema = mongoose.Schema;
+var ObjectId = Schema.Types.ObjectId;
+
+
 //npm库，专门为密码设计的算法
 var bcrypt = require('bcrypt');
 
@@ -8,14 +12,14 @@ var SALT_WORK_FACTOR = 10;
 
 //在这个对象中描述用户的文档结构和数据类型
 var UserSchema = new mongoose.Schema({
-  username: {
+  userName: {
     type: String
   },
-  userpwd: String,
-  // userrole: {
-  //   type: ObjectId,
-  //   ref: 'Role'
-  // },
+  userPwd: String,
+  userRole: {
+     type: ObjectId,
+     ref: 'Role'
+   },
   meta: {
     createAt: {
       type: Date,
@@ -40,9 +44,9 @@ UserSchema.pre('save',function(next){
   bcrypt.genSalt(SALT_WORK_FACTOR,function(err, salt){
     if(err) return next(err);
 
-      bcrypt.hash(user.userpwd, salt, function(err, hash){
+      bcrypt.hash(user.userPwd, salt, function(err, hash){
         if(err) return next(err);
-        user.userpwd = hash;
+        user.userPwd = hash;
         //进入下一步
         next();
       });
@@ -52,8 +56,8 @@ UserSchema.pre('save',function(next){
 
 //实例方法，在实例对象处可以调用
 UserSchema.methods = {
-  comparePassword: function(_password, cb) {
-    bcrypt.compare(_password, this.password, function(err, isMatch) {
+  comparePassword: function(_userPwd, cb) {
+    bcrypt.compare(_userPwd, this.userPwd, function(err, isMatch) {
       if (err) return cb(err);
 
       cb(null, isMatch);

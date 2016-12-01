@@ -14,7 +14,7 @@ exports.userlist = function(req, res, next) {
 };
 
 
-exports.new = function(req, res, next){
+exports.new = function(req, res){
   console.log("OK : "+ req);
   var _user = req.body.user;
 

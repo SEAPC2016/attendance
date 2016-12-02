@@ -2,7 +2,7 @@ var Index = require('../app/controllers/index');
 var User = require('../app/controllers/user');
 var Role = require('../app/controllers/role');
 var HolidayType =require('../app/controllers/holidayType');
-
+var Note = require('../app/controllers/note');
 
 module.exports = function(app){
 
@@ -21,6 +21,10 @@ module.exports = function(app){
 
   //HolidayType
   app.post('/holidaytype/new', HolidayType.new);
+
+
+  //Note
+  app.post('/note/new', Note.new);
 
 
   // catch 404 and forward to error handler

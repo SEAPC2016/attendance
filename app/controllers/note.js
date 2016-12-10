@@ -17,11 +17,12 @@ function setState(_note){
 
 exports.new = function(req, res){
   var _note = req.body.note;
-  var note = new NoteSchema(_note);
+  // var note = new NoteSchema(_note);
+  var note = new NoteModel(_note);
 
   setState(note);
 
-  // note.save(function(err, note){
+  // NoteModel.create(note, function(err, note){
   //   if(err){
   //     console.log(err);
   //   }else{
@@ -29,15 +30,14 @@ exports.new = function(req, res){
   //   }
   // });
 
-  NoteModel.create(note, function(err, note){
-    if(err){
-      console.log(err);
-    }else{
-      res.send(note);
-    }
+  NoteModel.create(note)//.exec()
+  .then(function(){
+    res.send(note);
+  })
+  .catch(function(err){
+    console.log('err:' + err);
+    res.send(err);
   });
-
-
 };
 
 

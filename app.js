@@ -27,7 +27,7 @@ app.set('view engine', 'jade');
 
 app.use(express.static(path.join(__dirname, './app/views/public')));
 
-var dbUrl = 'mongodb://localhost/attendance';
+var dbUrl = 'mongodb://100.100.100.10/attendance';
 //连接本地数据库
 mongoose.connect(dbUrl);
 

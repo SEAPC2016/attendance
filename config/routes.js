@@ -34,7 +34,7 @@ module.exports = function(app){
 
   // in postman, get cannot have body
   // localhost:3000/notes/58493581f210182bbc28713f
-  app.get('/notes/:managerId', Note.findByManagerId);
+  app.get('/notes/:managerId', Note.findNotesByManagerId);
 
   // {"managerId":"58493581f210182bbc28713f","noteId":"58493eabd5d47f3948fe85ba","approved":true}
   app.post('/notes', Note.updateStateByManager);
@@ -51,6 +51,8 @@ module.exports = function(app){
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+    console.log('err' + err);
 
     // render the error page
     res.status(err.status || 500);

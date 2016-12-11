@@ -6,13 +6,25 @@ var Note = require('../app/controllers/note');
 
 module.exports = function(app){
 
-
+  //pre  handle user
+  app.use(function(req, res, next){
+    //注意这里逻辑的变化
+    var _user = req.session.user;
+    app.locals.user = _user;
+    next();
+  });
 
   //Index
   app.get('/', Index.index);
 
+  //app.get('/holandUser', Index.holandUser);
+
+  //admin
+
+
   //User
-  app.get('/userlist', User.userlist);
+  app.post('/user/find', User.findOne);
+
 
   app.post('/user/new',User.new);
 
@@ -25,6 +37,19 @@ module.exports = function(app){
 
   //Note
   app.post('/note/new', Note.new);
+
+
+  //app.post('/user/reqHoliday',Note.reqHoliday);
+
+
+
+
+
+  app.get('/form-wizard', function (req, res) {
+  	res.render('form-wizard', {
+  			title: 'form-wizard'
+  	});
+  });
 
 
   // catch 404 and forward to error handler

@@ -77,7 +77,7 @@ UserSchema.statics = {
   //查询单条目录
   findById: function(id, cb){
     return this
-      .findOne({_id: id})
+      .find({_id: id})
       .exec(cb);
   }
 };

@@ -1,8 +1,15 @@
+var debug = require('debug')('attendance:noteController');
+
 var NoteModel = require('../models/note');
 
 var UserModel = require('../models/user');
 
 var NoteSchema = require('../schemas/note');
+
+
+var Promise = require("bluebird");
+
+var debugNewRequest = '\n\n\n\n\n\n\n\n\n\n\n\n'; // sepearate new debug with some newlines
 
 function setState(_note){
   if(_note.timelength < 1){
@@ -14,136 +21,123 @@ function setState(_note){
   return _note;
 }
 
-
-exports.new = function(req, res){
+exports.new = function(req, res, next){
   var _note = req.body.note;
-  var note = new NoteSchema(_note);
+
+  debug(debugNewRequest + 'Get params from front,note:\n' + JSON.stringify(_note));
+
+  var note = new NoteModel(_note);
 
   setState(note);
 
-  // note.save(function(err, note){
-  //   if(err){
-  //     console.log(err);
-  //   }else{
-  //     res.send(note);
-  //   }
-  // });
+  NoteModel.create(note)
+  .then(function(){
+    debug('Create new note succeeded');
+    return res.send(note);
+  })
+  .catch(next);
+};
 
-  NoteModel.create(note, function(err, note){
-    if(err){
-      console.log(err);
-    }else{
-      res.send(note);
+
+function findRoleByUserId(userId){
+  return UserModel.findById(userId)
+  .then(function(user){
+    debug('Found user by userId:%s:\n%s', userId, user);
+    var role = user.userRole;
+    debug('Role of user:\n' + role);
+    return role;
+  });
+}
+
+exports.findNotesByManagerId = function (req, res, next){
+
+  // var managerId = "58493581f210182bbc28713f";
+  var managerId = req.params.managerId;
+  debug(debugNewRequest + 'Get params from front,managerId:\n' + managerId);
+
+  findRoleByUserId(managerId)
+  .then(function(role){
+    NoteModel.findByState(role.preState)
+    .then(function(notes){
+      debug('Find all notes by manager preState, notes.length:' + notes.length);
+      return res.send(notes);
+    });
+  })
+  .catch(next);
+};
+
+
+function _updateStateByManager(managerId, note, approved){ // this way of `res` is ugly.
+
+  // create a new Promise to avoid look into database when manager disapprove this note.
+  return new Promise(function(resolve) {
+    if(approved === false){
+      debug('Set note state to 0 beacuse of disapprove');
+      resolve(0);
+    }
+    else{
+      return findRoleByUserId(managerId)
+      .then(function(role){
+        if (role.postState === note.highState){
+          debug('Set note state to -1, approved and role.postState === note.highState');
+          resolve(-1);
+        }
+        else{
+          debug('Set note state to ' + role.postState + ', approved but role.postState != note.highState');
+          resolve(role.postState);
+        }
+      });
     }
   });
 
 
-};
+// Or, just a more clean way.
+/*
+  return findRoleByUserId(managerId)
+  .then(function(role){
+    if(approved === false){
+      debug('Set note state to 0 beacuse of disapprove');
+      return 0;
+    }
 
-
-exports.findByManagerId = function (req, res){
-
-  // var managerId = "58493581f210182bbc28713f";
-  var managerId = req.params.managerId;
-
-  UserModel.findById(managerId, function(err, user){
-       if (err) {
-           console.log("Error:" + err);
-       }
-       else {
-          //  return user;
-          console.log(user);
-          var role = user.userRole;
-          console.log(role);
-
-          NoteModel.findByState(role.preState ,function(err, notes){
-            if(err){
-              console.log(err);
-            }else{
-              res.send(notes);
-            }
-          });
-       }
-   });
-};
-
-
-function _updateStateByManager(managerId, note, res){ // this way of `res` is ugly.
-
-  UserModel.findById(managerId, function(err, user){
-       if (err) {
-           console.log("Error:" + err);
-       }
-       else {
-          //  return user;
-          console.log(user);
-          var role = user.userRole;
-          console.log(role);
-
-          if (role.postState === note.highState){
-            note.state = -1;
-          }
-          else{
-            note.state = role.postState;
-          }
-
-          // SAVE NOTE
-          var conditions = {_id : note._id};
-          var update = { $set : {state:note.state}}; // !!!!! Well, status and state
-          // var update = {state : 0};
-          var options    =  { multi: false };
-          NoteModel.update(conditions, update, options,function(err, changed){
-              if(err) {
-                  console.log(err);
-              } else {
-                  console.log('update ok!');
-                  res.send(changed);
-              }
-          });
-
-       }
-   });
-
+    if (role.postState === note.highState){
+      debug('Set note state to -1, approved and role.postState === note.highState');
+      return -1;
+    }
+    else{
+      debug('Set note state to ' + role.postState + ', approved but role.postState != note.highState');
+      return role.postState;
+    }
+  });
+*/
 }
 
 
-exports.updateStateByManager = function (req, res){
+exports.updateStateByManager = function (req, res, next){
 
   var managerId = req.body.managerId;
   var noteId = req.body.noteId;
   var approved = req.body.approved;
 
-  console.log(managerId, noteId, approved);
+  debug(debugNewRequest + 'Get params from front end, managerId:%s, noteId:%s, approved:%s\n', managerId, noteId, approved);
 
-  NoteModel.findById(noteId, function(err, note){
-    if (err) {
-      console.log("Error:" + err);
-    }
-    else{
-      console.log(note);
-      console.log(note._id);
-      if (approved === false) {
-        var conditions = {_id : note._id};
-        var update = { $set : {state:0}}; // !!!!! Well, status and state
-        // var update = {state : 0};
-        var options    =  { multi: false };
-        NoteModel.update(conditions, update, options,function(err, changed){
-            if(err) {
-                console.log(err);
-            } else {
-                console.log('update ok!');
-                res.send(changed);
-            }
-        });
+  var newState = 0;
 
+  NoteModel.findById(noteId)
+  .then(function(note){
+    debug('Found note by noteId %s:\n%s', noteId, note);
 
-      } // do not approve
-      else{ // approve
-        console.log("Approved");
-        _updateStateByManager(managerId, note, res);
-      }
-
-
-    }
-  });
+    _updateStateByManager(managerId, note, approved)
+    .then(function(newState){
+      var conditions = {_id : note._id};
+      var update = { $set : {state:newState}};
+      var options    =  { multi: false };
+      return NoteModel.update(conditions, update, options)
+      .then(function(changedInfo){
+        debug('Update note info succeeded');
+        res.send(changedInfo);
+      });
+    });
+  })
+  .catch(next);
 };

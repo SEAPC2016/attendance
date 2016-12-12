@@ -1,22 +1,24 @@
 var mongoose = require('mongoose');
+var HolidayType = require('./holidayType');
+var User = require('./user');
 
 var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 
 var NoteSchema = new mongoose.Schema({
-  userObject: {
-     type: ObjectId,
-     ref: 'User'
+  user: {
+    type: ObjectId,
+    ref: 'User'
   },
-  htObject: {
+  holidayType: {
     type: ObjectId,
     ref: 'HolidayType'
   },
   startTime: Date,
-  timelength: Number,
-  state: Number,
+  timeLength: Number,
+  reason: String,
+  curState: Number,
   highState: Number,
-
   meta:{
     createAt: {
       type: Date,
@@ -29,14 +31,12 @@ var NoteSchema = new mongoose.Schema({
   }
 });
 
-
 NoteSchema.pre('save', function(next){
   var note = this;
   if(this.isNew){
     this.meta.createAt = this.meta.updateAt = Date.now();
-  }
-  else{
-    this.meta.updateAt = Date.now();
+  }else{
+    this.meta.updateAt = Data.now();
   }
   next();
 });
@@ -64,7 +64,11 @@ NoteSchema.statics = {
             .sort("meta.updateAt")
             .exec(cb);
   }
+};
+  //实例方法
+NoteSchema.methods ={
 
 };
+
 
 module.exports = NoteSchema;

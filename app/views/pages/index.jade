@@ -1,5 +1,346 @@
-extends layout
+extends ../layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+	// main container
+	.content
+		// settings changer
+		.skins-nav
+			a.skin.first_nav.selected(href='#')
+				span.icon
+				span.text Default skin
+			a.skin.second_nav(href='#', data-file='css/skins/dark.css')
+				span.icon
+				span.text Dark skin
+		.container-fluid
+			// upper main stats
+			#main-stats
+				.row-fluid.stats-row
+					.span3.stat
+						.data
+							span.number 2457
+							|                             visits
+						span.date Today
+					.span3.stat
+						.data
+							span.number 3240
+							|                             users
+						span.date February 2014
+					.span3.stat
+						.data
+							span.number 322
+							|                             orders
+						span.date This week
+					.span3.stat.last
+						.data
+							span.number $2,340
+							|                             sales
+						span.date last 30 days
+			// end upper main stats
+			#pad-wrapper
+				// statistics chart built with jQuery Flot
+				.row-fluid.chart
+					h4
+						| Statistics
+						.btn-group.pull-right
+							button.glow.left DAY
+							button.glow.middle.active MONTH
+							button.glow.right YEAR
+					.span12
+						#statsChart
+				// end statistics chart
+				// UI Elements section
+				.row-fluid.section.ui-elements
+					h4 UI Elements
+					.span5.knobs
+						.knob-wrapper
+							input.knob(type='text', value='50', data-thickness='.3', data-inputcolor='#333', data-fgcolor='#30a1ec', data-bgcolor='#d4ecfd', data-width='150')
+							.info
+								.param
+									span.line.blue
+									|                                     Active users
+						.knob-wrapper
+							input.knob.second(type='text', value='75', data-thickness='.3', data-inputcolor='#333', data-fgcolor='#3d88ba', data-bgcolor='#d4ecfd', data-width='150')
+							.info
+								.param
+									span.line.blue
+									|                                     % disk space usage
+					.span6.showcase
+						.ui-sliders
+							.slider.slider-sample1.vertical-handler
+							.slider.slider-sample2
+							.slider.slider-sample3
+						.ui-group
+							a.btn-flat.inverse Large Button
+							a.btn-flat.gray Large Button
+							a.btn-flat.default Large Button
+							a.btn-flat.primary Large Button
+						.ui-group
+							a.btn-flat.icon
+								i.tool
+								|  Icon button
+							a.btn-glow.small.inverse
+								i.shuffle
+							a.btn-glow.small.primary
+								i.setting
+							a.btn-glow.small.default
+								i.attach
+							.ui-select
+								select
+									option(selected='')
+										| Dropdown
+									option
+										| Custom selects
+									option
+										| Pure css styles
+							.btn-group
+								button.glow.left LEFT
+								button.glow.right RIGHT
+				// end UI elements section
+				// table sample
+				// the script for the toggle all checkboxes from header is located in js/theme.js
+				.table-products.section
+					.row-fluid.head
+						.span12
+							h4
+								| Products 
+								small Table sample
+					.row-fluid.filter-block
+						.pull-right
+							.ui-select
+								select
+									option
+										| Filter users
+									option
+										| Signed last 30 days
+									option
+										| Active users
+							input.search(type='text')
+							a.btn-flat.new-product + Add product
+					.row-fluid
+						table.table.table-hover
+							thead
+								tr
+									th.span3
+										input(type='checkbox')
+										|                                         Product
+									th.span3
+										span.line
+										| Description
+									th.span3
+										span.line
+										| Status
+							tbody
+								// row
+								tr.first
+									td
+										input(type='checkbox')
+										.img
+											img(src='img/table-img.png')
+										a(href='#') There are many variations 
+									td.description
+										| if you are going to use a passage of Lorem Ipsum.
+									td
+										span.label.label-success Active
+										ul.actions
+											li
+												i.table-edit
+											li
+												i.table-settings
+											li.last
+												i.table-delete
+								// row
+								tr
+									td
+										input(type='checkbox')
+										.img
+											img(src='img/table-img.png')
+										a(href='#') Internet tend
+									td.description
+										| There are many variations of passages.
+									td
+										ul.actions
+											li
+												i.table-edit
+											li
+												i.table-settings
+											li.last
+												i.table-delete
+								// row
+								tr
+									td
+										input(type='checkbox')
+										.img
+											img(src='img/table-img.png')
+										a(href='#') Many desktop publishing 
+									td.description
+										| if you are going to use a passage of Lorem Ipsum.
+									td
+										ul.actions
+											li
+												i.table-edit
+											li
+												i.table-settings
+											li.last
+												i.table-delete
+								// row
+								tr
+									td
+										input(type='checkbox')
+										.img
+											img(src='/img/table-img.png')
+										a(href='#') Generate Lorem 
+									td.description
+										| There are many variations of passages.
+									td
+										span.label.label-info Standby
+										ul.actions
+											li
+												i.table-edit
+											li
+												i.table-settings
+											li.last
+												i.table-delete
+								// row
+								tr
+									td
+										input(type='checkbox')
+										.img
+											img(src='/img/table-img.png')
+										a(href='#') Internet tend
+									td.description
+										| There are many variations of passages.
+									td
+										ul.actions
+											li
+												i.table-edit
+											li
+												i.table-settings
+											li.last
+												i.table-delete
+					.pagination
+						ul
+							li
+								a(href='#') ‹
+							li
+								a.active(href='#') 1
+							li
+								a(href='#') 2
+							li
+								a(href='#') 3
+							li
+								a(href='#') 4
+							li
+								a(href='#') ›
+				// end table sample
+	// scripts
+	script(src='http://code.jquery.com/jquery-latest.js')
+	script(src='/js/bootstrap.min.js')
+	script(src='/js/jquery-ui-1.10.2.custom.min.js')
+	// knob
+	script(src='/js/jquery.knob.js')
+	// flot charts
+	script(src='/js/jquery.flot.js')
+	script(src='/js/jquery.flot.stack.js')
+	script(src='/js/jquery.flot.resize.js')
+	script(src='/js/theme.js')
+	script(type='text/javascript').
+		$(function () {
+		// jQuery Knobs
+		$(".knob").knob();
+		// jQuery UI Sliders
+		$(".slider-sample1").slider({
+		value: 100,
+		min: 1,
+		max: 500
+		});
+		$(".slider-sample2").slider({
+		range: "min",
+		value: 130,
+		min: 1,
+		max: 500
+		});
+		$(".slider-sample3").slider({
+		range: true,
+		min: 0,
+		max: 500,
+		values: [ 40, 170 ],
+		});
+		// jQuery Flot Chart
+		var visits = [[1, 50], [2, 40], [3, 45], [4, 23],[5, 55],[6, 65],[7, 61],[8, 70],[9, 65],[10, 75],[11, 57],[12, 59]];
+		var visitors = [[1, 25], [2, 50], [3, 23], [4, 48],[5, 38],[6, 40],[7, 47],[8, 55],[9, 43],[10,50],[11,47],[12, 39]];
+		var plot = $.plot($("#statsChart"),
+		[ { data: visits, label: "Signups"},
+		{ data: visitors, label: "Visits" }], {
+		series: {
+		lines: { show: true,
+		lineWidth: 1,
+		fill: true,
+		fillColor: { colors: [ { opacity: 0.1 }, { opacity: 0.13 } ] }
+		},
+		points: { show: true,
+		lineWidth: 2,
+		radius: 3
+		},
+		shadowSize: 0,
+		stack: true
+		},
+		grid: { hoverable: true,
+		clickable: true,
+		tickColor: "#f9f9f9",
+		borderWidth: 0
+		},
+		legend: {
+		// show: false
+		labelBoxBorderColor: "#fff"
+		},
+		colors: ["#a7b5c5", "#30a0eb"],
+		xaxis: {
+		ticks: [[1, "JAN"], [2, "FEB"], [3, "MAR"], [4,"APR"], [5,"MAY"], [6,"JUN"],
+		[7,"JUL"], [8,"AUG"], [9,"SEP"], [10,"OCT"], [11,"NOV"], [12,"DEC"]],
+		font: {
+		size: 12,
+		family: "Open Sans, Arial",
+		variant: "small-caps",
+		color: "#697695"
+		}
+		},
+		yaxis: {
+		ticks:3,
+		tickDecimals: 0,
+		font: {size:12, color: "#9da3a9"}
+		}
+		});
+		function showTooltip(x, y, contents) {
+		$('<div id="tooltip">' + contents + '</div>').css( {
+		position: 'absolute',
+		display: 'none',
+		top: y - 30,
+		left: x - 50,
+		color: "#fff",
+		padding: '2px 5px',
+		'border-radius': '6px',
+		'background-color': '#000',
+		opacity: 0.80
+		}).appendTo("body").fadeIn(200);
+		}
+		var previousPoint = null;
+		$("#statsChart").bind("plothover", function (event, pos, item) {
+		if (item) {
+		if (previousPoint != item.dataIndex) {
+		previousPoint = item.dataIndex;
+		$("#tooltip").remove();
+		var x = item.datapoint[0].toFixed(0),
+		y = item.datapoint[1].toFixed(0);
+		var month = item.series.xaxis.ticks[item.dataIndex].label;
+		showTooltip(item.pageX, item.pageY,
+		item.series.label + " of " + month + ": " + y);
+		}
+		}
+		else {
+		$("#tooltip").remove();
+		previousPoint = null;
+		}
+		});
+		});
+	div(style='display:none')
+		script(src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540', language='JavaScript', charset='gb2312')

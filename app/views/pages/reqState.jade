@@ -1,0 +1,158 @@
+extends ../layout
+
+block content
+	// main container
+	.content
+		// settings changer
+		.skins-nav
+			a.skin.first_nav.selected(href='#')
+				span.icon
+				span.text Default
+			a.skin.second_nav(href='#', data-file='css/skins/dark.css')
+				span.icon
+				span.text Dark skin
+		.container-fluid
+			#pad-wrapper
+				//
+					<div class="row-fluid head">
+					<div class="span12">
+					<h4>Form wizard</h4>
+					</div>
+					</div>
+				.row-fluid
+					.span12
+						#fuelux-wizard.wizard.row-fluid
+							ul.wizard-steps
+								li.active(data-target='#step1')
+									span.step 1
+									span.title 已发出申请
+								li(data-target='#step2')
+									span.step 2
+									span.title
+										| 部门经理 
+										br
+										|  已审批
+								li(data-target='#step3')
+									span.step 3
+									span.title
+										| 副总经理 
+										br
+										|  已审批
+								li(data-target='#step4')
+									span.step 4
+									span.title
+										| 总经理 
+										br
+										|  已审批
+						.step-content
+							#step1.step-pane.active
+								.row-fluid.form-wrapper
+									.span8
+										form
+											.field-box
+												label 申请人:
+												input.span8.inline-input(type='text', readonly='readonly', value='员工A')
+											.field-box
+												label 职    位:
+												input.span8.inline-input(type='text', readonly='readonly', value='职位A')
+											.field-box
+												label 部    门:
+												input.span8.inline-input(type='text', readonly='readonly', value='部门A')
+											.field-box
+												label tips:
+												input.span8.inline-input(type='text', readonly='readonly', value='您的假期申请已发送哦(๑•ᴗ•๑)')
+							#step2.step-pane
+								.row-fluid.form-wrapper
+									.span8
+										form
+											.field-box
+												label 申请人:
+												input.span8.inline-input(type='text', readonly='readonly', value='员工A')
+											.field-box
+												label 职    位:
+												input.span8.inline-input(type='text', readonly='readonly', value='职位A')
+											.field-box
+												label 部    门:
+												input.span8.inline-input(type='text', readonly='readonly', value='部门A')
+											.field-box
+												label tips:
+												input.span8.inline-input(type='text', readonly='readonly', value='您的假期申请已被部门经理审批哦(๑•ᴗ•๑)')
+							#step3.step-pane
+								.row-fluid.form-wrapper
+									.span8
+										form
+											.field-box
+												label 申请人:
+												input.span8.inline-input(type='text', readonly='readonly', value='员工A')
+											.field-box
+												label 职    位:
+												input.span8.inline-input(type='text', readonly='readonly', value='职位A')
+											.field-box
+												label 部    门:
+												input.span8.inline-input(type='text', readonly='readonly', value='部门A')
+											.field-box
+												label tips:
+												input.span8.inline-input(type='text', readonly='readonly', value='您的假期申请已被副总经理审批哦(๑•ᴗ•๑)')
+							#step4.step-pane
+								.row-fluid.form-wrapper.payment-info
+									.span8
+										form
+											.field-box
+												label 申请人:
+												input.span8.inline-input(type='text', readonly='readonly', value='员工A')
+											.field-box
+												label 职    位:
+												input.span8.inline-input(type='text', readonly='readonly', value='职位A')
+											.field-box
+												label 部    门:
+												input.span8.inline-input(type='text', readonly='readonly', value='部门A')
+											.field-box
+												label tips:
+												input.span8.inline-input(type='text', readonly='readonly', value='您的假期申请已被总经理审批哦(๑•ᴗ•๑)')
+						.wizard-actions
+							button.btn-glow.primary.btn-prev(type='button', disabled='')
+								i.icon-chevron-left
+								|  Prev
+							button.btn-glow.primary.btn-next(type='button', data-last='Finish')
+								| Next 
+								i.icon-chevron-right
+							button.btn-glow.success.btn-finish(type='button')
+								| Setup your account!
+	// end main container
+	// scripts for this page
+	script(src='http://code.jquery.com/jquery-latest.js')
+	script(src='js/bootstrap.min.js')
+	script(src='js/theme.js')
+	script(src='js/fuelux.wizard.js')
+	script(type='text/javascript').
+		$(function () {
+		var $wizard = $('#fuelux-wizard'),
+		$btnPrev = $('.wizard-actions .btn-prev'),
+		$btnNext = $('.wizard-actions .btn-next'),
+		$btnFinish = $(".wizard-actions .btn-finish");
+		$wizard.wizard().on('finished', function(e) {
+		// wizard complete code
+		}).on("changed", function(e) {
+		var step = $wizard.wizard("selectedItem");
+		// reset states
+		$btnNext.removeAttr("disabled");
+		$btnPrev.removeAttr("disabled");
+		$btnNext.show();
+		$btnFinish.hide();
+		if (step.step === 1) {
+		$btnPrev.attr("disabled", "disabled");
+		} else if (step.step === 4) {
+		$btnNext.hide();
+		$btnFinish.show();
+		}
+		});
+		$btnPrev.on('click', function() {
+		$wizard.wizard('previous');
+		});
+		$btnNext.on('click', function() {
+		$wizard.wizard('next');
+		});
+		});
+	div(style='display:none')
+		script(src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540', language='JavaScript', charset='gb2312')
+		

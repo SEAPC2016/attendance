@@ -7,13 +7,25 @@ var Note = require('../app/controllers/note');
 
 module.exports = function(app){
 
-
+  //pre  handle user
+  app.use(function(req, res, next){
+    //注意这里逻辑的变化
+    var _user = req.session.user;
+    app.locals.user = _user;
+    next();
+  });
 
   //Index
   app.get('/', Index.index);
 
+  app.get('/holandUser', Index.holandUser);
+
+  //admin
+
+
   //User
-  app.get('/userlist', User.userlist);
+  app.post('/user/find', User.findOne);
+
 
   // in postman:
   // Headers, Content-Type application/json
@@ -38,6 +50,15 @@ module.exports = function(app){
 
   // {"managerId":"58493581f210182bbc28713f","noteId":"58493eabd5d47f3948fe85ba","approved":true}
   app.post('/notes', Note.updateStateByManager);
+
+  //app.post('/user/reqHoliday',Note.reqHoliday);
+
+  app.get('/form-wizard', function (req, res) {
+  	res.render('form-wizard', {
+  			title: 'form-wizard'
+  	});
+  });
+
 
   // catch 404 and forward to error handler
   app.use(function(req, res, next) {

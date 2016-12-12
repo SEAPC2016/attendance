@@ -21,14 +21,14 @@ function setState(_role){
 
 
 
-
-
-
-//添加角色
+ //添加角色
 exports.new = function(req, res){
   var _role = req.body.role;
   var role = new Role(_role);
+  //测试
+  //role.roleName = '员工' ;
   role = setState(role);
+
   role.save(function(err, role){
     if(err){
       console.log(err);

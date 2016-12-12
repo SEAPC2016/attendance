@@ -77,6 +77,7 @@ UserSchema.statics = {
   //查询单条目录
   findById: function(id, cb){
     return this
+      .find({_id: id})
       .findOne({_id: id}).populate('userRole')
       .exec(cb);
   }

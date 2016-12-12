@@ -45,7 +45,7 @@ exports.findOne = function(req, res){
 
 
 exports.new = function(req, res){
-  console.log("OK : "+ req);
+//  console.log("OK : "+ req);
   var _user = req.body.user;
 
   console.log(_user);
@@ -53,9 +53,9 @@ exports.new = function(req, res){
 
 
   var user = new  User(_user);
-  user.userName = 'Cool';
-  user.userPwd = '123456';
-  user.userRole = '584aab46b4f2d71f8a186278';
+  // user.userName = 'Cool';
+  // user.userPwd = '123456';
+  // user.userRole = '584aab46b4f2d71f8a186278';
   user.save(function(err, user){
     if(err){
       console.log(err);
@@ -75,13 +75,13 @@ exports.signin = function(req, res){
   User.findOne({name: name}, function(err, user){
      if(err){
        console.log(err);
-     }
      //用户不存在
      if(!user){
        //用户不存在
        return res.redirect('/signin');
      }
 
+   }
      user.comparePassword(password, function(err, isMatch){
        if(err){
          console.log(err);

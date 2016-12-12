@@ -7,7 +7,7 @@ var Role = require('../models/role');
 exports.new = function(req, res){
   //获取参数
   var _note = req.body.note;
-  console.log("接收到的_note :" + _note);
+  //console.log("接收到的_note :" + _note);
 
   var note = new Note(_note);
 
@@ -16,13 +16,13 @@ exports.new = function(req, res){
   .populate({path: 'userRole'})
   .exec(function(err, user){
     note = setState(user[0],note);
-    console.log('添加状态的note :'+ note );
+    //console.log('添加状态的note :'+ note );
     note.save(function(err, note){
       if(err){
         console.log(err);
       }else{
         //跳转到请假状态页
-        console.log("写入数据库后的回调:"+note);
+      //  console.log("写入数据库后的回调:"+note);
         // res.render('reqState', {
         //       title: "请假状态页",
         //       note: note

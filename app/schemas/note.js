@@ -62,24 +62,7 @@ NoteSchema.statics = {
 
 //实例方法
 NoteSchema.methods ={
-  //根据用户角色，对Note置初始状态
-  setState:function(_user,_note){
-     console.log(_user);
-     if(_user.userRole.roleName === '员工'){
-       _note.curState = 0;
-       _note.highState = 1;
-     }else if(_user.userRole.roleName === '部门经理'){
-       _note.curState = 0;
-       _note.highState = 1;
-     }else if(_user.userRole.roleName === '副总经理'){
-       _note.curState = 0;
-       _note.highState = 1;
-     }else if(_user.userRole.roleName === '总经理'){
-       _note.curState = 0;
-       _note.highState = 1;
-     }
-     return _note;
-  }
+
 };
 
 

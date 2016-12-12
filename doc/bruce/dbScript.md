@@ -47,3 +47,27 @@ Note.mapReduce(
      out:"holidayLength"
   }
 ).find()
+
+
+
+
+
+
+
+
+>db.notes.mapReduce(function(){emit(this.startTime,this.timeLength);}, function(key,values){return Array.sum(values)},{out:'timeLength'}).find()
+{ "_id" : ISODate("2016-10-01T00:00:00Z"), "value" : 21 }
+
+
+> db.notes.mapReduce(function(){emit(this.startTime,this.timeLength);}, function(key,values){return Array.sum(values)},{out:'timeLength'})
+{
+	"result" : "timeLength",
+	"timeMillis" : 4,
+	"counts" : {
+		"input" : 3,
+		"emit" : 3,
+		"reduce" : 1,
+		"output" : 1
+	},
+	"ok" : 1
+}

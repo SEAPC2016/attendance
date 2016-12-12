@@ -59,6 +59,7 @@ NoteSchema.statics = {
   }
 };
 
+
 //实例方法
 NoteSchema.methods ={
   //根据用户角色，对Note置初始状态

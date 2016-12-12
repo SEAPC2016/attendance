@@ -53,7 +53,7 @@ exports.new = function(req, res){
 
 
   var user = new  User(_user);
-  user.userName = 'Bruce';
+  user.userName = 'Cool';
   user.userPwd = '123456';
   user.userRole = '584aab46b4f2d71f8a186278';
   user.save(function(err, user){

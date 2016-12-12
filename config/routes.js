@@ -17,7 +17,7 @@ module.exports = function(app){
   //Index
   app.get('/', Index.index);
 
-  //app.get('/holandUser', Index.holandUser);
+  app.get('/holandUser', Index.holandUser);
 
   //admin
 

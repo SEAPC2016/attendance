@@ -15,6 +15,9 @@ var app = express();
 
 app.locals.moment = require('moment');
 var dbUrl = 'mongodb://localhost/attendance';
+
+// Use bluebird Promise, see http://mongoosejs.com/docs/promises.html
+mongoose.Promise = require('bluebird');
 //连接本地数据库
 mongoose.connect(dbUrl);
 
@@ -23,6 +26,7 @@ mongoose.connect(dbUrl);
 app.set('views', path.join(__dirname, './app/views/pages'));
 app.set('view engine', 'jade');
 app.use(express.static(path.join(__dirname,'./app/public')));
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -42,5 +46,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 require('./config/routes')(app);
+
 
 module.exports = app;

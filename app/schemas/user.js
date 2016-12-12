@@ -78,6 +78,7 @@ UserSchema.statics = {
   findById: function(id, cb){
     return this
       .find({_id: id})
+      .findOne({_id: id}).populate('userRole')
       .exec(cb);
   }
 };

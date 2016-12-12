@@ -19,7 +19,7 @@ var NoteSchema = new mongoose.Schema({
   reason: String,
   curState: Number,
   highState: Number,
-  meta: {
+  meta:{
     createAt: {
       type: Date,
       default: Date.now()
@@ -41,26 +41,31 @@ NoteSchema.pre('save', function(next){
   next();
 });
 
-
 NoteSchema.statics = {
-  //获取表内全部数据
+  //取出数据库中目前拥有的数据
   fetch: function(cb){
-      return this
-              .find({})
-              .sort('meta.updateAt')
-              .exec(cb);
+    return this
+            .find({})
+            .sort("meta.updateAt")
+            .exec(cb);
   },
-  //根据ID取出单条数据
+  //根据ID取出数据单条数据
   findById: function(id, cb){
     return this
-            .find({_id: id})
+            .findOne({_id : id})
+            .sort("meta.updateAt")
+            .exec(cb);
+  },
+
+  //根据 state 取出数据单条数据
+  findByState: function(state, cb){
+    return this
+            .find({state : state})//.populate('userObject').populate('htObject')
             .sort("meta.updateAt")
             .exec(cb);
   }
 };
-
-
-//实例方法
+  //实例方法
 NoteSchema.methods ={
 
 };

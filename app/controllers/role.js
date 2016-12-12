@@ -21,10 +21,7 @@ function setState(_role){
 
 
 
-
-
-
-//添加角色
+ //添加角色
 exports.new = function(req, res){
   var _role = req.body.role;
   var role = new Role(_role);

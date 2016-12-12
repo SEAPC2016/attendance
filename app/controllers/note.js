@@ -3,24 +3,7 @@ var User = require('../models/user');
 var HolidayType = require('../models/holidayType');
 var Role = require('../models/role');
 
-
-//add new note
-// exports.new = function(req, res){
-//   var _note = req.body.note;
-//   var note = new Note(_note);
-//   note = note.judgeState(note);
-//   console.log(note);
-//   note.save(function(err, note){
-//       if(err){
-//         console.log(note);
-//       }else{
-//         res.send(note);
-//       }
-//   });
-// };
-
-
-//require Holiday
+ //require Holiday
 exports.new = function(req, res){
   //获取参数
   var _note = req.body.note;

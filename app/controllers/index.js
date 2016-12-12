@@ -12,13 +12,7 @@ exports.index = function(req, res, next) {
 };
 
 
-
-
-
-
-
-
-// // HolidayType Holiday And User Info
+// HolidayType Holiday And User Info
 exports.holandUser = function(req, res, next){
   console.log("coold");
   //var userId = req.body.userID;
@@ -44,70 +38,63 @@ exports.holandUser = function(req, res, next){
             console.log(err);
           }
           console.log(userRes + "\n" + userRes[0].userRole.roleName);
-          HolidayType
-            .find()
-            .exec(function(err, holidayTypes){
-                if(err){
-                  console.log(err);
-                }
-                console.log(holidayTypes);
-                var holiday = {name:null,length:null};
-                var holidays = {};
-                var holidayLength = holidayTypes.length;
-                for(var i=0; i<holidayLength; i++){//计算该假期剩余多少天
-                  console.log(userRes[0]._id + '\n'+ holidayTypes[i]._id);
-                  holiday.name = holidayTypes[i].holidayName;
-                  /**
-                   * 这里的执行结果慢了不止一拍，怎么办？？ 有什么解决方法？
-                  */
-                  holiday.length = count(userRes[0]._id, holidayTypes[i]._id);
-                  holidays[i] = holiday;
-                  console.log("\n 没有？ "+ holidays[i].name+ "\n" + holidays[i].length);
-                }
-                res.send(holidays);
-                // res.render('/reqHoliday' ,{
-                //   title:'请假',
-                //   role: userRes[0].userRole.roleName,
-                //   //写成如下格式会报错
-                //   //role: userRes.userRole.roleName,
-                //   user: userRes[0],
-                //   holidayTypes:holidayTypes,
-                //   holidays: holidays
-                // });
+
+          var _now = moment();
+          var now = new Date();
+          var year = _now.get('year');
+          //console.log("year = "+ year + "; year =" + now);
+          var timeLength = 0;
+          //根据用户ID , 假期类型ID , 时间参数查询假期剩余天数
+
+          /**
+           * 1) 根据用户ID, 假期ID , 当前时间，以及默认的这一年的开始时间，
+           *   查询一下内容： 这段时间内高用户该种假期的所有记录时间总和
+          */
+          Note
+            .find({'user': userRes[0]._id})
+            .gte('startTime',year)
+            .lte('startTime',now)
+            .exec(function(err, notes){
+              if(err){
+                console.log(err);
+              }else{
+                HolidayType
+                    .find()
+                    .exec(function(err, holidayTypes){
+                        if(err){
+                          console.log(err);
+                        }
+                        var holidays = {};
+                        var holLength = holidayTypes.length;
+                        var notesLength = notes.length;
+                        for(var i=0; i<holLength; i++){
+                          var holiday = {name: null, length:0};
+                          holiday.name = holidayTypes[i].holidayName;
+                          holiday.length = 0;
+                          for(var j=0; j<notesLength; j++){
+                            //判等处理
+                            if(notes[j].holidayType.equals(holidayTypes[i]._id)){
+                                holiday.length += notes[j].timeLength;
+                                // console.log("啊哈？？"+ holiday.length + ":"+notes[j].timeLength);
+                            }
+                            holidays[i] = holiday;
+
+                            // console.log(notes[j].holidayType +"==" + holidayTypes[i]._id);
+                            // console.log(notes[j].holidayType.equals(holidayTypes[i]._id));
+                          }
+
+                        }
+                        //console.log(holidays);
+                        res.send(holidays);
+                        //返回信息
+                        // res.render('',{
+                        //   'title' : '假期申请页',
+                        //    user: user,
+                        //    holidays: holidays
+                        // });
+                    });
+              }
             });
       });
   }
 };
-
-
-//根据用户ID , 假期类型ID , 时间参数查询假期剩余天数
-
-/**
- * 1) 根据用户ID, 假期ID , 当前时间，以及默认的这一年的开始时间，
- *   查询一下内容： 这段时间内高用户该种假期的所有记录时间总和
-*/
-
-function count(_userId, _holidayTypeId) {
-    var _now = moment();
-    var now = new Date();
-    var year = _now.get('year');
-    //console.log("year = "+ year + "; year =" + now);
-    var timeLength = 0;
-    Note
-      .find({'user': _userId, 'holidayType': _holidayTypeId})
-      .gte('startTime',year)
-      .lte('startTime',now)
-      //.where('user').equals( _userId)
-      //.where('holidayType').equals(_holidayTypeId)
-      .exec(function(err, holidays){
-        if(err){
-          console.log(err);
-        }else{
-          holidays.forEach(function(value){
-           timeLength += value.timeLength;
-          });
-         console.log(timeLength);
-        }
-      });
-    return timeLength;
-}

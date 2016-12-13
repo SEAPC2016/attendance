@@ -3,246 +3,173 @@ extends ../layout
 block content
 	// main container
 	.content
-		// settings changer
-		.skins-nav
-			a.skin.first_nav.selected(href='#')
-				span.icon
-				span.text Default skin
-			a.skin.second_nav(href='#', data-file='css/skins/dark.css')
-				span.icon
-				span.text Dark skin
 		.container-fluid
-			// upper main stats
-			#main-stats
-				.row-fluid.stats-row
-					.span3.stat
-						.data
-							span.number 2457
-							|                             visits
-						span.date Today
-					.span3.stat
-						.data
-							span.number 3240
-							|                             users
-						span.date February 2014
-					.span3.stat
-						.data
-							span.number 322
-							|                             orders
-						span.date This week
-					.span3.stat.last
-						.data
-							span.number $2,340
-							|                             sales
-						span.date last 30 days
-			// end upper main stats
-			#pad-wrapper
-				// statistics chart built with jQuery Flot
-				.row-fluid.chart
-					h4
-						| Statistics
-						.btn-group.pull-right
-							button.glow.left DAY
-							button.glow.middle.active MONTH
-							button.glow.right YEAR
-					.span12
-						#statsChart
-				// end statistics chart
-				// UI Elements section
-				.row-fluid.section.ui-elements
-					h4 UI Elements
-					.span5.knobs
-						.knob-wrapper
-							input.knob(type='text', value='50', data-thickness='.3', data-inputcolor='#333', data-fgcolor='#30a1ec', data-bgcolor='#d4ecfd', data-width='150')
-							.info
-								.param
-									span.line.blue
-									|                                     Active users
-						.knob-wrapper
-							input.knob.second(type='text', value='75', data-thickness='.3', data-inputcolor='#333', data-fgcolor='#3d88ba', data-bgcolor='#d4ecfd', data-width='150')
-							.info
-								.param
-									span.line.blue
-									|                                     % disk space usage
-					.span6.showcase
-						.ui-sliders
-							.slider.slider-sample1.vertical-handler
-							.slider.slider-sample2
-							.slider.slider-sample3
-						.ui-group
-							a.btn-flat.inverse Large Button
-							a.btn-flat.gray Large Button
-							a.btn-flat.default Large Button
-							a.btn-flat.primary Large Button
-						.ui-group
-							a.btn-flat.icon
-								i.tool
-								|  Icon button
-							a.btn-glow.small.inverse
-								i.shuffle
-							a.btn-glow.small.primary
-								i.setting
-							a.btn-glow.small.default
-								i.attach
-							.ui-select
-								select
-									option(selected='')
-										| Dropdown
-									option
-										| Custom selects
-									option
-										| Pure css styles
-							.btn-group
-								button.glow.left LEFT
-								button.glow.right RIGHT
-				// end UI elements section
-				// table sample
-				// the script for the toggle all checkboxes from header is located in js/theme.js
-				.table-products.section
-					.row-fluid.head
-						.span12
-							h4
-								| Products 
-								small Table sample
-					.row-fluid.filter-block
-						.pull-right
-							.ui-select
-								select
-									option
-										| Filter users
-									option
-										| Signed last 30 days
-									option
-										| Active users
-							input.search(type='text')
-							a.btn-flat.new-product + Add product
-					.row-fluid
-						table.table.table-hover
-							thead
-								tr
-									th.span3
-										input(type='checkbox')
-										|                                         Product
-									th.span3
-										span.line
-										| Description
-									th.span3
-										span.line
-										| Status
-							tbody
-								// row
-								tr.first
-									td
-										input(type='checkbox')
-										.img
-											img(src='img/table-img.png')
-										a(href='#') There are many variations 
-									td.description
-										| if you are going to use a passage of Lorem Ipsum.
-									td
-										span.label.label-success Active
-										ul.actions
-											li
-												i.table-edit
-											li
-												i.table-settings
-											li.last
-												i.table-delete
-								// row
-								tr
-									td
-										input(type='checkbox')
-										.img
-											img(src='img/table-img.png')
-										a(href='#') Internet tend
-									td.description
-										| There are many variations of passages.
-									td
-										ul.actions
-											li
-												i.table-edit
-											li
-												i.table-settings
-											li.last
-												i.table-delete
-								// row
-								tr
-									td
-										input(type='checkbox')
-										.img
-											img(src='img/table-img.png')
-										a(href='#') Many desktop publishing 
-									td.description
-										| if you are going to use a passage of Lorem Ipsum.
-									td
-										ul.actions
-											li
-												i.table-edit
-											li
-												i.table-settings
-											li.last
-												i.table-delete
-								// row
-								tr
-									td
-										input(type='checkbox')
-										.img
-											img(src='/img/table-img.png')
-										a(href='#') Generate Lorem 
-									td.description
-										| There are many variations of passages.
-									td
-										span.label.label-info Standby
-										ul.actions
-											li
-												i.table-edit
-											li
-												i.table-settings
-											li.last
-												i.table-delete
-								// row
-								tr
-									td
-										input(type='checkbox')
-										.img
-											img(src='/img/table-img.png')
-										a(href='#') Internet tend
-									td.description
-										| There are many variations of passages.
-									td
-										ul.actions
-											li
-												i.table-edit
-											li
-												i.table-settings
-											li.last
-												i.table-delete
-					.pagination
-						ul
-							li
-								a(href='#') ‹
-							li
-								a.active(href='#') 1
-							li
-								a(href='#') 2
-							li
-								a(href='#') 3
-							li
-								a(href='#') 4
-							li
-								a(href='#') ›
-				// end table sample
+			#pad-wrapper.users-list
+				.row-fluid.header
+					h3 Users
+					.span10.pull-right
+						input.span5.search(type='text', placeholder="Type a user's name...")
+						// custom popup filter
+						// styles are located in css/elements.css
+						// script that enables this dropdown is located in js/theme.js
+						.ui-dropdown
+							a.btn-flat.success.pull-right(href='#')
+								span +
+								| 	                            NEW USER
+				// Users table
+				.row-fluid.table
+					table.table.table-hover
+						thead
+							tr
+								th.span4.sortable
+									| Name
+								th.span3.sortable
+									span.line
+									| Signed up
+								th.span2.sortable
+									span.line
+									| Total spent
+								th.span3.sortable.align-right
+									span.line
+									| Email
+						tbody
+							// row
+							tr.first
+								td
+									img.img-circle.avatar.hidden-phone(src='img/contact-img.png')
+									a.name(href='user-profile.html') Alejandra Galvan Castillo
+									span.subtext Graphic Design
+								td
+									| Mar 13, 2012
+								td
+									| $ 4,500.00
+								td.align-right
+									a(href='#') alejandra@canvas.com
+							// row
+							tr
+								td
+									img.img-circle.avatar.hidden-phone(src='img/contact-img2.png')
+									a.name(href='user-profile.html') Alejandra Galvan Castillo
+									span.subtext Graphic Design
+								td
+									| Jun 03, 2012
+								td
+									| $ 549.99
+								td.align-right
+									a(href='#') alejandra@canvas.com
+							// row
+							tr
+								td
+									img.img-circle.avatar.hidden-phone(src='img/contact-img.png')
+									a.name(href='user-profile.html') Alejandra Galvan Castillo
+									span.subtext Graphic Design
+								td
+									| Mar 01, 2014
+								td
+									| $ 30.00
+								td.align-right
+									a(href='#') alejandra@canvas.com
+							// row
+							tr
+								td
+									img.img-circle.avatar.hidden-phone(src='img/contact-img2.png')
+									a.name(href='user-profile.html') Alejandra Galvan Castillo
+									span.subtext Graphic Design
+								td
+									| Jan 28, 2012
+								td
+									| $ 1,320.00
+								td.align-right
+									a(href='#') alejandra@canvas.com
+							// row
+							tr
+								td
+									img.img-circle.avatar.hidden-phone(src='img/contact-img.png')
+									a.name(href='user-profile.html') Alejandra Galvan Castillo
+									span.subtext Graphic Design
+								td
+									| May 16, 2012
+								td
+									| $ 89.99
+								td.align-right
+									a(href='#') alejandra@canvas.com
+							// row
+							tr
+								td
+									img.img-circle.avatar.hidden-phone(src='img/contact-img2.png')
+									a.name(href='user-profile.html') Alejandra Galvan Castillo
+									span.subtext Graphic Design
+								td
+									| Sep 06, 2012
+								td
+									| $ 344.00
+								td.align-right
+									a(href='#') alejandra@canvas.com
+							// row
+							tr
+								td
+									img.img-circle.avatar.hidden-phone(src='img/contact-img.png')
+									a.name(href='user-profile.html') Alejandra Galvan Castillo
+									span.subtext Graphic Design
+								td
+									| Jul 13, 2012
+								td
+									| $ 800.00
+								td.align-right
+									a(href='#') alejandra@canvas.com
+							// row
+							tr
+								td
+									img.img-circle.avatar.hidden-phone(src='img/contact-img2.png')
+									a.name(href='user-profile.html') Alejandra Galvan Castillo
+									span.subtext Graphic Design
+								td
+									| Feb 13, 2014
+								td
+									| $ 250.00
+								td.align-right
+									a(href='#') alejandra@canvas.com
+							// row
+							tr
+								td
+									img.img-circle.avatar.hidden-phone(src='img/contact-img.png')
+									a.name(href='user-profile.html') Alejandra Galvan Castillo
+									span.subtext Graphic Design
+								td
+									| Feb 27, 2014
+								td
+									| $ 1,300.00
+								td.align-right
+									a(href='#') alejandra@canvas.com
+				.pagination.pull-right
+					ul
+						li
+							a(href='#') ‹
+						li
+							a.active(href='#') 1
+						li
+							a(href='#') 2
+						li
+							a(href='#') 3
+						li
+							a(href='#') 4
+						li
+							a(href='#') 5
+						li
+							a(href='#') ›
+				// end users table
+	// end main container
 	// scripts
 	script(src='http://code.jquery.com/jquery-latest.js')
-	script(src='/js/bootstrap.min.js')
-	script(src='/js/jquery-ui-1.10.2.custom.min.js')
+	script(src='js/bootstrap.min.js')
+	script(src='js/jquery-ui-1.10.2.custom.min.js')
 	// knob
-	script(src='/js/jquery.knob.js')
+	script(src='js/jquery.knob.js')
 	// flot charts
-	script(src='/js/jquery.flot.js')
-	script(src='/js/jquery.flot.stack.js')
-	script(src='/js/jquery.flot.resize.js')
-	script(src='/js/theme.js')
+	script(src='js/jquery.flot.js')
+	script(src='js/jquery.flot.stack.js')
+	script(src='js/jquery.flot.resize.js')
+	script(src='js/theme.js')
 	script(type='text/javascript').
 		$(function () {
 		// jQuery Knobs

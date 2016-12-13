@@ -180,7 +180,7 @@ exports.updateStateByManager = function (req, res, next){
     _updateStateByManager(managerId, note, approved)
     .then(function(newState){
       var conditions = {_id : note._id};
-      var update = { $set : {state:newState}};
+      var update = { $set : {curState:newState}};
       var options    =  { multi: false };
       return Note.update(conditions, update, options)
       .then(function(changedInfo){

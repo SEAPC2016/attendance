@@ -5,108 +5,11 @@
 			span.icon-bar
 			span.icon-bar
 			span.icon-bar
-		a.brand(href='#')
+		a.brand(href='/')
 			img(src='img/logo.png')
 		ul.nav.pull-right
 			li.hidden-phone
 				input.search(type='text')
-			li.notification-dropdown.hidden-phone
-				a.trigger(href='#')
-					i.icon-warning-sign
-					span.count 8
-				.pop-dialog
-					.pointer.right
-						.arrow
-						.arrow_border
-					.body
-						a.close-icon(href='#')
-							i.icon-remove-sign
-						.notifications
-							h3 You have 6 new notifications
-							a.item(href='#')
-								i.icon-signin
-								|  New user registration
-								span.time
-									i.icon-time
-									|  13 min.
-							a.item(href='#')
-								i.icon-signin
-								|  New user registration
-								span.time
-									i.icon-time
-									|  18 min.
-							a.item(href='#')
-								i.icon-envelope-alt
-								|  New message from Alejandra
-								span.time
-									i.icon-time
-									|  28 min.
-							a.item(href='#')
-								i.icon-signin
-								|  New user registration
-								span.time
-									i.icon-time
-									|  49 min.
-							a.item(href='#')
-								i.icon-download-alt
-								|  New order placed
-								span.time
-									i.icon-time
-									|  1 day.
-							.footer
-								a.logout(href='#') View all notifications
-			li.notification-dropdown.hidden-phone
-				a.trigger(href='#')
-					i.icon-envelope-alt
-				.pop-dialog
-					.pointer.right
-						.arrow
-						.arrow_border
-					.body
-						a.close-icon(href='#')
-							i.icon-remove-sign
-						.messages
-							a.item(href='#')
-								img.display(src='img/contact-img.png')
-								.name Alejandra Galván
-								.msg
-									| There are many variations of available, but the majority have suffered alterations.
-								span.time
-									i.icon-time
-									|  13 min.
-							a.item(href='#')
-								img.display(src='img/contact-img2.png')
-								.name Alejandra Galván
-								.msg
-									| There are many variations of available, have suffered alterations.
-								span.time
-									i.icon-time
-									|  26 min.
-							a.item.last(href='#')
-								img.display(src='img/contact-img.png')
-								.name Alejandra Galván
-								.msg
-									| There are many variations of available, but the majority have suffered alterations.
-								span.time
-									i.icon-time
-									|  48 min.
-							.footer
-								a.logout(href='#') View all messages
-			li.dropdown
-				a.dropdown-toggle.hidden-phone(href='#', data-toggle='dropdown')
-					| Your account
-					b.caret
-				ul.dropdown-menu
-					li
-						a(href='personal-info') Personal info
-					li
-						a(href='#') Account settings
-					li
-						a(href='#') Billing
-					li
-						a(href='#') Export your data
-					li
-						a(href='#') Send feedback
 			li.settings.hidden-phone
 				a(href='personal-info', role='button')
 					i.icon-cog
@@ -121,25 +24,21 @@
 			.pointer
 				.arrow
 				.arrow_border
-			a(href='#')
+			a(href='')
 				i.icon-home
-				span Home
-		li
-			a(href='chart-showcase')
-				i.icon-signal
-				span Charts
-		li
-			a.dropdown-toggle(href='#')
-				i.icon-group
-				span Users
-				i.icon-chevron-down
-			ul.submenu
-				li
-					a(href='user-list') User list
-				li
-					a(href='new-user') New user form
-				li
-					a(href='user-profile') User profile
+				span 首       页
+		//- li
+		//- 	a.dropdown-toggle(href='#')
+		//- 		i.icon-group
+		//- 		span 我的信息
+		//- 		i.icon-chevron-down
+		//- 	ul.submenu
+		//- 		li
+		//- 			a(href='user-list') User list
+		//- 		li
+		//- 			a(href='new-user') New user form
+		//- 		li
+		//- 			a(href='user-profile') User profile
 		li
 			a.dropdown-toggle(href='#')
 				i.icon-edit
@@ -147,47 +46,19 @@
 				i.icon-chevron-down
 			ul.submenu
 				li
-					a(href='/holandUser') 申请请假
+					a(href='form-showcase') Form showcase
 				li
-					a(href='form-wizard') 请假状态
+					a(href='form-wizard') Form wizard
 		li
-			a(href='gallery')
-				i.icon-picture
-				span Gallery
+			a(href='examine')
+				i.icon-th-large
+				span 我的审批
 		li
 			a(href='calendar')
 				i.icon-calendar-empty
-				span Calendar
-		li
-			a(href='tables')
-				i.icon-th-large
-				span Tables
-		li
-			a.dropdown-toggle.ui-elements(href='#')
-				i.icon-code-fork
-				span UI Elements
-				i.icon-chevron-down
-			ul.submenu
-				li
-					a(href='ui-elements') UI Elements
-				li
-					a(href='icons') Icons
+				span 我的打卡
 		li
 			a(href='personal-info')
 				i.icon-cog
-				span My Info
-		li
-			a.dropdown-toggle(href='#')
-				i.icon-share-alt
-				span Extras
-				i.icon-chevron-down
-			ul.submenu
-				li
-					a(href='code-editor') Code editor
-				li
-					a(href='grids') Grids
-				li
-					a(href='signin') Sign in
-				li
-					a(href='signup') Sign up
+				span 我的信息
 // end sidebar

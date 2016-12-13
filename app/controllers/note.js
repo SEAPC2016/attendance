@@ -17,77 +17,85 @@ exports.new = function(req, res){
   //调试信息
   debug(debugNewRequest + 'Get params from front,note:\n' + JSON.stringify(_note));
 
-  var note = new Note(_note);
+  var curNote = new Note(_note);
 
   User
-  .find({"_id": note.user})
+  .find({"_id": curNote.user})
   .populate({path: 'userRole'})
-  .exec(function(err, user){
-    note = setState(user[0],note);
-    //console.log('添加状态的note :'+ note );
-    note.save(function(err, note){
-      if(err){
-        console.log(err);
-      }else{
-        //跳转到请假状态页
-      //  console.log("写入数据库后的回调:"+note);
-        // res.render('reqState', {
-        //       title: "请假状态页",
-        //       note: note
-        // });
-        debug('Create new note succeeded');
-        res.send(note);
-      }
-    });
+  .exec(function(err, _user){
+    var user = _user[0];
+    debug('Get User and UserRole,note:\n' + JSON.stringify(user));
+    debug('curNote,note:\n' + JSON.stringify(curNote));
+
+    //var note = setState(user[0],curNote);
+    HolidayType
+       .find({_id: curNote.holidayType})
+       .exec(function(err, holidayTypes){
+         debug('setState holidayTYpe:\n' + JSON.stringify(holidayTypes[0]));
+         var holidayType = holidayTypes[0];
+         if(holidayType.holidayName === '事假' || holidayType.holidayName === '年假' || holidayType.holidayName === '病假'){
+             if(curNote.timeLength <= 1){//t<=1          部门经理
+                 curNote.highState = 10;
+             }else if(_note.timeLength <=3){//1<t<=3        部门经理+副总
+               curNote.highState = 20;
+             }else{//3<t          部门经理+副总经理+总经理
+               curNote.highState = 30;
+             }
+           }else if(holidayType.holidayName === '工伤假'  || holidayType.holidayName === '产假' || holidayType.holidayName === '婚假'){
+             //总经理
+             curNote.highState = 30;
+           }else if(holidayType.holidayName === '产检假'){
+               if(curNote.timeLength <=1 ){//t<=1           部门经理
+                 curNote.highState = 10;
+               }else{//1<t            部门经理+总经理
+                 curNote.highState = 30;
+               }
+           }else if(holidayType.holidayName === '丧假'){
+               if(curNote.timeLength){//t<=1           部门经理
+                 curNote.highState = 10;
+               }else{//1<t            部门经理+副总经理
+                 curNote.highState = 20;
+               }
+           }else if(holidayType.holidayName === '公益假'){
+               //部门经理
+               curNote.highState = 10;
+           }else{ //其他假日 过
+             curNote.highState = -1;
+           }
+           if(user.userRole.roleName === '员工'){
+             curNote.curState = 1;
+           }else if(user.userRole.roleName === '部门经理'){
+             curNote.curState = 10;
+           }else if(user.userRole.roleName === '副总经理'){
+             curNote.curState = 20;
+           }else if(user.userRole.roleName === '总经理'){
+             curNote.curState = 30;
+           }
+           debug('setState 中 note:\n' + JSON.stringify(curNote));
+           //res.send(note);
+           if(curNote.highState <= curNote.curState){
+             curNote.curState = -1;
+           }
+           curNote.save(function(err, _note){
+             if(err){
+               console.log(err);
+             }else{
+               //跳转到请假状态页
+               debug('_note,note:\n' + JSON.stringify(_note));
+               var note = _note[0];
+
+               res.render('reqState', {
+                      title: "请假状态页",
+                      note: note
+               });
+               debug('Create new note succeeded');
+               //res.send(note);
+             }
+           });
+       });
   });
 };
 
-
-//根据用户角色，对Note置初始状态
-function setState(_user,_note){
-   HolidayType
-      .find({_id: _note.holidayType})
-      .exec(function(err, holidayType){
-        if(holidayType.holidayName.equals('事假') || holidayType.holidayName.equals('年假') || holidayType.holidayName.equals('病假')){
-            if(_note.timeLength <= 1){//t<=1          部门经理
-                _note.highState = 10;
-            }else if(_note.timeLength <=3){//1<t<=3        部门经理+副总
-              _note.highState = 20;
-            }else{//3<t          部门经理+副总经理+总经理
-              _note.highState = 30;
-            }
-          }else if(holidayType.holidayName.equals('工伤假') || holidayType.holidayName.equals('产假') || holidayType.holidayName.equals('婚假')){
-            //总经理
-            _note.highState = 30;
-          }else if(holidayType.holidayName.equals('产检假')){
-              if(_note.timeLength <=1 ){//t<=1           部门经理
-                _note.highState = 10;
-              }else{//1<t            部门经理+总经理
-                _note.highState = 30;
-              }
-          }else if(holidayType.holidayName.equals('丧假')){
-              if(_note.timeLength){//t<=1           部门经理
-                _note.highState = 10;
-              }else{//1<t            部门经理+副总经理
-                _note.highState = 20;
-              }
-          }else if(holidayType.holidayName.equals('公益假')){
-              //部门经理
-              _note.highState = 10;
-          }
-          if(_user.userRole.roleName === '员工'){
-            _note.curState = 0;
-          }else if(_user.userRole.roleName === '部门经理'){
-            _note.curState = 10;
-          }else if(_user.userRole.roleName === '副总经理'){
-            _note.curState = 20;
-          }else if(_user.userRole.roleName === '总经理'){
-            _note.curState = 30;
-          }
-          //console.log(_user);
-          return _note;
-      });
-}
 
 function findRoleByUserId(userId){
   return User.findById(userId)

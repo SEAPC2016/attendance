@@ -45,8 +45,8 @@ html.login-bg
 				form(method="POST", action="/user/signin")
 					.content-wrap
 						h6 Log in
-						input#user.span12(type='text', placeholder='E-mail address')
-						input#passwd.span12(type='password', placeholder='Your password')
+						input#user.span12(type='text', placeholder='E-mail address', name='userName')
+						input#passwd.span12(type='password', placeholder='Your password', name='userPwd')
 						a.forgot(href='#') 忘记密码？
 						.remember
 							input#remember-me(type='checkbox')

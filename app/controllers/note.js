@@ -110,7 +110,11 @@ exports.findNotesByManagerId = function (req, res, next){
     Note.findByState(role.preState)
     .then(function(notes){
       debug('Find all notes by manager preState, notes.length:' + notes.length);
-      return res.send(notes);
+      // return res.send(notes);
+      res.render('examine', {
+            title: "待审核假期",
+            notes: notes
+      });
     });
   })
   .catch(next);

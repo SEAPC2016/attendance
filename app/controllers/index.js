@@ -85,13 +85,17 @@ exports.holandUser = function(req, res, next){
 
                         }
                         //console.log(holidays);
-                        res.send(holidays);
+                        //res.send(holidays);
                         //返回信息
-                        // res.render('',{
-                        //   'title' : '假期申请页',
-                        //    user: user,
-                        //    holidays: holidays
-                        // });
+                        console.log(holidayTypes);
+                        console.log(holidays);
+                         res.render('reqHoliday',{
+                          'title' : '假期申请页',
+                           user: userRes[0],
+                           role: userRes[0].userRole,
+                           holidayTypes: holidayTypes,
+                           holidays: holidays
+                        });
                     });
               }
             });

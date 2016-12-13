@@ -33,6 +33,8 @@ module.exports = function(app){
   // {"user":{"userName":"stuff1","userPwd":"123456","userRole":"58492926f210182bbc287137"}}
   app.post('/user/new',User.new);
 
+  //signin
+  app.post('/user/signin', User.signin);
   //Role
   // {"role":{"roleName":"员工"}}
   app.post('/role/new',Role.new);
@@ -53,7 +55,8 @@ module.exports = function(app){
 
   //app.post('/user/reqHoliday',Note.reqHoliday);
 
-  app.get('/form-wizard', function (req, res) {
+  //假期状态
+  app.get('/reqState', function (req, res) {
   	res.render('form-wizard', {
   			title: 'form-wizard'
   	});

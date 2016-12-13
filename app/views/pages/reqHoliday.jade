@@ -9,89 +9,43 @@ block content
 				.row-fluid.form-wrapper
 					// left column
 					.span8.column
-						form()
+						form(method="POST", action='/note/new')
+							input.span2(type='hidden', value='#{user._id}', name="note[user]")
 							.field-box
 								label 申请人:
-								input.span8(type='text', readonly='readonly', value='员工A')
+								input.span8(type='text', readonly='readonly', value='#{user.userName}', name='userName')
 							.field-box
 								label 职    位:
-								input.span8(type='text', readonly='readonly', value='职位A')
-							.field-box
-								label 部    门:
-								input.span8(type='text', readonly='readonly', value='部门A')
+								input.span8(type='text', readonly='readonly', value='#{role.roleName}', name='roleName')
 							.field-box
 								label 请假类别:
 								select.select2(style='width:250px')
 									option
 										| 请选择假期类型
-									option(value='00')
-										| 事假
-									option(value='01')
-										| 年假
-									option(value='02')
-										| 病假
-									option(value='03')
-										| 婚假
-									option(value='04')
-										| 产假
-									option(value='05')
-										| 丧假
-									option(value='06')
-										| *假
-									option(value='07')
-										| *假
-									option(value='08')
-										| *假
+								cat item in holidayTypes
+									option(value='#{item._id}')
+										| #{item.holidayName}
 							.field-box
 								label 开始时间:
-								input.input-large.datepicker(type='text', value='12/01/2016')
+								input.input-large.datepicker(type='text', value='12/01/2016', name="note[startTime]")
 							.field-box
 								label 请假时长（天）:
-								.ui-select
-									select
-										option(selected='')
-											| 请先选择假期类型
-										option(value='00')
-											| 0.5
-										option(value='01')
-											| 1
-										option(value='02')
-											| 2
-										option(value='03')
-											| 3
-										option(value='04')
-											| 4
-										option(value='05')
-											| 5
+								input.span4.inline-input(type='text', value='', name='note[timeLength]')
 							.field-box
 								label 申请理由:
 								textarea.span8(rows='4')
 							.field-box
-								a.btn-glow.primary(href='/') 提交
+								button.btn.btn-success(type="submit") 提交
 								//a的href='/user/signin'
 					// right column
 					.span4.column.pull-right
 						form
 							h3 您当前剩余各类假期天数
 							br
+							cat item in holidays
 							.field-box
-								label 事假:
-								input.span8.inline-input(type='text', readonly='readonly', value='*天')
-							.field-box
-								label 年假:
-								input.span8.inline-input(type='text', readonly='readonly', value='*天')
-							.field-box
-								label 病假:
-								input.span8.inline-input(type='text', readonly='readonly', value='*天')
-							.field-box
-								label 婚假:
-								input.span8.inline-input(type='text', readonly='readonly', value='*天')
-							.field-box
-								label 产假:
-								input.span8.inline-input(type='text', readonly='readonly', value='*天')
-							.field-box
-								label 丧假:
-								input.span8.inline-input(type='text', readonly='readonly', value='*天')
+								label #{item.holidayName} &nbsp:
+								input.span6.inline-input(type='text', readonly='readonly', value='#{item[holidayName]}天')
 	// end main container
 	// scripts for this page
 	script(src='js/wysihtml5-0.3.0.js')

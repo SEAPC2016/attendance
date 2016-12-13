@@ -7,26 +7,29 @@ block content
 			#pad-wrapper.gallery
 				.row-fluid.header
 					h3 请假审批
-				// gallery wrapper
-				.gallery-wrapper
-					.row.gallery-row
-						// single note
-						.span4.img-container
-							.popup
-								// <i class="close-pop table-delete"></i>
-								h5 请假条
-								.thumb
-									img(src='img/gallery-preview.jpg')
-								.title
-									input.inline-input(type='text', placeholder='Title', readonly='readonly', value='用户名')
-									input.inline-input(type='text', placeholder='Title', readonly='readonly', value='假期类型')
-									input.inline-input(type='text', placeholder='Title', readonly='readonly', value='假期时间')
-								.description
-									h6 请假原因
-									textarea 我来大姨妈了！
-									input.btn-glow.primary(type='submit', value='驳回')
-									input.btn-glow.primary(type='submit', value='同意')
-						// end single note
+				
+			    cat item in notes
+					// gallery wrapper
+					.gallery-wrapper
+						.row.gallery-row
+							// single note
+							.span4.img-container
+								.popup
+									// <i class="close-pop table-delete"></i>
+									h5 请假条
+									.thumb
+										img(src='img/gallery-preview.jpg')
+									.title
+										input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.user.userName}')
+										input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.holidayType.halidayName}')
+										input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.timeLength}')
+										input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.startTime}')
+									.description
+										h6 请假原因
+										textarea #{item.reason}
+										input.btn-glow.primary(type='submit', value='驳回')
+										input.btn-glow.primary(type='submit', value='同意')
+							// end single note
 				// end gallery wrapper
 	// end main container
 	// this page scripts

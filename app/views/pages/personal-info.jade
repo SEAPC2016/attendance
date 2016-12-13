@@ -1,0 +1,48 @@
+extends ../layout
+
+//是否保留用户上传照片的功能？
+//更改密码和信息是否可以使用弹窗的形式
+block content
+	// main container .wide-content is used for this layout without sidebar :)
+	.content
+		.container-fluid
+			#pad-wrapper.settings-wrapper
+				// avatar column
+				.span3.avatar-box
+					.personal-image
+						img.avatar.img-circle(src='img/personal-info.png')
+						p 上传自己的靓照吧
+						input(type='file')
+				// edit form column
+				.span7.personal-info
+					h5.personal-title 个人中心
+					form
+						.field-box
+							label 姓名：
+							input.span5.inline-input(type='text', value='Alejandra')
+						.field-box
+							label 部门：
+							input.span5.inline-input(type='text', value='Design Co.')
+						.field-box
+							label 邮箱：
+							input.span5.inline-input(type='text', value='alejandra@design.com')
+						.field-box
+							label 用户名：
+							input.span5.inline-input(type='text', value='alegalvan')
+						.field-box
+							label 密码：
+							input.span5.inline-input(type='password', value='blablablabla')
+						.field-box
+							label 确认密码：
+							input.span5.inline-input(type='password', value='blablablabla')
+						.span6.field-box.actions
+							input.btn-glow.primary(type='button', value='保存更改')
+							span 或
+							input.reset(type='reset', value='取消')
+	// end main container
+	// scripts
+	script(src='http://code.jquery.com/jquery-latest.js')
+	script(src='js/bootstrap.min.js')
+	script(src='js/theme.js')
+	div(style='display:none')
+		script(src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540', language='JavaScript', charset='gb2312')

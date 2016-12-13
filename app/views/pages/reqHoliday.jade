@@ -1,0 +1,86 @@
+extends ../layout
+
+block content
+	// main container
+	.content
+	 	// settings changer
+		.container-fluid
+			#pad-wrapper.form-page
+				.row-fluid.form-wrapper
+					// left column
+					.span8.column
+						form(method="POST", action='/note/new')
+							input.span2(type='hidden', value='#{user._id}', name="note[user]")
+							.field-box
+								label 申请人:
+								input.span8(type='text', readonly='readonly', value='#{user.userName}', name='userName')
+							.field-box
+								label 职    位:
+								input.span8(type='text', readonly='readonly', value='#{role.roleName}', name='roleName')
+							.field-box
+								label 请假类别:
+								select.select2(style='width:250px')
+									option
+										| 请选择假期类型
+								cat item in holidayTypes
+									option(value='#{item._id}')
+										| #{item.holidayName}
+							.field-box
+								label 开始时间:
+								input.input-large.datepicker(type='text', value='12/01/2016', name="note[startTime]")
+							.field-box
+								label 请假时长（天）:
+								input.span4.inline-input(type='text', value='', name='note[timeLength]')
+							.field-box
+								label 申请理由:
+								textarea.span8(rows='4')
+							.field-box
+								button.btn.btn-success(type="submit") 提交
+								//a的href='/user/signin'
+					// right column
+					.span4.column.pull-right
+						form
+							h3 您当前剩余各类假期天数
+							br
+							cat item in holidays
+							.field-box
+								label #{item.holidayName} &nbsp:
+								input.span6.inline-input(type='text', readonly='readonly', value='#{item[holidayName]}天')
+	// end main container
+	// scripts for this page
+	script(src='js/wysihtml5-0.3.0.js')
+	script(src='http://code.jquery.com/jquery-latest.js')
+	script(src='js/bootstrap.min.js')
+	script(src='js/bootstrap-wysihtml5-0.0.2.js')
+	script(src='js/bootstrap.datepicker.js')
+	script(src='js/jquery.uniform.min.js')
+	script(src='js/select2.min.js')
+	script(src='js/theme.js')
+	// call this page plugins
+	script(type='text/javascript').
+		$(function () {
+		// add uniform plugin styles to html elements
+		$("input:checkbox, input:radio").uniform();
+		// select2 plugin for select elements
+		$(".select2").select2({
+			placeholder: "Select a State"
+		});
+		$(".select2").change(function(){
+			if($(this).val()==='00'){
+				$(".ui-select option[value='02']").remove()
+				$(".ui-select option[value='03']").remove()
+				$(".ui-select option[value='04']").remove()
+				$(".ui-select option[value='05']").remove()
+			}
+		});
+		// datepicker plugin
+		$('.datepicker').datepicker().on('changeDate', function (ev) {
+		$(this).datepicker('hide');
+		});
+		// wysihtml5 plugin on textarea
+		$(".wysihtml5").wysihtml5({
+		"font-styles": false
+		});
+		});
+	div(style='display:none')
+		script(src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540', language='JavaScript', charset='gb2312')

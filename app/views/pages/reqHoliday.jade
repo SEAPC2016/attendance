@@ -3,20 +3,13 @@ extends ../layout
 block content
 	// main container
 	.content
-		// settings changer
-		.skins-nav
-			a.skin.first_nav.selected(href='#')
-				span.icon
-				span.text Default
-			a.skin.second_nav(href='#', data-file='css/skins/dark.css')
-				span.icon
-				span.text Dark skin
+	 	// settings changer
 		.container-fluid
 			#pad-wrapper.form-page
 				.row-fluid.form-wrapper
 					// left column
 					.span8.column
-						form
+						form()
 							.field-box
 								label 申请人:
 								input.span8(type='text', readonly='readonly', value='员工A')

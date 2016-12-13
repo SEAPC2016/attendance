@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+    </style>
+  </head>
+
+  <body>
+    <a href="#">您的请假 <span class="badge" id="my_note">暂无请假</span></a>
+    <br>
+    <a href="#">待审批请假 <span class="badge", id="notes_to_deal">暂无待审批请假</span></a>
+  </body>
+
+
+  <script src="/socket.io/socket.io.js"></script>
+  <!-- <script src="http://code.jquery.com/jquery-1.11.1.js"></script> -->
+  <link rel="stylesheet" href="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+
+    function update_my_note_with_msg(msg){
+      console.log('update_my_note_with_msg:' + JSON.stringify(msg));
+      $('#my_note').html(msg.msg);
+    }
+
+    function update_my_notes_to_deal(msg){
+      console.log('update_my_notes_to_deal_with_msg:' + JSON.stringify(msg));
+      $('#notes_to_deal').html(msg.notes_length);
+    }
+
+    var socket = io();
+
+    socket.on('note changed', function(msg){
+      console.log('note changed:' + JSON.stringify(msg));
+      // $('#messages').append($('<li>').text('note changed:' + JSON.stringify(msg)));
+      update_my_note_with_msg(msg);
+    })
+
+    socket.on('note to deal', function(msg){
+      console.log('note to deal:' + JSON.stringify(msg));
+      // $('#messages').append($('<li>').text('note changed:' + JSON.stringify(msg)));
+      update_my_notes_to_deal(msg);
+    })
+
+  </script>
+
+
+</html>

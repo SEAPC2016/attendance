@@ -1,0 +1,64 @@
+// navbar
+.navbar.navbar-inverse
+	.navbar-inner
+		button#menu-toggler.btn.btn-navbar.visible-phone(type='button')
+			span.icon-bar
+			span.icon-bar
+			span.icon-bar
+		a.brand(href='/')
+			img(src='img/logo.png')
+		ul.nav.pull-right
+			li.hidden-phone
+				input.search(type='text')
+			li.settings.hidden-phone
+				a(href='personal-info', role='button')
+					i.icon-cog
+			li.settings.hidden-phone
+				a(href='signin', role='button')
+					i.icon-share-alt
+// end navbar
+// sidebar
+#sidebar-nav
+	ul#dashboard-menu
+		li.active
+			.pointer
+				.arrow
+				.arrow_border
+			a(href='')
+				i.icon-home
+				span 首       页
+		//- li
+		//- 	a.dropdown-toggle(href='#')
+		//- 		i.icon-group
+		//- 		span 我的信息
+		//- 		i.icon-chevron-down
+		//- 	ul.submenu
+		//- 		li
+		//- 			a(href='user-list') User list
+		//- 		li
+		//- 			a(href='new-user') New user form
+		//- 		li
+		//- 			a(href='user-profile') User profile
+		li
+			a.dropdown-toggle(href='#')
+				i.icon-edit
+				span 我的请假
+				i.icon-chevron-down
+			ul.submenu
+				li
+					a(href='form-showcase') Form showcase
+				li
+					a(href='form-wizard') Form wizard
+		li
+			a(href='examine')
+				i.icon-th-large
+				span 我的审批
+		li
+			a(href='calendar')
+				i.icon-calendar-empty
+				span 我的打卡
+		li
+			a(href='personal-info')
+				i.icon-cog
+				span 我的信息
+// end sidebar

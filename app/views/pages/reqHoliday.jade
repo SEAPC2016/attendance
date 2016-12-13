@@ -3,7 +3,6 @@ extends ../layout
 block content
 	// main container
 	.content
-	 	// settings changer
 		.container-fluid
 			#pad-wrapper.form-page
 				.row-fluid.form-wrapper
@@ -19,12 +18,12 @@ block content
 								input.span8(type='text', readonly='readonly', value='#{role.roleName}', name='roleName')
 							.field-box
 								label 请假类别:
-								select.select2(style='width:250px')
+								select.select2(style='width:250px',name='note[holidayType]')
 									option
 										| 请选择假期类型
-								cat item in holidayTypes
-									option(value='#{item._id}')
-										| #{item.holidayName}
+									each item in holidayTypes
+										option(value='#{item._id}')
+											| #{item.holidayName}
 							.field-box
 								label 开始时间:
 								input.input-large.datepicker(type='text', value='12/01/2016', name="note[startTime]")
@@ -33,7 +32,7 @@ block content
 								input.span4.inline-input(type='text', value='', name='note[timeLength]')
 							.field-box
 								label 申请理由:
-								textarea.span8(rows='4')
+								textarea.span8(rows='4', name='note[reason]')
 							.field-box
 								button.btn.btn-success(type="submit") 提交
 								//a的href='/user/signin'
@@ -42,10 +41,10 @@ block content
 						form
 							h3 您当前剩余各类假期天数
 							br
-							cat item in holidays
-							.field-box
-								label #{item.holidayName} &nbsp:
-								input.span6.inline-input(type='text', readonly='readonly', value='#{item[holidayName]}天')
+							each item in holidays
+								.field-box
+									label #{item.name} &nbsp:
+									input.span6.inline-input(type='text', readonly='readonly', value='#{item.length}天')
 	// end main container
 	// scripts for this page
 	script(src='js/wysihtml5-0.3.0.js')

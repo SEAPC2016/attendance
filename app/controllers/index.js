@@ -77,12 +77,16 @@ exports.holandUser = function(req, res, next){
                                 holiday.length += notes[j].timeLength;
                                 // console.log("啊哈？？"+ holiday.length + ":"+notes[j].timeLength);
                             }
-                            holidays[i] = holiday;
-
                             // console.log(notes[j].holidayType +"==" + holidayTypes[i]._id);
                             // console.log(notes[j].holidayType.equals(holidayTypes[i]._id));
                           }
+                          holiday.length = holidayTypes[i].holidayLength - holiday.length;
+                          console.log(holiday.length);
 
+                          if(holiday.length <= 0){
+                              holiday.length = 0;
+                          }
+                          holidays[i] = holiday;
                         }
                         //console.log(holidays);
                         //res.send(holidays);

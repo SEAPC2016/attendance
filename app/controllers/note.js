@@ -31,7 +31,7 @@ exports.new = function(req, res){
     HolidayType
        .find({_id: curNote.holidayType})
        .exec(function(err, holidayTypes){
-         debug('setState holidayTYpe:\n' + JSON.stringify(holidayTypes[0]));
+         debug('setState holidayTYpe:\n' + JSON.stringify(holidayTypes));
          var holidayType = holidayTypes[0];
          if(holidayType.holidayName === '事假' || holidayType.holidayName === '年假' || holidayType.holidayName === '病假'){
              if(curNote.timeLength <= 1){//t<=1          部门经理

@@ -1,0 +1,19 @@
+{
+  "name": "socketio_demo",
+  "version": "1.0.0",
+  "description": "test socketio by http://www.cnblogs.com/ldlchina/p/4054974.html?utm_source=tuicool&utm_medium=referral",
+  "main": "app.js",
+  "scripts": {
+    "test": "supervisor app.js"
+  },
+  "keywords": [
+    "socketio",
+    "express"
+  ],
+  "author": "miaodx@hotmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.14.0",
+    "socket.io": "^1.7.1"
+  }
+}

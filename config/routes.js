@@ -62,6 +62,12 @@ module.exports = function(app){
   	});
   });
 
+  // 测试页面效果
+  app.get('/page/:pageName', function (req, res) {
+    var pageName = req.params.pageName;
+    res.render(pageName, { title: 'Hey', message: 'Hello there!'});
+  });
+
 
   // catch 404 and forward to error handler
   app.use(function(req, res, next) {

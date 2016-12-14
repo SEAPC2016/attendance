@@ -118,7 +118,11 @@ exports.findNotesByManagerId = function (req, res, next){
     Note.findByState(role.preState)
     .then(function(notes){
       debug('Find all notes by manager preState, notes.length:' + notes.length);
-      return res.send(notes);
+      // return res.send(notes);
+      res.render('examine', {
+            title: "待审核假期",
+            notes: notes
+      });
     });
   })
   .catch(next);
@@ -188,7 +192,7 @@ exports.updateStateByManager = function (req, res, next){
     _updateStateByManager(managerId, note, approved)
     .then(function(newState){
       var conditions = {_id : note._id};
-      var update = { $set : {state:newState}};
+      var update = { $set : {curState:newState}};
       var options    =  { multi: false };
       return Note.update(conditions, update, options)
       .then(function(changedInfo){

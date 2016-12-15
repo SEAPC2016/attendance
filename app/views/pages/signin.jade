@@ -25,22 +25,22 @@ html.login-bg
 		.bg-switch.visible-desktop
 			.bgs
 				a.bg.active(href='#', data-img='landscape.jpg')
-					img(src='img/bgs/landscape.jpg')
+					img(src='/img/bgs/landscape.jpg')
 				a.bg(href='#', data-img='blueish.jpg')
-					img(src='img/bgs/blueish.jpg')
+					img(src='/img/bgs/blueish.jpg')
 				a.bg(href='#', data-img='7.jpg')
-					img(src='img/bgs/7.jpg')
+					img(src='/img/bgs/7.jpg')
 				a.bg(href='#', data-img='8.jpg')
-					img(src='img/bgs/8.jpg')
+					img(src='/img/bgs/8.jpg')
 				a.bg(href='#', data-img='9.jpg')
-					img(src='img/bgs/9.jpg')
+					img(src='/img/bgs/9.jpg')
 				a.bg(href='#', data-img='10.jpg')
-					img(src='img/bgs/10.jpg')
+					img(src='/img/bgs/10.jpg')
 				a.bg(href='#', data-img='11.jpg')
-					img(src='img/bgs/11.jpg')
+					img(src='/img/bgs/11.jpg')
 		.row-fluid.login-wrapper
 			a(href='/')
-				img.logo(src='img/logo-white.png')
+				img.logo(src='/img/logo-white.png')
 			.span4.box
 				form
 					.content-wrap
@@ -68,7 +68,7 @@ html.login-bg
 			$btns.removeClass("active");
 			$(this).addClass("active");
 			var bg = $(this).data("img");
-			$("html").css("background-image", "url('img/bgs/" + bg + "')");
+			$("html").css("background-image", "url('/img/bgs/" + bg + "')");
 			});
 			$('#login').click(function() {
 			if ($('#user').val() == "") {

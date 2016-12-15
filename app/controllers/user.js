@@ -39,6 +39,25 @@ exports.findOne = function(req, res){
     // });
 };
 
+// personal-info page
+exports.findUserInfo = function(req, res, next){
+  var id = req.params.userId;
+  console.log('Get params from front end, userId:', id);
+  User.findById(id)
+  .then(function(user){
+    var data = { title: '个人信息', user: user, alreadyLogin:true};
+    console.log('data to send back', data);
+    res.render('personal-info', data);
+  })
+  .catch(function(err){
+    console.log('err:%s, aka not found user by provided id:%s', err, id);
+    var data = { title: '个人信息', user: user, alreadyLogin:false}; // not found user, alreadyLogin set false
+    console.log('data to send back', data);
+    res.render('personal-info', data);
+    // next();
+  });
+};
+
 
 
 

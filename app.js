@@ -15,6 +15,7 @@ var app = express();
 
 app.locals.moment = require('moment');
 var dbUrl = 'mongodb://localhost/attendance';
+var dbUrl = 'mongodb://demo.tjuwork.win/attendance';
 
 // Use bluebird Promise, see http://mongoosejs.com/docs/promises.html
 mongoose.Promise = require('bluebird');

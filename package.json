@@ -25,7 +25,6 @@
     "doc": "doc"
   },
   "devDependencies": {
-    "bcrypt": "^0.8.7",
     "body-parser": "^1.15.2",
     "connect-mongo": "^1.3.2",
     "cookie-parser": "^1.4.3",

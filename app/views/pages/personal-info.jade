@@ -3,50 +3,6 @@ extends ../layout
 //是否保留用户上传照片的功能？
 //更改密码和信息是否可以使用弹窗的形式
 block content
-	// main container .wide-content is used for this layout without sidebar :)
-	.content
-		.container-fluid
-			#pad-wrapper.settings-wrapper
-				// avatar column
-				.span3.avatar-box
-					.personal-image
-						img.avatar.img-circle(src='img/personal-info.png')
-						p 上传自己的靓照吧
-						input(type='file')
-				// edit form column
-				.span7.personal-info
-					h5.personal-title 个人中心
-					form
-						.field-box
-							label 姓名：
-							input.span5.inline-input(type='text', value='Alejandra')
-						.field-box
-							label 部门：
-							input.span5.inline-input(type='text', value='Design Co.')
-						.field-box
-							label 邮箱：
-							input.span5.inline-input(type='text', value='alejandra@design.com')
-						.field-box
-							label 用户名：
-							input.span5.inline-input(type='text', value='alegalvan')
-						.field-box
-							label 密码：
-							input.span5.inline-input(type='password', value='blablablabla')
-						.field-box
-							label 确认密码：
-							input.span5.inline-input(type='password', value='blablablabla')
-						.span6.field-box.actions
-							input.btn-glow.primary(type='button', value='保存更改')
-							span 或
-							input.reset(type='reset', value='取消')
-	// end main container
-	// scripts
-	script(src='http://code.jquery.com/jquery-latest.js')
-	script(src='js/bootstrap.min.js')
-	script(src='js/theme.js')
-	div(style='display:none')
-		script(src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540', language='JavaScript', charset='gb2312')
-=======
     // main container .wide-content is used for this layout without sidebar :)
     .content
         .container-fluid
@@ -57,10 +13,7 @@ block content
                         img.avatar.img-circle(src='/img/personal-info.png')
                         p 上传自己的靓照吧
                         input(type='file')
-                // edit form column
-                .span7.personal-info
-                    h5.personal-title 个人中心
-                    form
+                        
                         -
                           var defalutUser = {
                               userRealName: 'Alejandra',
@@ -74,36 +27,54 @@ block content
                         
                         // USE this flag to load not defalut user.
                         if alreadyLogin    
-                          - curUser = user;                                                       
-                            
+                          - curUser = user; 
+                          
+                // edit form column
+                .span7.personal-info
+                    h5.personal-title 个人中心
+                    form#userForm(action="/user/update" method="post")
+                        input(type='text',val='#{curUser._id}', name='userId')
                         .field-box
                             label 姓名：
-                            input.span5.inline-input(type='text',  placeholder='Your real name', value='#{curUser.userRealName}')
+                            input.span5.inline-input(type='text',  placeholder='Your real name', value='#{curUser.userRealName}', name='user[userRealName]')
                         .field-box
                             label 部门：
-                            input.span5.inline-input(type='text', placeholder='Your Department', value='#{curUser.userDepartment}')
-                            //- input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.user.userName}')
+                            input.span5.inline-input(type='text', placeholder='Your Department', value='#{curUser.userDepartment}')                            
                         .field-box
                             label 职位：
-                            input.span5.inline-input(type='text', placeholder='Your Position', value='#{curUser.userRole.roleName}')
+                            input.span5.inline-input(type='text', placeholder='Your Position', value='#{curUser.userRole.roleName}')                         
                         .field-box
                             label 邮箱：
-                            input.span5.inline-input(type='email',  placeholder='Your E-mail',value='#{curUser.userEmail}')
+                            input.span5.inline-input(type='email',  placeholder='Your E-mail',value='#{curUser.userEmail}', name='user[userEmail]')
                         .field-box
                             label 用户名：
-                            input.span5.inline-input(type='text',  placeholder='Your username', value='#{curUser.userName}')
+                            input.span5.inline-input(type='text',  placeholder='Your username', value='#{curUser.userName}', name='user[userName]')
+                        .field-box
+                            label 用户名：
+                            input.span5.inline-input(type='text',  placeholder='Your username', value='#{curUser.userName}', name='user[userName]')
                         .field-box
                             label 密码：
-                            input.span5.inline-input(type='password',  placeholder='Your Password', value='#{curUser.password}')
+                            input.span5.inline-input#pwd1(type='password',  placeholder='Your Password', value='', name='user[userPwd]')
                         .field-box
                             label 确认密码：
-                            input.span5.inline-input(type='password',  placeholder='Repeat Your Password',value='')
+                            input.span5.inline-input#pwd2(type='password',  placeholder='Repeat Your Password', val='')
                         .span6.field-box.actions
-                            input.btn-glow.primary(type='button', value='保存更改')
+                            input.btn-glow.primary(type='button', onclick="submitdata('#userForm','#pwd1','#pwd2')",value='保存更改')
                             span 或
                             input.reset(type='reset', value='取消')
+                            span 或
+                            input.btn-glow.primary(type='button', onclick='submitdata2()',value='测试')
+                      
     // end main container
     // scripts
     script(src='http://code.jquery.com/jquery-latest.js')
     script(src='/js/bootstrap.min.js')
     script(src='/js/theme.js')
+    
+    script(src='/js/personal-info_c.js')
+    script(type='text/javascript').
+      function submitdata2() {
+        var pwd11 = $('#pwd1').val();
+        var pwd22 = $('#pwd2').val();
+        console.log(pwd11, pwd22);
+      }

@@ -1,4 +1,4 @@
-.login-bg {
+.content-bg {
   background: url("../../img/bgs/landscape.jpg") no-repeat center center fixed;
   filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/bgs/landscape.jpg', sizingMethod='scale');
   -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/bgs/landscape.jpg', sizingMethod='scale')";
@@ -7,15 +7,15 @@
   -o-background-size: cover;
   background-size: cover; }
 
-.login-wrapper {
+.content-wrapper {
   position: absolute;
   top: 90px;
   text-align: center; }
-  .login-wrapper .logo {
+  .content-wrapper .logo {
     margin-bottom: 45px;
     position: relative;
     left: -2px; }
-  .login-wrapper .box {
+  .content-wrapper {
     margin: 0 auto;
     padding: 35px 0 30px;
     float: none;
@@ -23,39 +23,40 @@
     box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     background: rgba(255, 255, 255, 0.65); }
-    .login-wrapper .box .content-wrap {
+    .content-wrapper .content-wrap {
       width: 82%;
       margin: 0 auto; }
-    .login-wrapper .box h6 {
+    .content-wrapper h6 {
       text-transform: uppercase;
       margin: 0 0 30px 0;
       font-size: 18px;
       font-weight: 600; }
-    .login-wrapper .box input[type="text"],
-    .login-wrapper .box input[type="password"] {
+    .content-wrapper input[type="text"],
+    .content-wrapper input[type="password"] {
       font-size: 15px;
       height: 40px;
       margin-bottom: 18px;
       border-color: #b2bfc7;
       padding-left: 12px; }
-    .login-wrapper .box input[type="password"] {
+    .content-wrapper input[type="password"] {
       margin-bottom: 10px; }
-    .login-wrapper .box input:-moz-placeholder {
+    .content-wrapper input:-moz-placeholder {
       color: #9ba8b6;
       font-size: 15px;
       letter-spacing: 0px;
       font-style: italic; }
-    .login-wrapper .box input:-ms-input-placeholder {
+    .content-wrapper input:-ms-input-placeholder {
       color: #9ba8b6;
       font-style: italic;
       letter-spacing: 0px;
       font-size: 15px; }
-    .login-wrapper .box input::-webkit-input-placeholder {
+    .content-wrapper input::-webkit-input-placeholder {
       color: #9ba8b6;
       font-style: italic;
       letter-spacing: 0px;
       font-size: 15px; }
-    .login-wrapper .box a.forgot {
+    .content-wrap a.forgot {
+      float: right;
       display: block;
       text-align: right;
       font-style: italic;
@@ -63,31 +64,31 @@
       color: #3d88ba;
       font-size: 13px;
       margin-bottom: 6px; }
-    .login-wrapper .box .remember {
-      display: block;
+    .content-wrap .remember {
+      /*display: block;*/
       overflow: hidden;
       margin-bottom: 20px; }
-      .login-wrapper .box .remember input[type="checkbox"] {
+      .content-wrap .remember input[type="checkbox"] {
         float: left;
         margin-right: 8px; }
-      .login-wrapper .box .remember label {
-        float: left;
+      .content-wrap .remember label {
+        /*float: right;*/
         color: #4a576a;
         font-size: 13px; }
-    .login-wrapper .box .login {
+    .content-wrapper .login {
       text-transform: uppercase;
       font-size: 13px;
       padding: 8px 30px; }
-  .login-wrapper .no-account {
+  .content-wrapper .no-account {
     margin: 0 auto;
     float: none;
     text-align: center;
     font-size: 14px;
     margin-top: 25px; }
-    .login-wrapper .no-account p {
+    .content-wrapper .no-account p {
       display: inline-block;
       color: #aaaaaa; }
-    .login-wrapper .no-account a {
+    .content-wrapper .no-account a {
       color: #aaaaaa;
       margin-left: 7px;
       border-bottom: 1px solid;
@@ -98,7 +99,7 @@
       /* Safari and Chrome */
       -o-transition: all .1s linear;
       /* Opera */ }
-      .login-wrapper .no-account a:hover {
+      .content-wrapper .no-account a:hover {
         text-decoration: none;
         color: #fff;
         border-bottom-color: #fff; }
@@ -126,8 +127,8 @@
 
 /* responsive */
 @media (max-width: 767px) {
-  .login-wrapper .box {
+  .content-wrapper {
     width: 350px; } }
 @media (max-width: 480px) {
-  .login-wrapper .box {
+  .content-wrapper {
     width: 90%; } }

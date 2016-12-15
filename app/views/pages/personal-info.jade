@@ -44,5 +44,10 @@ block content
 	script(src='http://code.jquery.com/jquery-latest.js')
 	script(src='/js/bootstrap.min.js')
 	script(src='/js/theme.js')
+	script(type='text/javascript').
+		$(function() {
+			$('.arr_personal-info').addClass("active");
+			$('.arr_personal-info').append("<div class='pointer'><div class='arrow'></div><div class='arrow_border'></div></div>");
+		});
 	div(style='display:none')
 		script(src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540', language='JavaScript', charset='gb2312')

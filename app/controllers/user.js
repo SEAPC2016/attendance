@@ -1,8 +1,6 @@
 
 var User = require('../models/user');
 
-
-
 /* GET users listing. */
 exports.userlist = function(req, res) {
   User.fetch(function(err, users){
@@ -68,20 +66,23 @@ exports.new = function(req, res){
 //signin
 exports.signin = function(req, res){
   var _user = req.body.user;
-  var name = _user.name;
-  var password = _user.password;
+  var name = _user.userName;
+  var password = _user.userPwd;
 
+  console.log(_user);
+  console.log(password+":"+name);
 //用户是否存在
-  User.findOne({name: name}, function(err, user){
+  User.findOne({userName: name}, function(err, user){
      if(err){
        console.log(err);
      //用户不存在
-     if(!user){
+     if(user === null){
        //用户不存在
-       return res.redirect('/signin');
+       return res.redirect('/');
      }
 
    }
+     console.log(user);
      user.comparePassword(password, function(err, isMatch){
        if(err){
          console.log(err);
@@ -90,18 +91,18 @@ exports.signin = function(req, res){
        if(isMatch){
          //保存用户状态，利用会话
          req.session.user = user;
+
          console.log("password is match");
          //返回登录后的首页
          return res.redirect('/');
        }else{
          console.log("password is not match");
          //密码错误返回登录页
-         return res.redirect('/signin');
+         return res.redirect('/');
        }
      });
    });
 };
-
 
 
 

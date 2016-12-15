@@ -32,7 +32,7 @@ exports.new = function(req, res){
        .find({_id: curNote.holidayType})
        .exec(function(err, holidayTypes){
          debug('setState holidayTYpe:\n' + JSON.stringify(holidayTypes));
-         var holidayType = holidayTypes[0];
+         var holidayType = holidayTypes;
          if(holidayType.holidayName === '事假' || holidayType.holidayName === '年假' || holidayType.holidayName === '病假'){
              if(curNote.timeLength <= 1){//t<=1          部门经理
                  curNote.highState = 10;
@@ -95,6 +95,14 @@ exports.new = function(req, res){
        });
   });
 };
+
+
+exports.reqState = function(req, res){
+  
+};
+
+
+
 
 
 function findRoleByUserId(userId){

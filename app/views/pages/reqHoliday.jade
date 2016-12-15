@@ -1,14 +1,13 @@
 extends ../layout
 
 block content
-	// main container
+
 	.content
 		.container-fluid
 			#pad-wrapper.form-page
 				.row-fluid.form-wrapper
-					// left column
 					.span8.column
-						form(method="POST", action='/note/new')
+						form(method="POST", action='/note/new', name="noteNew")
 							input.span2(type='hidden', value='#{user._id}', name="note[user]")
 							.field-box
 								label 申请人:
@@ -18,7 +17,7 @@ block content
 								input.span8(type='text', readonly='readonly', value='#{role.roleName}', name='roleName')
 							.field-box
 								label 请假类别:
-								select.select2(style='width:250px',name='note[holidayType]')
+								select.select2(style='width:250px',name='note[holidayType]', id="holidayType")
 									option
 										| 请选择假期类型
 									each item in holidayTypes
@@ -29,12 +28,12 @@ block content
 								input.input-large.datepicker(type='text', value='12/01/2016', name="note[startTime]")
 							.field-box
 								label 请假时长（天）:
-								input.span4.inline-input(type='text', value='', name='note[timeLength]')
+								input.span4.inline-input(type='text', value='', name='note[timeLength]', id="timeLength")
 							.field-box
 								label 申请理由:
-								textarea.span8(rows='4', name='note[reason]')
+								textarea.span8(rows='4', name='note[reason]', id="reason")
 							.field-box
-								button.btn.btn-success(type="submit") 提交
+								button.btn.btn-success(type="button", onclick="sub()") 提交
 								//a的href='/user/signin'
 					// right column
 					.span4.column.pull-right
@@ -57,10 +56,14 @@ block content
 	script(src='/js/theme.js')
 	// call this page plugins
 	script(type='text/javascript').
+		var date = new Date();
+		var d = date.getDate();
+		var m = date.getMonth() + 1;
+		var y = date.getFullYear();
 		$(function () {
-		// add uniform plugin styles to html elements
-		$("input:checkbox, input:radio").uniform();
 		// select2 plugin for select elements
+		$('.arr_holiday').addClass("active");
+		$('.arr_holiday').append("<div class='pointer'><div class='arrow'></div><div class='arrow_border'></div></div>");
 		$(".select2").select2({
 			placeholder: "Select a State"
 		});
@@ -76,10 +79,27 @@ block content
 		$('.datepicker').datepicker().on('changeDate', function (ev) {
 		$(this).datepicker('hide');
 		});
-		// wysihtml5 plugin on textarea
-		$(".wysihtml5").wysihtml5({
-		"font-styles": false
+		//当前日期
+		$('#date').val(m+'/'+d+'/'+y);
+
 		});
-		});
+		
+		//数据验证
+		function sub(){
+			//获取假期类型
+			var holidayType = document.getElementById('holidayType');
+			//获取请假时长
+			var timeLength = document.getElementById('timeLength');
+			//获取请假原因
+			var reason = document.getElementById('reason');
+			
+			//假期类型验证是否为空
+			
+			//请假时长要求必须为数字
+			
+			//请假原因， 不为空
+			
+			document.noteNew.submit();
+		}
 	div(style='display:none')
 		script(src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540', language='JavaScript', charset='gb2312')

@@ -98,7 +98,7 @@ exports.new = function(req, res){
 
 
 exports.reqState = function(req, res){
-  
+
 };
 
 
@@ -187,9 +187,12 @@ exports.updateStateByManager = function (req, res, next){
 
   var managerId = req.body.managerId;
   var noteId = req.body.noteId;
-  var approved = req.body.approved;
+  var approvedStr = req.body.approved; // seems cannot get boolean
+  var approved = (approvedStr === 'true');
+
 
   debug(debugNewRequest + 'Get params from front end, managerId:%s, noteId:%s, approved:%s\n', managerId, noteId, approved);
+  
 
   var newState = 0;
 

@@ -9,27 +9,27 @@ block content
 					.span12
 						// div that fullcalendar plugin uses
 						#calendar
-						// edit image pop up
-						.new-event.popup
-							.pointer
-								.arrow
-								.arrow_border
-							i.close-pop.table-delete
-							h5 New event popup example
-							.field
-								| Date: 
-								span.date Thu, 18 April
-							.field
-								| Event:
-								input.event-input(type='text')
-							input.btn-glow.primary(type='submit', value='Create')
+						//- // edit image pop up
+						//- .new-event.popup
+						//- 	.pointer
+						//- 		.arrow
+						//- 		.arrow_border
+						//- 	i.close-pop.table-delete
+						//- 	h5 New event popup example
+						//- 	.field
+						//- 		| Date: 
+						//- 		span.date Thu, 18 April
+						//- 	.field
+						//- 		| Event:
+						//- 		input.event-input(type='text')
+						//- 	input.btn-glow.primary(type='submit', value='Create')
 	// end main container
 	// scripts for this page
 	script(src='http://code.jquery.com/jquery-latest.js')
-	script(src='js/jquery-ui-1.10.2.custom.min.js')
-	script(src='js/bootstrap.min.js')
-	script(src='js/fullcalendar.min.js')
-	script(src='js/theme.js')
+	script(src='/js/jquery-ui-1.10.2.custom.min.js')
+	script(src='/js/bootstrap.min.js')
+	script(src='/js/fullcalendar.min.js')
+	script(src='/js/theme.js')
 	// builds fullcalendar example
 	script.
 		$(document).ready(function() {
@@ -37,9 +37,11 @@ block content
 		var d = date.getDate();
 		var m = date.getMonth();
 		var y = date.getFullYear();
+		$('.arr_calendar').addClass("active");
+		$('.arr_calendar').append("<div class='pointer'><div class='arrow'></div><div class='arrow_border'></div></div>");
 		$('#calendar').fullCalendar({
 		header: {
-		left: 'month,agendaWeek,agendaDay',
+		left: 'month',
 		center: 'title',
 		right: 'today prev,next'
 		},
@@ -48,13 +50,24 @@ block content
 		editable: true,
 		events: [
 		{
-		title: 'All Day Event',
-		start: new Date(y, m, 1)
+		title: '上班',
+		start: new Date(y, m, 1, 8, 01),
+		allDay: false
 		},
 		{
-		title: 'Long Event',
-		start: new Date(y, m, d-5),
-		end: new Date(y, m, d-2)
+		title: '下班',
+		start: new Date(y, m, 1, 11, 01),
+		allDay: false
+		},
+		{
+		title: '上班',
+		start: new Date(y, m, 1, 12, 01),
+		allDay: false
+		},
+		{
+		title: '下班',
+		start: new Date(y, m, 1, 15, 01),
+		allDay: false
 		},
 		{
 		id: 999,
@@ -84,12 +97,6 @@ block content
 		start: new Date(y, m, d+1, 19, 0),
 		end: new Date(y, m, d+1, 22, 30),
 		allDay: false
-		},
-		{
-		title: 'Click for Google',
-		start: new Date(y, m, 28),
-		end: new Date(y, m, 29),
-		url: 'http://google.com/'
 		}
 		],
 		eventBackgroundColor: '#278ccf'

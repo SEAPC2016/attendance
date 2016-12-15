@@ -11,6 +11,7 @@ module.exports = function(app){
   app.use(function(req, res, next){
     //注意这里逻辑的变化
     var _user = req.session.user;
+    //console.log(_user);
     app.locals.user = _user;
     next();
   });
@@ -58,11 +59,7 @@ module.exports = function(app){
   //app.post('/user/reqHoliday',Note.reqHoliday);
 
   //假期状态
-  app.get('/reqState', function (req, res) {
-  	res.render('form-wizard', {
-  			title: 'form-wizard'
-  	});
-  });
+  app.get('/reqState', Note.reqState);
 
   // 测试页面效果
   app.get('/page/:pageName', function (req, res) {

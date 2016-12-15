@@ -117,33 +117,40 @@ block content
 	script(src='/js/theme.js')
 	script(src='/js/fuelux.wizard.js')
 	script(type='text/javascript').
+		var stat = 3;
+		var pathname = window.location.pathname;
 		$(function () {
-		var $wizard = $('#fuelux-wizard'),
-		$btnPrev = $('.wizard-actions .btn-prev'),
-		$btnNext = $('.wizard-actions .btn-next'),
-		$btnFinish = $(".wizard-actions .btn-finish");
-		$wizard.wizard().on('finished', function(e) {
-		// wizard complete code
-		}).on("changed", function(e) {
-		var step = $wizard.wizard("selectedItem");
-		// reset states
-		$btnNext.removeAttr("disabled");
-		$btnPrev.removeAttr("disabled");
-		$btnNext.show();
-		$btnFinish.hide();
-		if (step.step === 1) {
-		$btnPrev.attr("disabled", "disabled");
-		} else if (step.step === 4) {
-		$btnNext.hide();
-		$btnFinish.show();
-		}
-		});
-		$btnPrev.on('click', function() {
-		$wizard.wizard('previous');
-		});
-		$btnNext.on('click', function() {
-		$wizard.wizard('next');
-		});
+			//- var j = this.$element.find("li");
+			//- j.removeClass("active");
+			switch(stat){
+				case 1:
+					$('.wizard-steps li:eq(0)').addClass("active");
+					$('#step1').addClass("active");
+					break;
+				case 2:
+					$('.wizard-steps li:eq(0)').addClass("active");
+					$('.wizard-steps li:eq(1)').addClass("active");
+					$('#step2').addClass("active");
+					break;
+				case 3:
+					$('.wizard-steps li:eq(0)').addClass("active");
+					$('.wizard-steps li:eq(1)').addClass("active");
+					$('.wizard-steps li:eq(2)').addClass("active");
+					$('#step3').addClass("active");
+					break;
+				case 4:
+					$('.wizard-steps li:eq(0)').addClass("active");
+					$('.wizard-steps li:eq(1)').addClass("active");
+					$('.wizard-steps li:eq(2)').addClass("active");
+					$('.wizard-steps li:eq(3)').addClass("active");
+					$('#step4').addClass("active");
+					break;
+				default:
+					break;
+			};
+			$('.arr_holiday').addClass("active");
+			$('.arr_holiday').append("<div class='pointer'><div class='arrow'></div><div class='arrow_border'></div></div>");
+
 		});
 	div(style='display:none')
 		script(src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540', language='JavaScript', charset='gb2312')

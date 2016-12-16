@@ -1,94 +1,61 @@
 extends ../layout
 
 block content
-	// main container
-	.content
-		.container-fluid
-			#pad-wrapper.gallery
-				.row-fluid.header
-					h3 请假审批
-				// gallery wrapper
-				.gallery-wrapper
-					.row.gallery-row
-						// single note
-						.span4.img-container
-							.popup
-								// <i class="close-pop table-delete"></i>
-								h5 请假条
-								.thumb
-									img(src='img/gallery-preview.jpg')
-								.title
-									input.inline-input(type='text', placeholder='Title', readonly='readonly', value='用户名')
-									input.inline-input(type='text', placeholder='Title', readonly='readonly', value='假期类型')
-									input.inline-input(type='text', placeholder='Title', readonly='readonly', value='假期时间')
-								.description
-									h6 请假原因
-									textarea 我来大姨妈了！
-									input.btn-glow.primary(type='submit', value='驳回')
-									input.btn-glow.primary(type='submit', value='同意')
-						// end single note
-				// end gallery wrapper
-	// end main container
-	// this page scripts
-	script(src='http://code.jquery.com/jquery-latest.js')
-	script(src='/js/bootstrap.min.js')
-	script(src='/js/theme.js')
-	script(type='text/javascript').
-		$(function() {
-			$('.arr_examine').addClass("active");
-			$('.arr_examine').append("<div class='pointer'><div class='arrow'></div><div class='arrow_border'></div></div>");
-		});
-	div(style='display:none')
-		script(src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540', language='JavaScript', charset='gb2312')
-    // main container
-    .content
-        .container-fluid
-            #pad-wrapper.gallery
-                .row-fluid.header
-                h3 请假审批
-                p
-                // gallery wrapper
-                .gallery-wrapper
-                    .row.gallery-row
-                        each item in notes
-                          // single note
-                          .span4.img-container
-                              .popup
-                                  // <i class="close-pop table-delete"></i>
-                                  h5 请假条
-                                  .thumb
-                                      img(src='/img/gallery-preview.jpg')
-                                  .title
-                                      input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.user.userName}')
-                                      input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.holidayType.holidayName}')
-                                      input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.timeLength}')
-                                      input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.startTime}')
-                                  .description
-                                      h6 请假原因
-                                      textarea #{item.reason}
-                                      input.btn-glow.primary(type='submit', onclick="_change_note_state('#{item._id}', false)", value='驳回')
-                                      input.btn-glow.primary(type='submit', onclick="_change_note_state('#{item._id}', true)", value='同意')
-                          // end single note
-                  // end gallery wrapper
-    // end main container
-    
-    // this page scripts
-    script(src='http://code.jquery.com/jquery-latest.js')
-    script(src='/js/bootstrap.min.js')
-    script(src='/js/theme.js')
-    //- div(style='display:none')
-    //- script(src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540', language='JavaScript', charset='gb2312')
+  // main container
+  .content
+      .container-fluid
+          #pad-wrapper.gallery
+              .row-fluid.header
+              h3 请假审批
+              p
+                  // gallery wrapper
+                  .gallery-wrapper
+                      .row.gallery-row
+                            each item in notes
+                                  // single note
+                                  .span4.img-container
+                                      .popup
+                                          // <i class="close-pop table-delete"></i>
+                                          h5 请假条
+                                          .thumb
+                                              img(src='/img/gallery-preview.jpg')
+                                          .title
+                                              input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.user.userName}')
+                                              input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.holidayType.holidayName}')
+                                              input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.timeLength}')
+                                              input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.startTime}')
+                                          .description
+                                              h6 请假原因
+                                              textarea #{item.reason}
+                                              input.btn-glow.primary(type='submit', onclick="_change_note_state('#{item._id}', false)", value='驳回')
+                                              input.btn-glow.primary(type='submit', onclick="_change_note_state('#{item._id}', true)", value='同意')
+                                  // end single note
+                                  // end gallery wrapper
+  // end main container  
+  
+  // this page scripts
+  script(src='http://code.jquery.com/jquery-latest.js')
+  script(src='/js/bootstrap.min.js')
+  script(src='/js/theme.js')      
+  //- div(style='display:none')
+      //- script(src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540', language='JavaScript', charset='gb2312')
+  //- div(style='display:none')
+  //- script(src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540', language='JavaScript', charset='gb2312')
 
-    script(src='/js/note_c.js')
-    script(type='text/javascript').
-        function _change_note_state(noteId,approved){
-            var managerId = '584fb58932682f19ccade5e8';
-            //- change_note_state(managerId, noteId, approved);
-            $.Deferred(change_note_state(managerId, noteId, approved))	// Well, seems ok.
-            //- .done(function(data){
-            //- 	console.log('we got:', data);
-            //- })
-            //- .fail(function(err){
-            //- 	console.log('err:', err);
-            //- })
-        }
+  script(src='/js/note_c.js')
+  script(type='text/javascript').
+      $(function() {
+          $('.arr_examine').addClass("active");
+          $('.arr_examine').append("<div class='pointer'><div class='arrow'></div><div class='arrow_border'></div></div>");
+      });
+      function _change_note_state(noteId,approved){
+          var managerId = '584fb58932682f19ccade5e8';
+          //- change_note_state(managerId, noteId, approved);
+          $.Deferred(change_note_state(managerId, noteId, approved))	// Well, seems ok.
+          //- .done(function(data){
+          //- 	console.log('we got:', data);
+          //- })
+          //- .fail(function(err){
+          //- 	console.log('err:', err);
+          //- })
+      }

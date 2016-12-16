@@ -26,8 +26,14 @@ module.exports = function(app){
 
   //User
   app.post('/user/find', User.findOne);
-  
+
   app.get('/user/findUserInfo/:userId', User.findUserInfo);
+
+  app.post('/user/update',  function (req, res) {
+    // var pageName = req.params.pageName;
+    console.log('Got params from front end', JSON.stringify(req.body));
+    res.json({'asd':'asd'});
+  });
 
 
   // in postman:
@@ -66,7 +72,7 @@ module.exports = function(app){
     var pageName = req.params.pageName;
     res.render(pageName, { title: 'Hey', message: 'Hello there!'});
   });
-  
+
   app.get('/test/personal-info', function (req, res) {
     var user = {
         "_id": "584aab9f23ac5520a7cf0947",

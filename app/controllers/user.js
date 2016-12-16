@@ -1,4 +1,4 @@
-
+var debug = require('debug')('attendance:userController');
 var User = require('../models/user');
 
 /* GET users listing. */
@@ -48,18 +48,36 @@ exports.findUserInfo = function(req, res, next){
     var data = { title: '个人信息', user: user, alreadyLogin:true};
     console.log('data to send back', data);
     res.render('personal-info', data);
+    // res.send(data);
   })
   .catch(function(err){
     console.log('err:%s, aka not found user by provided id:%s', err, id);
     var data = { title: '个人信息', user: user, alreadyLogin:false}; // not found user, alreadyLogin set false
     console.log('data to send back', data);
-    res.render('personal-info', data);
+    // res.render('personal-info', data);
+    res.send(data);
     // next();
   });
 };
 
+// personal-info update
+exports.updateUserInfo = function(req, res, next){
+  var user = JSON.stringify(req.body);
+  debug('Get params from front end, user:', user);
 
 
+  var conditions = {_id : note._id};
+  // var update = { $set : {curState:newState}};
+  var update = user; // Just update a whole,there should consider password hash
+
+  var options    =  { multi: false };
+  return User.update(conditions, update, options)
+  .then(function(changedInfo){
+    debug('Update note info succeeded');
+    res.send(changedInfo);
+  });
+
+};
 
 exports.new = function(req, res){
 //  console.log("OK : "+ req);

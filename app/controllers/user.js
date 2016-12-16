@@ -1,6 +1,8 @@
 var debug = require('debug')('attendance:userController');
 var User = require('../models/user');
 
+var debugNewRequest = '\n\n\n\n\n\n\n\n\n\n\n\n'; // sepearate new debug with some newlines
+
 /* GET users listing. */
 exports.userlist = function(req, res) {
   User.fetch(function(err, users){
@@ -42,39 +44,50 @@ exports.findOne = function(req, res){
 // personal-info page
 exports.findUserInfo = function(req, res, next){
   var id = req.params.userId;
-  console.log('Get params from front end, userId:', id);
+  debug(debugNewRequest + 'Get params from front end, userId:', id);
   User.findById(id)
   .then(function(user){
     var data = { title: '个人信息', user: user, alreadyLogin:true};
-    console.log('data to send back', data);
+    debug('data to send back', data);
     res.render('personal-info', data);
     // res.send(data);
   })
   .catch(function(err){
-    console.log('err:%s, aka not found user by provided id:%s', err, id);
+    debug('err:%s, aka not found user by provided id:%s', err, id);
     var data = { title: '个人信息', user: user, alreadyLogin:false}; // not found user, alreadyLogin set false
-    console.log('data to send back', data);
-    // res.render('personal-info', data);
-    res.send(data);
+    debug('data to send back', data);
+    res.render('personal-info', data);
+    // res.send(data);
     // next();
   });
 };
 
 // personal-info update
 exports.updateUserInfo = function(req, res, next){
-  var user = JSON.stringify(req.body);
-  debug('Get params from front end, user:', user);
+  var reqBody = req.body;
+  debug(debugNewRequest + 'Get params from front end:%s', JSON.stringify(reqBody));
+  
+  var conditions = {_id : reqBody.userId};
+  var update = reqBody.user; // Just update a whole,there should consider password hash
 
-
-  var conditions = {_id : note._id};
-  // var update = { $set : {curState:newState}};
-  var update = user; // Just update a whole,there should consider password hash
-
-  var options    =  { multi: false };
-  return User.update(conditions, update, options)
+  var options = { multi: false};
+  
+  debug('data to update: conditions:%s, update:%s', JSON.stringify(conditions), JSON.stringify(update));
+  User.update(conditions, update, options)
   .then(function(changedInfo){
     debug('Update note info succeeded');
-    res.send(changedInfo);
+    // res.send(changedInfo);
+    
+    User.findById(reqBody.userId)
+    .then(function(user){
+      var data = { title: '个人信息', user: user, alreadyLogin:true}; // not found user, alreadyLogin set false
+      debug('data to send back', data);
+      res.render('personal-info', data);
+    });
+  })
+  .catch(function(err){
+    debug('err:%s, aka not found user by provided id:%s', err, id);
+    next();
   });
 
 };

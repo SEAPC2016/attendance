@@ -22,33 +22,30 @@ block content
                               userRole: 'STUFF',
                               userEmail: 'alejandra@design.com',
                               userName: 'alegalvan'
-                            }                          
-                          var curUser = defalutUser;     
+                            }
+                          var curUser = defalutUser;
                         
                         // USE this flag to load not defalut user.
-                        if alreadyLogin    
-                          - curUser = user; 
+                        if alreadyLogin
+                          - curUser = user;
                           
                 // edit form column
                 .span7.personal-info
                     h5.personal-title 个人中心
                     form#userForm(action="/user/update" method="post")
-                        input(type='text',val='#{curUser._id}', name='userId')
+                        input#userId(type='text',val='#{curUser._id}', name='userId')
                         .field-box
                             label 姓名：
                             input.span5.inline-input(type='text',  placeholder='Your real name', value='#{curUser.userRealName}', name='user[userRealName]')
                         .field-box
                             label 部门：
-                            input.span5.inline-input(type='text', placeholder='Your Department', value='#{curUser.userDepartment}')                            
+                            input.span5.inline-input(type='text', placeholder='Your Department', value='#{curUser.userDepartment}')
                         .field-box
                             label 职位：
-                            input.span5.inline-input(type='text', placeholder='Your Position', value='#{curUser.userRole.roleName}')                         
+                            input.span5.inline-input(type='text', placeholder='Your Position', value='#{curUser.userRole.roleName}')
                         .field-box
                             label 邮箱：
                             input.span5.inline-input(type='email',  placeholder='Your E-mail',value='#{curUser.userEmail}', name='user[userEmail]')
-                        .field-box
-                            label 用户名：
-                            input.span5.inline-input(type='text',  placeholder='Your username', value='#{curUser.userName}', name='user[userName]')
                         .field-box
                             label 用户名：
                             input.span5.inline-input(type='text',  placeholder='Your username', value='#{curUser.userName}', name='user[userName]')
@@ -59,7 +56,7 @@ block content
                             label 确认密码：
                             input.span5.inline-input#pwd2(type='password',  placeholder='Repeat Your Password', val='')
                         .span6.field-box.actions
-                            input.btn-glow.primary(type='button', onclick="submitdata('#userForm','#pwd1','#pwd2')",value='保存更改')
+                            input.btn-glow.primary(type='button', onclick="submitdata('#userForm','#pwd1','#pwd2', '#userId')",value='保存更改')
                             span 或
                             input.reset(type='reset', value='取消')
                             span 或

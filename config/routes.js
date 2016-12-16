@@ -29,11 +29,7 @@ module.exports = function(app){
 
   app.get('/user/findUserInfo/:userId', User.findUserInfo);
 
-  app.post('/user/update',  function (req, res) {
-    // var pageName = req.params.pageName;
-    console.log('Got params from front end', JSON.stringify(req.body));
-    res.json({'asd':'asd'});
-  });
+  app.post('/user/update', User.updateUserInfo)
 
 
   // in postman:

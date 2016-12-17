@@ -39,6 +39,12 @@ block content
             .field-box
               label 职位：
               input.span5.inline-input(type='text', placeholder='Your Position', value='#{curUser.userRoleName}')
+            .field-box
+              label 新密码：
+              input.span5.inline-input(type='password', placeholder='New Password', value='')
+            .field-box
+              label 密码确认：
+              input.span5.inline-input(type='password', placeholder='New Password Confirm', value='')
             .span6.field-box.actions
               input.btn-glow.primary(type='button', onclick="submitdata('#userForm','#pwd1','#pwd2')",value='保存更改')
               span 或

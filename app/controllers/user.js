@@ -1,4 +1,5 @@
 
+
 var User = require('../models/user');
 
 /* GET users listing. */
@@ -40,8 +41,11 @@ exports.findOne = function(req, res){
 };
 
 // personal-info page
-exports.findUserInfo = function(req, res, next){
-  var id = req.params.userId;
+exports.findUserInfo = function(req, res){
+  //var id = req.params.userId;
+  //从session 中获取
+  //var id = req.session.user._id;
+  var id = '584aab9f23ac5520a7cf0947';
   console.log('Get params from front end, userId:', id);
   User.findById(id)
   .then(function(user){

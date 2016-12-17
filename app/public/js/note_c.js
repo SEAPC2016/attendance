@@ -16,6 +16,7 @@ function change_note_state(noteId, approved){
   .done(function (data) {
       notes = data;
       console.log(data);
+      window.location.reload(); // THIS IS NOT WHAT AJAX DO ~~
   }).fail(function (jqXHR, textStatus) {
       console.log('Error: ' + jqXHR.status);
   });

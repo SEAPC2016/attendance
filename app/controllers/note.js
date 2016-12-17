@@ -137,18 +137,14 @@ exports.findManagerCanHandleNotes = function (req, res, next){
   //从session 中
   // var managerId = req.session.user._id;
   var managerId = '584fb58932682f19ccade5e8'; // Just for test
-
-
-  findRoleByUserId(managerId)
-  .then(function(role){
-    Note.findByState(role.preState)
-    .then(function(notes){
-      debug('Find all notes by manager preState, notes.length:' + notes.length);
-      // return res.send(notes);
-      res.render('examine', {
-            title: "待审核假期",
-            notes: notes
-      });
+  
+  _findNotesByManagerId(managerId)
+  .then(function(notes){
+    debug('Find all notes by manager preState, notes.length:' + notes.length);
+    // return res.send(notes);
+    res.render('examine', {
+          title: "待审核假期",
+          notes: notes
     });
   })
   .catch(next);
@@ -190,16 +186,13 @@ exports.updateStateByManager = function (req, res, next){
   var approvedStr = req.body.approved; // seems cannot get boolean from ajax, but can from postman
   var approved = (approvedStr === 'true' || approvedStr === true);
 
-  debug(debugNewRequest + 'Get params from front end, managerId:%s, noteId:%s, approved:%s\n', managerId, noteId, approved);
-  
-
   var newState = 0;
 
   Note.findById(noteId)
   .then(function(note){
     debug('Found note by noteId %s:\n%s', noteId, note);
 
-    _updateStateByManager(managerId, note, approved)
+    return _updateStateByManager(managerId, note, approved)
     .then(function(newState){
       var conditions = {_id : note._id};
       var update = { $set : {curState:newState}};
@@ -207,7 +200,22 @@ exports.updateStateByManager = function (req, res, next){
       return Note.update(conditions, update, options)
       .then(function(changedInfo){
         debug('Update note info succeeded');
+        
         res.send(changedInfo);
+        
+        //refresh the page, I do not think it's right.
+        /*
+                return  _findNotesByManagerId(managerId)
+                  .then(function(notes){
+                    debug('Find all notes by manager preState, notes.length:' + notes.length);
+                    return res.send(notes);
+                    // res.render('examine', {
+                    //       title: "待审核假期",
+                    //       notes: notes
+                    // });
+                  });
+                  // .catch(next);
+        */
       });
     });
   })

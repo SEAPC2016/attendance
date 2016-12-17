@@ -27,7 +27,8 @@ module.exports = function(app){
   //User
   app.post('/user/find', User.findOne);
 
-  app.get('/user/findUserInfo/:userId', User.findUserInfo);
+
+  app.get('/user/findUserInfo', User.findUserInfo);
 
   app.post('/user/update', User.updateUserInfo)
 

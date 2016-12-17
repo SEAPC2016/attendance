@@ -16,6 +16,7 @@ var UserSchema = new mongoose.Schema({
     type: String
   },
   userPwd: String,
+  userEmail: String,
   userRole: {
      type: ObjectId,
      ref: 'Role'

@@ -1,4 +1,4 @@
-var ourUrl = 'http://localhost:3000/'
+var ourUrl = 'http://localhost:3000/';
 
 
 function change_note_state(managerId, noteId, approved){

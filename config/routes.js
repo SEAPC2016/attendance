@@ -60,7 +60,7 @@ module.exports = function(app){
   //app.post('/user/reqHoliday',Note.reqHoliday);
 
   //假期状态
-  app.get('/reqLatestState', Note.reqLatestState);
+  app.get('/reqState', Note.reqState);
 
   // 测试页面效果
   app.get('/page/:pageName', function (req, res) {

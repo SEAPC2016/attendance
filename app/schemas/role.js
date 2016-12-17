@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var moment = require('moment');
 
 //在这个对象中描述用户的文档结构和数据类型
 var RoleSchema = new mongoose.Schema({
@@ -28,7 +29,6 @@ RoleSchema.pre('save',function(next){
   }
   next();
 });
-
 
 
 //静态方法，在模型中就可以调用

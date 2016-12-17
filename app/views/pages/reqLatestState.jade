@@ -43,15 +43,12 @@ block content
 										form
 											.field-box
 												label 申请人:
-												input.span8.inline-input(type='text', readonly='readonly', value='员工A')
+												input.span8.inline-input(type='text', readonly='readonly', value='#{user.userName}')
 											.field-box
 												label 职    位:
-												input.span8.inline-input(type='text', readonly='readonly', value='职位A')
+												input.span8.inline-input(type='text', readonly='readonly', value='#{role.roleName}')
 											.field-box
-												label 部    门:
-												input.span8.inline-input(type='text', readonly='readonly', value='部门A')
-											.field-box
-												label tips:
+												label 呵！呵！:
 												input.span8.inline-input(type='text', readonly='readonly', value='您的假期申请已发送哦(๑•ᴗ•๑)')
 							#step2.step-pane
 								.row-fluid.form-wrapper
@@ -59,15 +56,12 @@ block content
 										form
 											.field-box
 												label 申请人:
-												input.span8.inline-input(type='text', readonly='readonly', value='员工A')
+												input.span8.inline-input(type='text', readonly='readonly', value='#{user.userName}')
 											.field-box
 												label 职    位:
-												input.span8.inline-input(type='text', readonly='readonly', value='职位A')
+												input.span8.inline-input(type='text', readonly='readonly', value='#{role.roleName}')
 											.field-box
-												label 部    门:
-												input.span8.inline-input(type='text', readonly='readonly', value='部门A')
-											.field-box
-												label tips:
+												label 呵！呵！:
 												input.span8.inline-input(type='text', readonly='readonly', value='您的假期申请已被部门经理审批哦(๑•ᴗ•๑)')
 							#step3.step-pane
 								.row-fluid.form-wrapper
@@ -75,15 +69,12 @@ block content
 										form
 											.field-box
 												label 申请人:
-												input.span8.inline-input(type='text', readonly='readonly', value='员工A')
+												input.span8.inline-input(type='text', readonly='readonly', value='#{user.userName}')
 											.field-box
 												label 职    位:
-												input.span8.inline-input(type='text', readonly='readonly', value='职位A')
+												input.span8.inline-input(type='text', readonly='readonly', value='#{role.roleName}')
 											.field-box
-												label 部    门:
-												input.span8.inline-input(type='text', readonly='readonly', value='部门A')
-											.field-box
-												label tips:
+												label 呵！呵！:
 												input.span8.inline-input(type='text', readonly='readonly', value='您的假期申请已被副总经理审批哦(๑•ᴗ•๑)')
 							#step4.step-pane
 								.row-fluid.form-wrapper.payment-info
@@ -91,15 +82,12 @@ block content
 										form
 											.field-box
 												label 申请人:
-												input.span8.inline-input(type='text', readonly='readonly', value='员工A')
+												input.span8.inline-input(type='text', readonly='readonly', value='#{user.userName}')
 											.field-box
 												label 职    位:
-												input.span8.inline-input(type='text', readonly='readonly', value='职位A')
+												input.span8.inline-input(type='text', readonly='readonly', value='#{role.roleName}')
 											.field-box
-												label 部    门:
-												input.span8.inline-input(type='text', readonly='readonly', value='部门A')
-											.field-box
-												label tips:
+												label 呵！呵！:
 												input.span8.inline-input(type='text', readonly='readonly', value='您的假期申请已被总经理审批哦(๑•ᴗ•๑)')
 						.wizard-actions
 							button.btn-glow.primary.btn-prev(type='button', disabled='')
@@ -152,6 +140,3 @@ block content
 			$('.arr_holiday').append("<div class='pointer'><div class='arrow'></div><div class='arrow_border'></div></div>");
 
 		});
-	div(style='display:none')
-		script(src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540', language='JavaScript', charset='gb2312')
-		

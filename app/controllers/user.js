@@ -48,7 +48,7 @@ exports.findOne = function(req, res){
 class Student {
     constructor(userWithAllInfo) {
       var user = userWithAllInfo;
-      
+
       this.userRealName = user.userRealName;
       this.userName = user.userName;
       this.userDepartment = user.userDepartment;
@@ -68,12 +68,12 @@ function getUserInfoCombined(userWithAllInfo) {
 // personal-info page
 exports.findUserInfo = function(req, res, next){
   debugRequest(req);
-  
+
   //从session 中获取
   //var id = req.session.user._id;
   var id = '584aab9f23ac5520a7cf0947';
   console.log('Get userId from session: ', id);
-  
+
   User.findById(id)
   .then(function(user){
     debug('Get user from db:%s', JSON.stringify(user));
@@ -91,22 +91,22 @@ exports.findUserInfo = function(req, res, next){
 // personal-info update
 exports.updateUserInfo = function(req, res, next){
   debugRequest(req);
-  
+
   //从session 中获取
   //var id = req.session.user._id;
   var id = '584aab9f23ac5520a7cf0947';
   console.log('Get userId from session: ', id);
-  
+
   var conditions = {_id : id};
   var update = req.body.user; // Just update a whole,there should consider password hash
   var options = { multi: false};
-  
+
   debug('data to update: conditions:%s, update:%s', JSON.stringify(conditions), JSON.stringify(update));
   User.update(conditions, update, options)
   .then(function(changedInfo){
     debug('Update note info succeeded');
     // res.send(changedInfo);
-    
+
     User.findById(id)
     .then(function(user){
       debug('Get user from db:%s', JSON.stringify(user));
@@ -119,7 +119,7 @@ exports.updateUserInfo = function(req, res, next){
       });
     });
   })
-  .catch(next)
+  .catch(next);
 
 };
 

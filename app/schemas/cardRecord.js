@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var moment = require('moment');
 var User = require('./user');
 
 var Schema = mongose.Schema;
@@ -20,7 +21,7 @@ var CardRecordSchema = new mongoose.Schema({
   meta: {
     createAt: {
       type: Date,
-      default: Data.now()
+      default: Date.now()
     },
     updateAt:{
       type: Date,

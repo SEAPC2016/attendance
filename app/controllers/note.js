@@ -3,7 +3,7 @@ var Note = require('../models/note');
 var User = require('../models/user');
 var HolidayType = require('../models/holidayType');
 var Role = require('../models/role');
-var NoteSchema = require('../schemas/note');
+var Moment = require('moment');
 
 var debugNewRequest = '\n\n\n\n\n\n\n\n\n\n\n\n'; // sepearate new debug with some newlines
 
@@ -76,6 +76,7 @@ exports.new = function(req, res){
            if(curNote.highState <= curNote.curState){
              curNote.curState = -1;
            }
+           console.log(curNote);
            curNote.save(function(err, _note){
              if(err){
                console.log(err);
@@ -99,15 +100,64 @@ exports.new = function(req, res){
 
 //最新假期状态
 exports.reqLatestState = function(req, res){
-
+    //var userId = req.session.user;
+    var id = '584aab9f23ac5520a7cf0947';
+    debug('userId : ' + userId);
+    Note
+      .find({})
+      .sort({'startTime': -1})
+      .limit(1)
+      .exec(function(err, note){
+          if(err){
+            console.log(err);
+          }else{
+            note.start = Moment(note.startTime).format('YYYY-MM-DD,a');
+            Role
+              .find({'_id': user.userRole})
+              .exec(function(err, role){
+                if(err){
+                  console.log(err);
+                }else{
+                  res.render('reqLatestState', {
+                    itle: "请假状态页",
+                    note: note,
+                    user: user
+                  });
+                  debug('Query note succeeded');
+                }
+              });
+          }
+      });
 };
 
 //过往假期状态
 exports.reqAllState = function(req, res){
-
+    //var userId = req.session.user._id;
+    var userId = '584aab9f23ac5520a7cf0947';
+    var year = Moment().year();
+    console.log(year);
+    Note
+      .find({'user': userId})
+      .gte('startTime',new Date(year))
+      .sort({'startTime': -1})
+      .exec(function(err, notes){
+        if(err){
+          console.log(err);
+        }else{
+          var length = notes.length;
+          for(var i=0; i<length; i++){
+            notes[i].start = Moment(notes[i].startTime).format('YYYY-MM-DD');
+        //    console.log("时间 : "+notes[i].start);
+          }
+          //console.log("ok"+notes);
+          console.log("ok");
+          res.render('reqAllState', {
+            title: "请假状态页",
+            notes: notes
+          });
+        }
+      });
 };
-
-
 
 
 function findRoleByUserId(userId){

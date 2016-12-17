@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var moment = require('moment');
 var HolidayType = require('./holidayType');
 var User = require('./user');
 
@@ -36,10 +37,11 @@ NoteSchema.pre('save', function(next){
   if(this.isNew){
     this.meta.createAt = this.meta.updateAt = Date.now();
   }else{
-    this.meta.updateAt = Data.now();
+    this.meta.updateAt = Date.now();
   }
   next();
 });
+
 
 NoteSchema.statics = {
   //取出数据库中目前拥有的数据

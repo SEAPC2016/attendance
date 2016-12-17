@@ -16,17 +16,13 @@ exports.userlist = function(req, res) {
     console.log(users);
     res.send(users);
   });
-  //res.render('index', { title: '比' });
 };
 
 
 exports.findOne = function(req, res){
   var id = req.body.id;
   console.log(id);
-  // User
-  //   .findById(id,function(err, user){
-  //      res.send(user);
-  //   });
+
   User
     .find({"_id":id}) //注意这里的参数设置 如果 "_id" 不填家双引号，汇出错的
     .populate({path:'userRole'})
@@ -34,15 +30,6 @@ exports.findOne = function(req, res){
       console.log(user[0].userRole.roleName);
       res.send(user);
     });
-//    .populate({path: 'userRole'})
-//    .pretty()
-    // .exec(function(err, user){
-    //   if(err){
-    //     console.log(err);
-    //   }else{
-    //     res.send(user);
-    //   }
-    // });
 };
 
 class Student {

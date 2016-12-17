@@ -59,8 +59,14 @@ module.exports = function(app){
 
   //app.post('/user/reqHoliday',Note.reqHoliday);
 
-  //假期状态
-  app.get('/reqState', Note.reqState);
+  //最新假期状态
+  app.get('/note/reqLatestState', Note.reqLatestState);
+
+  //过往假期状态
+  app.get('/note/reqAllState', Note.reqAllState);
+
+
+
 
   // 测试页面效果
   app.get('/page/:pageName', function (req, res) {
@@ -81,11 +87,11 @@ module.exports = function(app){
     // res.status(200).json(data);
     // res.send(data);
   });
-  
-  
+
+
   // 测试函数，替换想要测试的数据库操作函数即可
   app.get('/test/db', Note.test);
-  
+
 
   // catch 404 and forward to error handler
   app.use(function(req, res, next) {

@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-
 var HolidayTypeSchema = new mongoose.Schema({
   holidayName: String,
   holidayLength: Number,

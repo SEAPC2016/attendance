@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+  .content
+    .container
+      .row
+        table.table.table-hover.table-bordered
+          thead
+            tr
+              th 假期开始日期
+              th 持续时长
+              th 假期状态
+              th 详情
+          tbody
+            each item in notes
+              tr(class="item-id-#{item._id}")
+                td #{item.start}
+                td #{item.timeLength}
+                if(item.curState > 0)
+                  td 未销假
+                else 
+                  td 已销假
+                td: a(target="_blank",href="/note/noteInfo/#{item._id}") 详情

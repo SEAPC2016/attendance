@@ -1,13 +1,10 @@
 var ourUrl = 'http://localhost:3000/';
 
 
-function submitdata(formName, pwd1Id, pwd2Id, userId) {
+function submitdata(formName, pwd1Id, pwd2Id) {
   var frm = $(formName);
   var pwd11 = $(pwd1Id).val();
   var pwd22 = $(pwd2Id).val();
-  
-  // for test
-  $(userId).val('584e1f5d125e0f2bc260a6f4');
 
   console.log('data:', JSON.stringify(frm.serialize()));
   console.log(pwd11, pwd22);

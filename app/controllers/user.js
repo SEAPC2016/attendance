@@ -1,8 +1,11 @@
-
 var debug = require('debug')('attendance:userController');
 var User = require('../models/user');
 
 var debugNewRequest = '\n\n\n\n\n\n\n\n\n\n\n\n'; // sepearate new debug with some newlines
+
+function debugRequest(req){
+  debug(debugNewRequest + 'Get req body: %s, req params: %s', JSON.stringify(req.body), JSON.stringify(req.params));
+}
 
 /* GET users listing. */
 exports.userlist = function(req, res) {
@@ -42,38 +45,60 @@ exports.findOne = function(req, res){
     // });
 };
 
+class Student {
+    constructor(userWithAllInfo) {
+      var user = userWithAllInfo;
+      
+      this.userRealName = user.userRealName;
+      this.userName = user.userName;
+      this.userDepartment = user.userDepartment;
+      this.userEmail = user.userEmail;
+      this.userRoleName = user.userRole.roleName;
+    }
+}
+
+function getUserInfoCombined(userWithAllInfo) {
+  return new Promise(function(resolve) {
+
+    resolve(new Student(userWithAllInfo));
+  });
+
+}
+
 // personal-info page
-exports.findUserInfo = function(req, res){
-  //var id = req.params.userId;
+exports.findUserInfo = function(req, res, next){
+  debugRequest(req);
+  
   //从session 中获取
   //var id = req.session.user._id;
   var id = '584aab9f23ac5520a7cf0947';
-  console.log('Get params from front end, userId:', id);
+  console.log('Get userId from session: ', id);
+  
   User.findById(id)
   .then(function(user){
-    var data = { title: '个人信息', user: user, alreadyLogin:true};
-    debug('data to send back', data);
-    res.render('personal-info', data);
-    // res.send(data);
+    debug('Get user from db:%s', JSON.stringify(user));
+    return getUserInfoCombined(user)
+    .then(function(userInfo){
+      var data = { title: '个人信息', user: userInfo, alreadyLogin:true};
+      debug('data to send back', data);
+      res.render('personal-info', data);
+      // res.send(data);
+    });
   })
-  .catch(function(err){
-    debug('err:%s, aka not found user by provided id:%s', err, id);
-    var data = { title: '个人信息', user: user, alreadyLogin:false}; // not found user, alreadyLogin set false
-    debug('data to send back', data);
-    res.render('personal-info', data);
-    // res.send(data);
-    // next();
-  });
+  .catch(next); // DO not need to care about user id not found, since we alreay have session.
 };
 
 // personal-info update
 exports.updateUserInfo = function(req, res, next){
-  var reqBody = req.body;
-  debug(debugNewRequest + 'Get params from front end:%s', JSON.stringify(reqBody));
+  debugRequest(req);
   
-  var conditions = {_id : reqBody.userId};
-  var update = reqBody.user; // Just update a whole,there should consider password hash
-
+  //从session 中获取
+  //var id = req.session.user._id;
+  var id = '584aab9f23ac5520a7cf0947';
+  console.log('Get userId from session: ', id);
+  
+  var conditions = {_id : id};
+  var update = req.body.user; // Just update a whole,there should consider password hash
   var options = { multi: false};
   
   debug('data to update: conditions:%s, update:%s', JSON.stringify(conditions), JSON.stringify(update));
@@ -82,17 +107,19 @@ exports.updateUserInfo = function(req, res, next){
     debug('Update note info succeeded');
     // res.send(changedInfo);
     
-    User.findById(reqBody.userId)
+    User.findById(id)
     .then(function(user){
-      var data = { title: '个人信息', user: user, alreadyLogin:true}; // not found user, alreadyLogin set false
-      debug('data to send back', data);
-      res.render('personal-info', data);
+      debug('Get user from db:%s', JSON.stringify(user));
+      return getUserInfoCombined(user)
+      .then(function(userInfo){
+        var data = { title: '个人信息', user: userInfo, alreadyLogin:true};
+        debug('data to send back', data);
+        res.render('personal-info', data);
+        // res.send(data);
+      });
     });
   })
-  .catch(function(err){
-    debug('err:%s, aka not found user by provided id:%s', err, id);
-    next();
-  });
+  .catch(next)
 
 };
 

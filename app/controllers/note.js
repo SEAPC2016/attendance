@@ -276,3 +276,13 @@ exports.updateStateByManager = function (req, res, next){
   })
   .catch(next);
 };
+
+
+exports.test = function (req, res, next) {
+	fetchEndtimeGreaterThanNow()
+	.then(function(notes){
+		debug('Get notes by dates:', notes);
+		res.send(notes);
+	})
+	.catch(next);
+};

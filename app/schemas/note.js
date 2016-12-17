@@ -65,7 +65,16 @@ NoteSchema.statics = {
             .find({curState : state}).populate('user').populate('holidayType')
             .sort("meta.updateAt")
             .exec(cb);
-  }
+  },
+	
+	// 根据时间取出多条数据
+	fetchEndtimeGreaterThanNow: function(cb){
+		return this.
+					find({})
+					.lte('startTime',Data.now())
+					.sort("meta.updateAt")
+					.exec(cb);
+	}
 };
   //实例方法
 NoteSchema.methods ={

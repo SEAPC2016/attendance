@@ -91,6 +91,7 @@ module.exports = function(app){
 
   // 测试函数，替换想要测试的数据库操作函数即可
   app.get('/test/db', Note.test);
+  app.get('/test/index', Index.test);
 
 
   // catch 404 and forward to error handler

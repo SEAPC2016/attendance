@@ -18,22 +18,25 @@ block content
 				// Users table
 				.row-fluid.table
 					table.table.table-hover.span6
-						thead
-							tr
-								th.span8.sortable
-									| 姓名
-								th.span4.sortable
-									span.line
-									| 状态
-						tbody
-							// row
-							tr.first
-								td
-									img.img-circle.avatar.hidden-phone(src='/img/contact-img.png')
-									a.name(href='user-profile.html') Alejandra Galvan Castillo
-									span.subtext Graphic Design
-								td
-									| 上班
+							thead
+								tr
+									th.span8.sortable
+										| 姓名
+									th.span4.sortable
+										span.line
+										| 状态
+							tbody
+								each user in users_at_work
+									// row
+									tr.first
+										td
+											img.img-circle.avatar.hidden-phone(src='/img/contact-img.png')
+											span.subtext Graphic Design &nbsp #{user.userDepartment}
+											//- 取不到不在 schema 中的数据
+											| &nbsp &nbsp
+											a.name(href='user-profile.html') #{user.userName}
+										td
+											| 上班
 					table.table.table-hover.span6
 						thead
 							tr
@@ -43,14 +46,16 @@ block content
 									span.line
 									| 状态
 						tbody
-							// row
-							tr.first
-								td
-									img.img-circle.avatar.hidden-phone(src='/img/contact-img.png')
-									a.name(href='user-profile.html') Alejandra Galvan Castillo
-									span.subtext Graphic Design
-								td
-									| 请假
+							each user in users_at_holiday
+								// row
+								tr.first
+									td
+										img.img-circle.avatar.hidden-phone(src='/img/contact-img.png')
+										span.subtext Graphic Design
+										| &nbsp &nbsp
+										a.name(href='user-profile.html') Alejandra Galvan Castillo
+									td
+										| 请假
 							
 				// end users table
 	// end main container
@@ -71,5 +76,5 @@ block content
 			$('.arr_index').append("<div class='pointer'><div class='arrow'></div><div class='arrow_border'></div></div>");
 		});
 
-	div(style='display:none')
-		script(src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540', language='JavaScript', charset='gb2312')
+	//- div(style='display:none')
+	//- 	script(src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540', language='JavaScript', charset='gb2312')

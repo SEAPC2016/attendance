@@ -7,15 +7,15 @@ var NoteSchema = require('../schemas/note');
 
 var debugNewRequest = '\n\n\n\n\n\n\n\n\n\n\n\n'; // sepearate new debug with some newlines
 
+function debugRequest(req){
+  debug(debugNewRequest + 'Get req body: %s, req params: %s', JSON.stringify(req.body), JSON.stringify(req.params));
+}
 
  //require Holiday
 exports.new = function(req, res){
+  debugRequest(req);
   //获取参数
   var _note = req.body.note;
-  //console.log("接收到的_note :" + _note);
-
-  //调试信息
-  debug(debugNewRequest + 'Get params from front,note:\n' + JSON.stringify(_note));
 
   var curNote = new Note(_note);
 
@@ -115,22 +115,36 @@ function findRoleByUserId(userId){
   });
 }
 
-exports.findNotesByManagerId = function (req, res, next){
-
-  // var managerId = "58493581f210182bbc28713f";
-  var managerId = req.params.managerId;
-  debug(debugNewRequest + 'Get params from front,managerId:\n' + managerId);
-
-  findRoleByUserId(managerId)
+function _findNotesByManagerId(managerId){
+  return  findRoleByUserId(managerId)
   .then(function(role){
-    Note.findByState(role.preState)
-    .then(function(notes){
-      debug('Find all notes by manager preState, notes.length:' + notes.length);
-      // return res.send(notes);
-      res.render('examine', {
-            title: "待审核假期",
-            notes: notes
-      });
+      return Note.findByState(role.preState);
+    });
+}
+
+exports.test = function(req, res, next){
+  debugRequest(req);
+  var managerId = '5853946d2e5baac361a430c4';
+  _findNotesByManagerId(managerId)
+  .then(function(notes){
+    res.send(notes);
+  });
+};
+
+
+exports.findManagerCanHandleNotes = function (req, res, next){
+  debugRequest(req);
+  //从session 中
+  // var managerId = req.session.user._id;
+  var managerId = '584fb58932682f19ccade5e8'; // Just for test
+  
+  _findNotesByManagerId(managerId)
+  .then(function(notes){
+    debug('Find all notes by manager preState, notes.length:' + notes.length);
+    // return res.send(notes);
+    res.render('examine', {
+          title: "待审核假期",
+          notes: notes
     });
   })
   .catch(next);
@@ -159,40 +173,18 @@ function _updateStateByManager(managerId, note, approved){ // this way of `res` 
       });
     }
   });
-
-
-// Or, just a more clean way.
-/*
-  return findRoleByUserId(managerId)
-  .then(function(role){
-    if(approved === false){
-      debug('Set note state to 0 beacuse of disapprove');
-      return 0;
-    }
-
-    if (role.postState === note.highState){
-      debug('Set note state to -1, approved and role.postState === note.highState');
-      return -1;
-    }
-    else{
-      debug('Set note state to ' + role.postState + ', approved but role.postState != note.highState');
-      return role.postState;
-    }
-  });
-*/
 }
 
 
 exports.updateStateByManager = function (req, res, next){
+  debugRequest(req);
+  //从session 中获取
+  //var managerId = req.session.user._id;
+  var managerId = '584fb58932682f19ccade5e8'; // Just for test
 
-  var managerId = req.body.managerId;
   var noteId = req.body.noteId;
-  var approvedStr = req.body.approved; // seems cannot get boolean
-  var approved = (approvedStr === 'true');
-
-
-  debug(debugNewRequest + 'Get params from front end, managerId:%s, noteId:%s, approved:%s\n', managerId, noteId, approved);
-  
+  var approvedStr = req.body.approved; // seems cannot get boolean from ajax, but can from postman
+  var approved = (approvedStr === 'true' || approvedStr === true);
 
   var newState = 0;
 
@@ -200,7 +192,7 @@ exports.updateStateByManager = function (req, res, next){
   .then(function(note){
     debug('Found note by noteId %s:\n%s', noteId, note);
 
-    _updateStateByManager(managerId, note, approved)
+    return _updateStateByManager(managerId, note, approved)
     .then(function(newState){
       var conditions = {_id : note._id};
       var update = { $set : {curState:newState}};
@@ -208,7 +200,22 @@ exports.updateStateByManager = function (req, res, next){
       return Note.update(conditions, update, options)
       .then(function(changedInfo){
         debug('Update note info succeeded');
+        
         res.send(changedInfo);
+        
+        //refresh the page, I do not think it's right.
+        /*
+                return  _findNotesByManagerId(managerId)
+                  .then(function(notes){
+                    debug('Find all notes by manager preState, notes.length:' + notes.length);
+                    return res.send(notes);
+                    // res.render('examine', {
+                    //       title: "待审核假期",
+                    //       notes: notes
+                    // });
+                  });
+                  // .catch(next);
+        */
       });
     });
   })

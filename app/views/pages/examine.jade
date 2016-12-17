@@ -1,45 +1,44 @@
 extends ../layout
 
 block content
-	// main container
+  // main container
   .content
-      .container-fluid
-          #pad-wrapper.gallery
-              .row-fluid.header
-              h3 请假审批
-              p
-              // gallery wrapper
-              .gallery-wrapper
-                  .row.gallery-row
-                      each item in notes
-                        // single note
-                        .span4.img-container
-                            .popup
-                                // <i class="close-pop table-delete"></i>
-                                h5 请假条
-                                .thumb
-                                    img(src='/img/gallery-preview.jpg')
-                                .title
-                                    input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.user.userName}')
-                                    input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.holidayType.holidayName}')
-                                    input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.timeLength}')
-                                    input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.startTime}')
-                                .description
-                                    h6 请假原因
-                                    textarea #{item.reason}
-                                    input.btn-glow.primary(type='submit', onclick="_change_note_state('#{item._id}', false)", value='驳回')
-                                    input.btn-glow.primary(type='submit', onclick="_change_note_state('#{item._id}', true)", value='同意')
-                        // end single note
-                // end gallery wrapper
+    .container-fluid
+        #pad-wrapper.gallery
+            .row-fluid.header
+            h3 请假审批
+            p
+            // gallery wrapper
+            .gallery-wrapper
+                .row.gallery-row
+                    each item in notes
+                      // single note
+                      .span4.img-container
+                          .popup
+                              // <i class="close-pop table-delete"></i>
+                              h5 请假条
+                              .thumb
+                                  img(src='/img/gallery-preview.jpg')
+                              .title
+                                  input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.user.userName}')
+                                  input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.holidayType.holidayName}')
+                                  input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.timeLength}')
+                                  input.inline-input(type='text', placeholder='Title', readonly='readonly', value='#{item.startTime}')
+                              .description
+                                  h6 请假原因
+                                  textarea(readonly='readonly')
+                                    | #{item.reason}
+                                  input.btn-glow.primary(type='submit', onclick="_change_note_state('#{item._id}', false)", value='驳回')
+                                  input.btn-glow.primary(type='submit', onclick="_change_note_state('#{item._id}', true)", value='同意')
+                      // end single note
+            // end gallery wrapper
     // end main container
-		
     // this page scripts
     script(src='http://code.jquery.com/jquery-latest.js')
     script(src='/js/bootstrap.min.js')
     script(src='/js/theme.js')
-		script(src='/js/note_c.js')
+    script(src='/js/note_c.js')
     script(type='text/javascript').
       function _change_note_state(noteId,approved){
-          var managerId = '584fb58932682f19ccade5e8';
-          $.Deferred(change_note_state(managerId, noteId, approved))	// Well, seems ok
+          $.Deferred(change_note_state(noteId, approved))	// Well, seems ok
       }

@@ -30,7 +30,7 @@ module.exports = function(app){
 
   app.get('/user/findUserInfo', User.findUserInfo);
 
-  app.post('/user/update', User.updateUserInfo)
+  app.post('/user/update', User.updateUserInfo);
 
 
   // in postman:
@@ -52,12 +52,10 @@ module.exports = function(app){
   // {"note":{"userObject":"5849349cf210182bbc28713b","htObject":"584938c2f210182bbc287143","timelength":3}}
   app.post('/note/new', Note.new);
 
-  // in postman, get cannot have body
-  // localhost:3000/notes/58493581f210182bbc28713f
-  app.get('/notes/:managerId', Note.findNotesByManagerId);
+  app.get('/notes/manager', Note.findManagerCanHandleNotes);
 
-  // {"managerId":"58493581f210182bbc28713f","noteId":"58493eabd5d47f3948fe85ba","approved":true}
-  app.post('/notes', Note.updateStateByManager);
+  // {"noteId":"58493eabd5d47f3948fe85ba","approved":true}, managerId can be found from session
+  app.post('/notes/manager', Note.updateStateByManager);
 
   //app.post('/user/reqHoliday',Note.reqHoliday);
 
@@ -83,6 +81,11 @@ module.exports = function(app){
     // res.status(200).json(data);
     // res.send(data);
   });
+  
+  
+  // 测试函数，替换想要测试的数据库操作函数即可
+  app.get('/test/db', Note.test);
+  
 
   // catch 404 and forward to error handler
   app.use(function(req, res, next) {

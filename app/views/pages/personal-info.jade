@@ -41,7 +41,7 @@ block content
               input.span5.inline-input(type='text', placeholder='Your Department', value='#{curUser.userDepartment}')
             .field-box
               label 职位：
-              input.span5.inline-input(type='text', placeholder='Your Position', value='#{curUser.userRole.roleName}')
+              input.span5.inline-input(type='text', placeholder='Your Position', value='#{curUser.userRoleName}')
             .field-box
               label 邮箱：
               input.span5.inline-input(type='email',  placeholder='Your E-mail',value='#{curUser.userEmail}', name='user[userEmail]')
@@ -55,22 +55,14 @@ block content
               label 确认密码：
               input.span5.inline-input#pwd2(type='password',  placeholder='Repeat Your Password', val='')
             .span6.field-box.actions
-              input.btn-glow.primary(type='button', onclick="submitdata('#userForm','#pwd1','#pwd2', '#userId')",value='保存更改')
+              input.btn-glow.primary(type='button', onclick="submitdata('#userForm','#pwd1','#pwd2')",value='保存更改')
               span 或
               input.reset(type='reset', value='取消')
-              span 或
-              input.btn-glow.primary(type='button', onclick='submitdata2()',value='测试')
                   
   // end main container
   // scripts
-    script(src='http://code.jquery.com/jquery-latest.js')
-    script(src='/js/bootstrap.min.js')
-    script(src='/js/theme.js')
-    
-    script(src='/js/personal-info_c.js')
-    script(type='text/javascript').
-      function submitdata2() {
-        var pwd11 = $('#pwd1').val();
-        var pwd22 = $('#pwd2').val();
-        console.log(pwd11, pwd22);
-      }
+  script(src='http://code.jquery.com/jquery-latest.js')
+  script(src='/js/bootstrap.min.js')
+  script(src='/js/theme.js')
+  
+  script(src='/js/personal-info_c.js')

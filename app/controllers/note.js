@@ -84,7 +84,7 @@ exports.new = function(req, res){
                debug('_note,note:\n' + JSON.stringify(_note));
                var note = _note[0];
 
-               res.render('reqState', {
+               res.render('reqLatestState', {
                       title: "请假状态页",
                       note: note
                });
@@ -97,10 +97,15 @@ exports.new = function(req, res){
 };
 
 
-exports.reqState = function(req, res){
+//最新假期状态
+exports.reqLatestState = function(req, res){
 
 };
 
+//过往假期状态
+exports.reqAllState = function(req, res){
+
+};
 
 
 
@@ -137,7 +142,7 @@ exports.findManagerCanHandleNotes = function (req, res, next){
   //从session 中
   // var managerId = req.session.user._id;
   var managerId = '584fb58932682f19ccade5e8'; // Just for test
-  
+
   _findNotesByManagerId(managerId)
   .then(function(notes){
     debug('Find all notes by manager preState, notes.length:' + notes.length);
@@ -200,9 +205,9 @@ exports.updateStateByManager = function (req, res, next){
       return Note.update(conditions, update, options)
       .then(function(changedInfo){
         debug('Update note info succeeded');
-        
+
         res.send(changedInfo);
-        
+
         //refresh the page, I do not think it's right.
         /*
                 return  _findNotesByManagerId(managerId)

@@ -162,7 +162,10 @@ exports.signin = function(req, res){
 
          console.log("password is match");
          //返回登录后的首页
-         return res.redirect('/');
+         res.render('index', {
+           title: '首页',
+           user : user
+         });
        }else{
          console.log("password is not match");
          //密码错误返回登录页
@@ -172,7 +175,11 @@ exports.signin = function(req, res){
    });
 };
 
-
+exports.logout = function(req, res){
+  delete req.session.user;
+  //  delete app.locals.user
+  res.redirect("/");
+};
 
 //User中间件权限控制
 
@@ -180,7 +187,7 @@ exports.signin = function(req, res){
 exports.signinRequired = function(req, res, next){
   var user = req.session.user;
   if(!user){
-    return res.redirect('/signin');
+    return res.redirect('/');
   }
   next();
 };
@@ -190,7 +197,7 @@ exports.adminRequired = function(req, res, next){
   var user = req.session.user;
 
   if(user.role <= 10){
-    return res.redirect('/signin');
+    return res.redirect('/');
   }
   next();
 };

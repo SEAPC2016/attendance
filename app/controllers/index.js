@@ -8,16 +8,18 @@ var moment = require('moment');
 
 /* GET home page. */
 exports.index = function(req, res, next) {
-  res.render('index', { title: 'index' });
+  res.render('index', {
+     title: '首页'
+    });
 };
 
 
 // HolidayType Holiday And User Info
 exports.holandUser = function(req, res, next){
   console.log("coold");
-  //var userId = req.body.userID;
-  userId = '584aab9f23ac5520a7cf0947';
-
+  var user = req.session.user;
+  //userId = '584aab9f23ac5520a7cf0947';//
+   var userId = user._id;
     //通过user的ObjectId， 拿到对应的用户信息以及各类假期剩余天数就好了
     //1. 拿到所有的假期类型
     /**
@@ -25,6 +27,7 @@ exports.holandUser = function(req, res, next){
     *  a. 查询当下时间到今年的1月1号该类行假期请假的天数
     *  b. 根据该类型假期的总时长得到剩余时长
     */
+  console.log(user);
   console.log(userId);
   if(userId){
     User

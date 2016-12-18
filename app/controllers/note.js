@@ -301,7 +301,6 @@ function judgeUserHolidayInfoByUserId(userId){
 
 exports.test2 = function (req, res, next) {
 	var userId = '584e1f5d125e0f2bc260a6f4';
-
 	judgeUserHolidayInfoByUserId(userId)
 	.then(function(results){
 		res.send(results);
@@ -332,7 +331,6 @@ function renderIndexHolidayInfoByUsers(users){
 				if(userHolidayInfo[2] === true) {
 					usersInHoliday.push(users[idx]);
 				}
-
 				if(idx == allresults.length - 1){
 					var dataToSend = {
 						title : 'index',

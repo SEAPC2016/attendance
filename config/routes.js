@@ -24,8 +24,10 @@ module.exports = function(app){
 
   //这里是什么意思？？
   // app.get('/', Index.index);
-	app.get('/',  Note.IndexWithHolidayInfo);
-	app.post('/queryOtherPersonHoliday', User.signinRequired, Note.IndexQueryOnePersonHolidayInfo); // Better to be get
+	app.get('/', Note.IndexWithHolidayInfo);
+  
+	app.post('/queryOtherPersonHoliday', Note.IndexQueryOnePersonHolidayInfo); // Better to be get
+  app.get('/holandUser', Index.holandUser);
 
   //admin
 
@@ -84,8 +86,7 @@ module.exports = function(app){
   app.get('/page/:pageName', function (req, res) {
     var pageName = req.params.pageName;
     res.render(pageName, { title: 'Hey', message: 'Hello there!'});
-  });
-   // 测试函数，替换想要测试的数据库操作函数即可
+    
   // app.get('/test/note', Note.test);
   app.get('/test/index', Index.test);
 

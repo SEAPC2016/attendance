@@ -83,11 +83,10 @@ exports.new = function(req, res){
              }else{
                //跳转到请假状态页
                debug('_note,note:\n' + JSON.stringify(_note));
-               var note = _note[0];
-
+               //var note = _note[0];
                res.render('reqLatestState', {
                       title: "请假状态页",
-                      curState: note[0].curState,
+                      curState: _note.curState,
                       roleName : user.userRole.roleName
                });
                debug('Create new note succeeded');
@@ -106,33 +105,37 @@ exports.reqLatestState = function(req, res){
     //var userId = '584aab9f23ac5520a7cf0947';
     debug('userId : ' + userId);
     Note
-      .find({})
+      .find({'user': userId})
       .sort({'startTime': -1})
       .limit(1)
       .exec(function(err, note){
           if(err){
             console.log(err);
           }else{
-            note.start = Moment(note.startTime).format('YYYY-MM-DD,a');
-            Role
-              .find({'_id': _user.userRole})
-              //.find({'_id': '584aab46b4f2d71f8a186278'})
-              .exec(function(err, _role){
-                if(err){
-                  console.log(err);
-                }else{
-              //    var user = new User();
-              //    user.userName = "COll";
-                console.log(_role[0].roleName);
-                console.log(note);
-                  res.render('reqLatestState', {
-                    title: "请假状态页",
-                    curState: note[0].curState,
-                    roleName: _role[0].roleName,
-                  });
-                  debug('Query note succeeded');
-                }
-              });
+
+              Role
+                .find({'_id': _user.userRole})
+                //.find({'_id': '584aab46b4f2d71f8a186278'})
+                .exec(function(err, _role){
+                  if(err){
+                    console.log(err);
+                  }else{
+                    var _note = new Note();
+                    if(note.length <=0){
+                      _note.curState =  -3;
+                    }
+                //    var user = new User();
+                //    user.userName = "COll";
+                  console.log(_role[0].roleName);
+                  console.log(note);
+                    res.render('reqLatestState', {
+                      title: "请假状态页",
+                      curState: _note.curState,
+                      roleName: _role[0].roleName,
+                    });
+                    debug('Query note succeeded');
+                  }
+                });
           }
       });
 };
@@ -157,7 +160,7 @@ exports.reqAllState = function(req, res){
             notes[i].start = Moment(notes[i].startTime).format('YYYY-MM-DD');
         //    console.log("时间 : "+notes[i].start);
           }
-          //console.log("ok"+notes);
+          console.log("ok"+notes);
           console.log("ok");
           res.render('reqAllState', {
             title: "请假状态页",
@@ -181,6 +184,9 @@ function findRoleByUserId(userId){
 function _findNotesByManagerId(managerId){
   return  findRoleByUserId(managerId)
   .then(function(role){
+      if(role.preState === 0){ // this represents normal user
+        return {};
+      }
       return Note.findByState(role.preState);
     });
 }

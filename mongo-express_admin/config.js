@@ -19,11 +19,14 @@ if (process.env.VCAP_SERVICES) {
 } else {
   mongo = {
     db:       'attendance',
-    host:     'demo.tjuwork.win',
+    // host:     'demo.tjuwork.win',
+    host:     'localhost',
     password: '',
     port:     27017,
     ssl:      false,
-    url:      'mongodb://demo.tjuwork.win:27017/attendance',
+    // url:      'mongodb://demo.tjuwork.win:27017/attendance',
+    url:      'mongodb://localhost:27017/attendance',
+
     username: '',
   };
 }

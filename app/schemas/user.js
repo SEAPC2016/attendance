@@ -56,6 +56,9 @@ UserSchema.pre('save',function(next){
 });
 
 
+
+
+
 //实例方法，在实例对象处可以调用
 UserSchema.methods = {
   comparePassword: function(_userPwd, cb) {
@@ -83,7 +86,7 @@ UserSchema.statics = {
       .findOne({_id: id}).populate('userRole')
       .exec(cb);
   },
-	
+
 	findLikeUserName: function(userName, cb) {
 		return this
 				// .find({'userName': new RegExp('.*'+userName+'.*')})

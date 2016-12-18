@@ -87,7 +87,8 @@ exports.new = function(req, res){
 
                res.render('reqLatestState', {
                       title: "请假状态页",
-                      note: note
+                      curState: note[0].curState,
+                      roleName : user.userRole.roleName
                });
                debug('Create new note succeeded');
                //res.send(note);
@@ -114,19 +115,20 @@ exports.reqLatestState = function(req, res){
           }else{
             note.start = Moment(note.startTime).format('YYYY-MM-DD,a');
             Role
-              .find({'_id': user.userRole})
+              .find({'_id': _user.userRole})
               //.find({'_id': '584aab46b4f2d71f8a186278'})
-              .exec(function(err, role){
+              .exec(function(err, _role){
                 if(err){
                   console.log(err);
                 }else{
               //    var user = new User();
               //    user.userName = "COll";
+                console.log(_role[0].roleName);
+                console.log(note);
                   res.render('reqLatestState', {
-                    itle: "请假状态页",
-                    note: note,
-                //    user: user,
-                    role: role
+                    title: "请假状态页",
+                    curState: note[0].curState,
+                    roleName: _role[0].roleName,
                   });
                   debug('Query note succeeded');
                 }

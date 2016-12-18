@@ -164,10 +164,11 @@ exports.signin = function(req, res){
 
          console.log("password is match");
          //返回登录后的首页
-         res.render('index', {
-           title: '首页',
-           user : user
-         });
+        //  res.render('index', {
+        //    title: '首页',
+        //    user : user
+        //  });
+        return res.redirect('/');
        }else{
          console.log("password is not match");
          //密码错误返回登录页

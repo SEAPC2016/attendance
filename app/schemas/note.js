@@ -62,10 +62,11 @@ NoteSchema.statics = {
   //根据 state 取出数据单条数据
   findByState: function(state, cb){
     return this
-            .find({curState : state}).populate('user').populate('holidayType')
+            .find({curState : state})
+            .populate('user').populate('holidayType')
             .sort("meta.updateAt")
             .exec(cb);
-  },	
+  },
 	// 已申请成功但未开始假期
 	fetchAlreadyApprovedButNotStartByUserId: function(userId, cb) {
 		return this.

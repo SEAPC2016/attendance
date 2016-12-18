@@ -5,7 +5,7 @@ $(function () {
     var $el = $(el);
     var $dialog = $el.find(".pop-dialog");
     var $trigger = $el.find(".trigger");
-    
+
     $dialog.click(function (e) {
         e.stopPropagation()
     });
@@ -22,7 +22,7 @@ $(function () {
     $trigger.click(function (e) {
       e.preventDefault();
       e.stopPropagation();
-      
+
       // hide all other pop-dialogs
       $(".notification-dropdown .pop-dialog").removeClass("is-visible");
       $(".notification-dropdown .trigger").removeClass("active")
@@ -45,7 +45,7 @@ $(function () {
     }
     $(".skins-nav .skin").removeClass("selected");
     $(this).addClass("selected");
-    
+
     if (!$("#skin-file").length) {
       $("head").append('<link rel="stylesheet" type="text/css" id="skin-file" href="">');
     }
@@ -80,12 +80,12 @@ $(function () {
     }
   });
   $menu.click(function(e) {
-    e.stopPropagation();
+    //e.stopPropagation();
   });
   $("#menu-toggler").click(function (e) {
-    e.stopPropagation();    
-    $menu.toggleClass("display");    
-  });  
+    e.stopPropagation();
+    $menu.toggleClass("display");
+  });
 
 
 	// build all tooltips from data-attributes
@@ -139,7 +139,7 @@ $(function () {
   			$checks.prop("checked", true);
   		} else {
   			$checks.prop("checked", false);
-  		}  		
+  		}
   	});
 
 

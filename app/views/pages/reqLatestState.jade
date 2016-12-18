@@ -15,7 +15,7 @@ block content
 					.span12
 						#fuelux-wizard.wizard.row-fluid
 							ul.wizard-steps
-								li.active(data-target='#step1')
+								li(data-target='#step1')
 									span.step 1
 									span.title 已发出申请
 								li(data-target='#step2')
@@ -28,6 +28,12 @@ block content
 									span.step 3
 									span.title
 										| 副总经理 
+										br
+										|  已审批
+								li(data-target='#step4')
+									span.step 4
+									span.title
+										| 总经理 
 										br
 										|  已审批
 								li(data-target='#step4')
@@ -105,10 +111,10 @@ block content
 	script(type='text/javascript').
 		var stat = $("#state").val();
 		//alert(stat);
-		var pathname = window.location.pathname;
 		$(function () {
 			//- var j = this.$element.find("li");
 			//- j.removeClass("active");
+	
 			if(stat == 1){
 					$('.wizard-steps li:eq(0)').addClass("active");
 					$('#step1').addClass("active");
@@ -124,21 +130,20 @@ block content
 					$('.wizard-steps li:eq(2)').addClass("active");
 					$('#step3').addClass("active");
 					$('.btn-prev').removeAttr("disabled");
-			}else if(stat == 30){
+			}else if(stat == 30 || stat == -1){
 					$('.wizard-steps li:eq(0)').addClass("active");
 					$('.wizard-steps li:eq(1)').addClass("active");
 					$('.wizard-steps li:eq(2)').addClass("active");
 					$('.wizard-steps li:eq(3)').addClass("active");
 					$('#step4').addClass("active");
 					$('.btn-next').removeAttr("disabled");
-			}else{
-					$('.wizard-steps li:eq(0)').addClass("active");
-					$('.wizard-steps li:eq(1)').addClass("active");
-					$('.wizard-steps li:eq(2)').addClass("active");
-					$('.wizard-steps li:eq(3)').addClass("active");
-					$('#step4').addClass("active");
+			}else if(stat == -2){
+					$('.btn-prev').removeAttr("disabled");
 					$('.btn-next').removeAttr("disabled");
 			}
 			$('.arr_holiday').addClass("active");
 			$('.arr_holiday').append("<div class='pointer'><div class='arrow'></div><div class='arrow_border'></div></div>");
+			$('#sub').addClass("active");
+			$('#reql').addClass("active");
+
 		});

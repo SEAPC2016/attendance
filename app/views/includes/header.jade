@@ -23,37 +23,72 @@
 // sidebar
 #sidebar-nav
 	ul#dashboard-menu
-		li.arr_index
-			a(href='/')
-				i.icon-home
-				span 首       页
-		li.arr_holiday
-			a.dropdown-toggle(href='#')
-				i.icon-edit
-				span 假期记录
-				i.icon-chevron-down
-			ul.submenu
-				li
-					a(href='/holandUser') 申请假期
-				li
-					a(href='/note/reqLatestState') 最新假期状态
-				li 
-					a(href='/note/reqAllState') 过往假期状态
-		li.arr_examine
-			a(href='examine')
-				i.icon-th-large
-				span 我的审批
-		li.arr_calendar
-			a(href='/user/calendar')
-				i.icon-calendar-empty
-				span 我的打卡
-		li.arr_personal-info
-			a(href='/user/findUserInfo')
-				i.icon-cog
-				span 我的信息
+		if user
+			li.arr_index
+				a(href='/')
+					i.icon-home
+					span 首       页
+			li.arr_holiday
+				a.dropdown-toggle(href='#')
+					i.icon-edit
+					span 我的请假
+					i.icon-chevron-down
+				ul#sub.submenu
+					li
+						a#reqh(href='/holandUser') 申请假期
+					li
+						a#reql(href='/note/reqLatestState') 最新假期状态
+					li
+						a#reqa(href='/note/reqAllState') 过往假期状态
+			if _roleNum == 1
+				li.arr_examine
+					a(href='/notes/manager')
+						i.icon-th-large
+						span 我的审批
+			li.arr_calendar
+				a(href='/user/calendar')
+					i.icon-calendar-empty
+					span 我的打卡
+			li.arr_personal-info
+				a(href='/user/findUserInfo')
+					i.icon-cog
+					span 我的信息
+		else
+			li.arr_index
+				a(href='/')
+					i.icon-home
+					span 首       页
+			li.arr_holiday
+				a(role='button', data-toggle='modal', data-target='#myModal', onClick="createCode()")
+					i.icon-edit
+					span 我的请假
+					i.icon-chevron-down
+				ul#sub.submenu
+					li
+						a#reqh(href='/holandUser') 申请假期
+					li
+						a#reql(href='/note/reqLatestState') 最新假期状态
+					li
+						a#reqa(href='/note/reqAllState') 过往假期状态
+			li.arr_examine
+				a(role='button', data-toggle='modal', data-target='#myModal', onClick="createCode()")
+					i.icon-th-large
+					span 我的审批
+			li.arr_calendar
+				a(role='button', data-toggle='modal', data-target='#myModal', onClick="createCode()")
+					i.icon-calendar-empty
+					span 我的打卡
+			li.arr_personal-info
+				a(role='button', data-toggle='modal', data-target='#myModal', onClick="createCode()")
+					i.icon-cog
+					span 我的信息
+
+
 // end sidebar
+
+
 // Modal
-#myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+#myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true', style='display:none;')
 	.modal-dialog
 		.modal-content
 			.modal-header
@@ -88,7 +123,8 @@ script(type="text/javascript").
 	code = "";
 	var codeLength = 4;//验证码的长度
 	var checkCode = document.getElementById("checkCode");
-	var selectChar = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');//所有候选组成验证码的字符，当然也可以用中文的
+	var selectChar = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L',
+	'M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');//所有候选组成验证码的字符，当然也可以用中文的
 	for(var i=0;i<codeLength;i++)
 	{
 	var charIndex = Math.floor(Math.random()*36);

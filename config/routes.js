@@ -17,8 +17,15 @@ module.exports = function(app){
   });
 
   //Index
+  //app.get('/', Index.index);
+
+  app.get('/holandUser', User.signinRequired, Index.holandUser);
+
+
+  //这里是什么意思？？
   // app.get('/', Index.index);
 	app.get('/', Note.IndexWithHolidayInfo);
+  
 	app.post('/queryOtherPersonHoliday', Note.IndexQueryOnePersonHolidayInfo); // Better to be get
   app.get('/holandUser', Index.holandUser);
 
@@ -26,12 +33,12 @@ module.exports = function(app){
 
 
   //User
-  app.post('/user/find', User.findOne);
+  app.post('/user/find', User.signinRequired,User.findOne);
 
 
-  app.get('/user/findUserInfo', User.findUserInfo);
+  app.get('/user/findUserInfo', User.signinRequired, User.findUserInfo);
 
-  app.post('/user/update', User.updateUserInfo);
+  app.post('/user/update', User.signinRequired, User.updateUserInfo);
 
 
   // in postman:
@@ -42,29 +49,35 @@ module.exports = function(app){
 
   //signin
   app.post('/user/signin', User.signin);
+
+
+  app.get('/user/logout', User.logout);
+
+
+
   //Role
   // {"role":{"roleName":"员工"}}
-  app.post('/role/new',Role.new);
+  app.post('/role/new', Role.new);
 
   //HolidayType
   // {"holidayType":{"holidayName":"年假","holidayLength":5}}
   app.post('/holidaytype/new', HolidayType.new);
 
   // {"note":{"userObject":"5849349cf210182bbc28713b","htObject":"584938c2f210182bbc287143","timelength":3}}
-  app.post('/note/new', Note.new);
+  app.post('/note/new', User.signinRequired, Note.new);
 
-  app.get('/notes/manager', Note.findManagerCanHandleNotes);
+  app.get('/notes/manager', User.signinRequired, Note.findManagerCanHandleNotes);
 
   // {"noteId":"58493eabd5d47f3948fe85ba","approved":true}, managerId can be found from session
-  app.post('/notes/manager', Note.updateStateByManager);
+  app.post('/notes/manager', User.signinRequired, Note.updateStateByManager);
 
   //app.post('/user/reqHoliday',Note.reqHoliday);
 
   //最新假期状态
-  app.get('/note/reqLatestState', Note.reqLatestState);
+  app.get('/note/reqLatestState', User.signinRequired ,Note.reqLatestState);
 
   //过往假期状态
-  app.get('/note/reqAllState', Note.reqAllState);
+  app.get('/note/reqAllState', User.signinRequired, Note.reqAllState);
 
 
 
@@ -73,9 +86,7 @@ module.exports = function(app){
   app.get('/page/:pageName', function (req, res) {
     var pageName = req.params.pageName;
     res.render(pageName, { title: 'Hey', message: 'Hello there!'});
-  });
-
-  // 测试函数，替换想要测试的数据库操作函数即可
+    
   // app.get('/test/note', Note.test);
   app.get('/test/index', Index.test);
 

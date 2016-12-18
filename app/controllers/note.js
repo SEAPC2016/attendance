@@ -100,8 +100,9 @@ exports.new = function(req, res){
 
 //最新假期状态
 exports.reqLatestState = function(req, res){
-    //var userId = req.session.user;
-    var id = '584aab9f23ac5520a7cf0947';
+    var _user = req.session.user;
+    var userId = _user._id;
+    //var userId = '584aab9f23ac5520a7cf0947';
     debug('userId : ' + userId);
     Note
       .find({})
@@ -114,14 +115,18 @@ exports.reqLatestState = function(req, res){
             note.start = Moment(note.startTime).format('YYYY-MM-DD,a');
             Role
               .find({'_id': user.userRole})
+              //.find({'_id': '584aab46b4f2d71f8a186278'})
               .exec(function(err, role){
                 if(err){
                   console.log(err);
                 }else{
+              //    var user = new User();
+              //    user.userName = "COll";
                   res.render('reqLatestState', {
                     itle: "请假状态页",
                     note: note,
-                    user: user
+                //    user: user,
+                    role: role
                   });
                   debug('Query note succeeded');
                 }
@@ -132,8 +137,9 @@ exports.reqLatestState = function(req, res){
 
 //过往假期状态
 exports.reqAllState = function(req, res){
-    //var userId = req.session.user._id;
-    var userId = '584aab9f23ac5520a7cf0947';
+    var _user = req.session.user;
+    var userId = _user._id;
+    //var userId = '584aab9f23ac5520a7cf0947';
     var year = Moment().year();
     console.log(year);
     Note
@@ -181,16 +187,17 @@ function _findNotesByManagerId(managerId){
 exports.findManagerCanHandleNotes = function (req, res, next){
   debugRequest(req);
   //从session 中
-  // var managerId = req.session.user._id;
-  var managerId = '584fb58932682f19ccade5e8'; // Just for test
+  var _user = req.session.user;
+  var managerId = _user._id;
+  //var managerId = '584fb58932682f19ccade5e8'; // Just for test
 
   _findNotesByManagerId(managerId)
   .then(function(notes){
     debug('Find all notes by manager preState, notes.length:' + notes.length);
     // return res.send(notes);
     res.render('examine', {
-          title: "待审核假期",
-          notes: notes
+        title: "待审核假期",
+        notes: notes
     });
   })
   .catch(next);
@@ -225,8 +232,9 @@ function _updateStateByManager(managerId, note, approved){ // this way of `res` 
 exports.updateStateByManager = function (req, res, next){
   debugRequest(req);
   //从session 中获取
-  //var managerId = req.session.user._id;
-  var managerId = '584fb58932682f19ccade5e8'; // Just for test
+  var _user = req.session.user;
+  var managerId = _user._id;
+  //var managerId = '584fb58932682f19ccade5e8'; // Just for test
 
   var noteId = req.body.noteId;
   var approvedStr = req.body.approved; // seems cannot get boolean from ajax, but can from postman
@@ -293,7 +301,6 @@ function judgeUserHolidayInfoByUserId(userId){
 
 exports.test2 = function (req, res, next) {
 	var userId = '584e1f5d125e0f2bc260a6f4';
-	
 	judgeUserHolidayInfoByUserId(userId)
 	.then(function(results){
 		res.send(results);
@@ -324,7 +331,6 @@ function renderIndexHolidayInfoByUsers(users){
 				if(userHolidayInfo[2] === true) {
 					usersInHoliday.push(users[idx]);
 				}
-				
 				if(idx == allresults.length - 1){
 					var dataToSend = {
 						title : 'index',

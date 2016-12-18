@@ -89,11 +89,13 @@ block content
 											.field-box
 												label 状    态:
 												input.span8.inline-input(type='text', readonly='readonly', value='您的假期申请已被总经理审批哦(๑•ᴗ•๑)')
+											input(type='hidden', value='#{curState}', id="state")
 						.wizard-actions
 							button.btn-glow.primary.btn-prev(type='button', disabled='')
 								| 撤销申请
 							button.btn-glow.primary.btn-next(type='button', disabled='')
 								| 结束假期
+						
 	// end main container
 	// scripts for this page
 	script(src='http://code.jquery.com/jquery-latest.js')
@@ -101,42 +103,42 @@ block content
 	script(src='/js/theme.js')
 	script(src='/js/fuelux.wizard.js')
 	script(type='text/javascript').
-		var stat = 4;
+		var stat = $("#state").val();
+		//alert(stat);
 		var pathname = window.location.pathname;
 		$(function () {
 			//- var j = this.$element.find("li");
 			//- j.removeClass("active");
-			switch(stat){
-				case 1:
+			if(stat == 1){
 					$('.wizard-steps li:eq(0)').addClass("active");
 					$('#step1').addClass("active");
 					$('.btn-prev').removeAttr("disabled");
-					break;
-				case 2:
+			}else if(stat == 10){
 					$('.wizard-steps li:eq(0)').addClass("active");
 					$('.wizard-steps li:eq(1)').addClass("active");
 					$('#step2').addClass("active");
 					$('.btn-prev').removeAttr("disabled");
-					break;
-				case 3:
+			}else if(stat == 20){
 					$('.wizard-steps li:eq(0)').addClass("active");
 					$('.wizard-steps li:eq(1)').addClass("active");
 					$('.wizard-steps li:eq(2)').addClass("active");
 					$('#step3').addClass("active");
 					$('.btn-prev').removeAttr("disabled");
-					break;
-				case 4:
+			}else if(stat == 30){
 					$('.wizard-steps li:eq(0)').addClass("active");
 					$('.wizard-steps li:eq(1)').addClass("active");
 					$('.wizard-steps li:eq(2)').addClass("active");
 					$('.wizard-steps li:eq(3)').addClass("active");
 					$('#step4').addClass("active");
 					$('.btn-next').removeAttr("disabled");
-					break;
-				default:
-					break;
-			};
+			}else{
+					$('.wizard-steps li:eq(0)').addClass("active");
+					$('.wizard-steps li:eq(1)').addClass("active");
+					$('.wizard-steps li:eq(2)').addClass("active");
+					$('.wizard-steps li:eq(3)').addClass("active");
+					$('#step4').addClass("active");
+					$('.btn-next').removeAttr("disabled");
+			}
 			$('.arr_holiday').addClass("active");
 			$('.arr_holiday').append("<div class='pointer'><div class='arrow'></div><div class='arrow_border'></div></div>");
-
 		});

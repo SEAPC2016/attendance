@@ -87,7 +87,8 @@ exports.new = function(req, res){
 
                res.render('reqLatestState', {
                       title: "请假状态页",
-                      note: note
+                      curState: note[0].curState,
+                      roleName : user.userRole.roleName
                });
                debug('Create new note succeeded');
                //res.send(note);
@@ -123,9 +124,11 @@ exports.reqLatestState = function(req, res){
               //    var user = new User();
               //    user.userName = "COll";
                 console.log(_role[0].roleName);
+                console.log(note);
                   res.render('reqLatestState', {
                     title: "请假状态页",
-                    roleName: _role[0].roleName
+                    curState: note[0].curState,
+                    roleName: _role[0].roleName,
                   });
                   debug('Query note succeeded');
                 }

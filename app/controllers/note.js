@@ -310,11 +310,10 @@ function renderIndexHolidayInfoByUsers(users){
 				return judgeUserHolidayInfoByUserId(user._id);
 		}))
 		.then(function(allresults){
-			debug('judgeUserHolidayInfoByUserId: ' + allresults);
+			debug('judgeUserHolidayInfoByUserId, length: ' + allresults.length);
 			var usersInHoliday = [], usersAtWwork = [], usersAlreadyApprovedButNotStart = [];
 			// res.send(allresults);
 			for(idx = 0; idx < allresults.length; idx++){
-				debug('inside the loop, now i: ' + idx);
 				var userHolidayInfo = allresults[idx];
 				if(userHolidayInfo[0] === true) {
 					usersAtWwork.push(users[idx]);
@@ -348,7 +347,7 @@ exports.IndexQueryOnePersonHolidayInfo = function (req, res, next) {
 	// var userName = 'a12345';
 	User.findLikeUserName(userName) // 模糊查询
 	.then(function(users){
-		debug('Got users by name:%s, users:%s', userName, users);
+		debug('Got users by name like :%s, users:%s', userName, users);
 		if(users.length === 0) {
 			res.render('index', {title:'index', usersAtWwork:emptyWhenNoSuchUser, usersInHoliday:emptyWhenNoSuchUser, usersAlreadyApprovedButNotStart:emptyWhenNoSuchUser});
 		}

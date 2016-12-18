@@ -177,15 +177,6 @@ function _findNotesByManagerId(managerId){
     });
 }
 
-exports.test = function(req, res, next){
-  debugRequest(req);
-  var managerId = '5853946d2e5baac361a430c4';
-  _findNotesByManagerId(managerId)
-  .then(function(notes){
-    res.send(notes);
-  });
-};
-
 
 exports.findManagerCanHandleNotes = function (req, res, next){
   debugRequest(req);
@@ -275,4 +266,108 @@ exports.updateStateByManager = function (req, res, next){
     });
   })
   .catch(next);
+};
+
+
+
+function judgeUserHolidayInfoByUserId(userId){
+	return new Promise (function(resolve) {
+		debug('now user id: ' + userId);
+		var userHolidayInfo = [true, false, false]; // at work, approvedButNotStart, inHoliday
+		var approvedButNotStart = Note.fetchAlreadyApprovedButNotStartByUserId(userId);
+		var inHoliday = Note.fetchInHolidayByUserId(userId);
+		Promise.all([approvedButNotStart, inHoliday])
+		.then(function(notes){
+			if(notes[0].length > 0) { // approvedButNotStart, so still at work
+				userHolidayInfo[1] = true;
+			}
+			if(notes[1].length > 0) { // in holiday, not at work
+				userHolidayInfo[2] = true;
+				userHolidayInfo[0] = false;
+			}
+			resolve(userHolidayInfo);
+		});
+	});
+}
+
+
+exports.test2 = function (req, res, next) {
+	var userId = '584e1f5d125e0f2bc260a6f4';
+	
+	judgeUserHolidayInfoByUserId(userId)
+	.then(function(results){
+		res.send(results);
+	})
+	.catch(next);
+};
+
+
+
+
+function renderIndexHolidayInfoByUsers(users){
+	return new Promise (function (resolve){
+		return Promise.all(users.map(function (user) {
+				return judgeUserHolidayInfoByUserId(user._id);
+		}))
+		.then(function(allresults){
+			debug('judgeUserHolidayInfoByUserId, length: ' + allresults.length);
+			var usersInHoliday = [], usersAtWwork = [], usersAlreadyApprovedButNotStart = [];
+			// res.send(allresults);
+			for(idx = 0; idx < allresults.length; idx++){
+				var userHolidayInfo = allresults[idx];
+				if(userHolidayInfo[0] === true) {
+					usersAtWwork.push(users[idx]);
+				}
+				if(userHolidayInfo[1] === true) {
+					usersAlreadyApprovedButNotStart.push(users[idx]);
+				}
+				if(userHolidayInfo[2] === true) {
+					usersInHoliday.push(users[idx]);
+				}
+				
+				if(idx == allresults.length - 1){
+					var dataToSend = {
+						title : 'index',
+						usersAtWwork : usersAtWwork,
+						usersInHoliday : usersInHoliday,
+						usersAlreadyApprovedButNotStart : usersAlreadyApprovedButNotStart
+					};
+					resolve(dataToSend);
+				}
+			}
+		});
+	});
+}
+
+
+exports.IndexQueryOnePersonHolidayInfo = function (req, res, next) {
+	debugRequest(req);
+	var userName = req.body.otherPersonName;
+	var emptyWhenNoSuchUser = [];
+	// var userName = 'a12345';
+	User.findLikeUserName(userName) // 模糊查询
+	.then(function(users){
+		debug('Got users by name like :%s, users:%s', userName, users);
+		if(users.length === 0) {
+			res.render('index', {title:'index', usersAtWwork:emptyWhenNoSuchUser, usersInHoliday:emptyWhenNoSuchUser, usersAlreadyApprovedButNotStart:emptyWhenNoSuchUser});
+		}
+		return renderIndexHolidayInfoByUsers(users)
+					.then(function(dataToSend){
+						res.render('index', {title:'index', usersAtWwork:dataToSend.usersAtWwork, usersInHoliday:dataToSend.usersInHoliday, usersAlreadyApprovedButNotStart:dataToSend.usersAlreadyApprovedButNotStart});
+					});
+	})
+	.catch(next);
+};
+
+exports.IndexWithHolidayInfo = function (req, res, next) {
+	User.fetch()
+	.then(function(users){
+		debug('Fetch all users, length:%s', users.length);
+		return renderIndexHolidayInfoByUsers(users)
+					.then(function(dataToSend){
+						res.render('index', {title:'index', usersAtWwork:dataToSend.usersAtWwork, usersInHoliday:dataToSend.usersInHoliday, usersAlreadyApprovedButNotStart:dataToSend.usersAlreadyApprovedButNotStart});
+					});
+	})
+	.catch(next);
+
 };

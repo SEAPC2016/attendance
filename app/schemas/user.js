@@ -82,7 +82,15 @@ UserSchema.statics = {
       .find({_id: id})
       .findOne({_id: id}).populate('userRole')
       .exec(cb);
-  }
+  },
+	
+	findLikeUserName: function(userName, cb) {
+		return this
+				// .find({'userName': new RegExp('.*'+userName+'.*')})
+				.find({'userName': new RegExp(userName, "i")})
+				.sort('meta.updateAt')
+				.exec(cb);
+	}
 };
 
 

@@ -8,13 +8,15 @@ block content
 				.row-fluid.header
 					h3 公司状态
 					.span6.pull-right
-						input.span8.search(type='text', placeholder="Type a user's name...")
-						// custom popup filter
-						// styles are located in css/elements.css
-						// script that enables this dropdown is located in js/theme.js
-						a.btn-flat.success.pull-right(href='#')
-							span +
-							| 	                            Search
+						form#queryOtherPersonHoliday(action="/queryOtherPersonHoliday", method="post")
+							// - action="/queryOtherPersonHoliday" method="post"
+							input.span8.search(type='text', placeholder="Type a user's name...", name='otherPersonName')
+							// custom popup filter
+							// styles are located in css/elements.css
+							// script that enables this dropdown is located in js/theme.js
+							a.btn-flat.success.pull-right(type='button', onclick="queryOtherPersonHoliday('#queryOtherPersonHoliday')")
+								span +
+								| 	                            Search
 				// Users table
 				.row-fluid.table
 					table.table.table-hover.span6
@@ -26,7 +28,7 @@ block content
 										span.line
 										| 状态
 							tbody
-								each user in usersAtWwork
+								each user in usersInHoliday
 									// row
 									tr.first
 										td
@@ -36,7 +38,7 @@ block content
 											| &nbsp &nbsp
 											a.name(href='user-profile.html') #{user.userName}
 										td
-											| 正常上班
+											| 假期中
 					table.table.table-hover.span6
 						thead
 							tr
@@ -46,7 +48,7 @@ block content
 									span.line
 									| 状态
 						tbody
-							each user in usersInHoliday
+							each user in  usersAlreadyApprovedButNotStart
 								// row
 								tr.first
 									td
@@ -55,8 +57,8 @@ block content
 										| &nbsp &nbsp
 										a.name(href='user-profile.html') #{user.userName}
 									td
-										| 假期中
-										
+										|  即将离开
+				.row-fluid.table
 					table.table.table-hover.span6
 						thead
 							tr
@@ -66,7 +68,7 @@ block content
 									span.line
 									| 状态
 						tbody
-							each user in usersAlreadyApprovedButNotStart
+							each user in usersAtWwork
 								// row
 								tr.first
 									td
@@ -75,7 +77,7 @@ block content
 										| &nbsp &nbsp
 										a.name(href='user-profile.html') #{user.userName}
 									td
-										| 即将离开
+										|  正常上班
 							
 				// end users table
 	// end main container
@@ -95,6 +97,12 @@ block content
 			$('.arr_index').addClass("active");
 			$('.arr_index').append("<div class='pointer'><div class='arrow'></div><div class='arrow_border'></div></div>");
 		});
+		
+		function queryOtherPersonHoliday(formName){
+			var frm = $(formName);
+			console.log('data:', JSON.stringify(frm.serialize()));
+			frm.submit();
+		}
 
 	//- div(style='display:none')
 	//- 	script(src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540', language='JavaScript', charset='gb2312')

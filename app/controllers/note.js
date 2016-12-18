@@ -177,15 +177,6 @@ function _findNotesByManagerId(managerId){
     });
 }
 
-exports.test = function(req, res, next){
-  debugRequest(req);
-  var managerId = '5853946d2e5baac361a430c4';
-  _findNotesByManagerId(managerId)
-  .then(function(notes){
-    res.send(notes);
-  });
-};
-
 
 exports.findManagerCanHandleNotes = function (req, res, next){
   debugRequest(req);
@@ -278,40 +269,6 @@ exports.updateStateByManager = function (req, res, next){
 };
 
 
-function getUserIdsInvolvedInHoliday(){
-	return new Promise(function(resolve) {
-		var userIdsInvolvedInHoliday = new Map(); // userId -> [1,2,3]. 1:usersInHoliday, 2:usersAlreadyApprovedButNotStart, 3:usersForgetToReportBack
-				
-		Note.fetchByStateWithoutPopulate(-1) // -1 means note was approved
-		.then(function(notes){
-			debug('Get notes by state -1, length:', notes.length);
-			var now = Moment();
-			notes.forEach(function(note, index){
-				var timeLength = note.timeLength;
-				var startTime = Moment(note.startTime);
-				
-				var _startTime = Moment(note.startTime);
-				var endTime = startTime.add(timeLength, 'days');
-				
-				if(now.diff(endTime) > 0){ // time ends but state is still -1, forget to report back from leave
-					userIdsInvolvedInHoliday.set(note.user, 3);
-				}
-				else if (now.diff(startTime) > 0) { // now <-> [startTime, endTime], in holiday
-					userIdsInvolvedInHoliday.set(note.user, 1);
-				}
-				else { // now < startTime, have not start
-					userIdsInvolvedInHoliday.set(note.user, 2);
-				}
-			});
-			
-			resolve(userIdsInvolvedInHoliday);
-			
-		}); // then
-		
-	}); // promise
-}
-
-
 
 function judgeUserHolidayInfoByUserId(userId){
 	return new Promise (function(resolve) {
@@ -345,39 +302,72 @@ exports.test2 = function (req, res, next) {
 };
 
 
-exports.test = function (req, res, next) {
-	var usersInHoliday = [], usersAtWwork = [], usersAlreadyApprovedButNotStart = []; //, usersForgetToReportBack = [];
-	
-	User.fetch()
-	.then(function(users){
+
+
+function renderIndexHolidayInfoByUsers(users){
+	return new Promise (function (resolve){
 		return Promise.all(users.map(function (user) {
 				return judgeUserHolidayInfoByUserId(user._id);
-    }))
+		}))
 		.then(function(allresults){
+			debug('judgeUserHolidayInfoByUserId: ' + allresults);
+			var usersInHoliday = [], usersAtWwork = [], usersAlreadyApprovedButNotStart = [];
 			// res.send(allresults);
-			
-			users.forEach(function(user, index){
-				var userHolidayInfo = allresults[index];
+			for(idx = 0; idx < allresults.length; idx++){
+				debug('inside the loop, now i: ' + idx);
+				var userHolidayInfo = allresults[idx];
 				if(userHolidayInfo[0] === true) {
-					usersAtWwork.push(user);
+					usersAtWwork.push(users[idx]);
 				}
 				if(userHolidayInfo[1] === true) {
-					usersAlreadyApprovedButNotStart.push(user);
+					usersAlreadyApprovedButNotStart.push(users[idx]);
 				}
 				if(userHolidayInfo[2] === true) {
-					usersInHoliday.push(user);
+					usersInHoliday.push(users[idx]);
 				}
-			});
-			
-			var dataToSend = {
-				title : 'index',
-				usersAtWwork : usersAtWwork,
-				usersInHoliday : usersInHoliday,
-				usersAlreadyApprovedButNotStart : usersAlreadyApprovedButNotStart
-			};
-			// res.send(dataToSend);
-			res.render('index', {title:'index', usersAtWwork:usersAtWwork, usersInHoliday:usersInHoliday, usersAlreadyApprovedButNotStart:usersAlreadyApprovedButNotStart});
+				
+				if(idx == allresults.length - 1){
+					var dataToSend = {
+						title : 'index',
+						usersAtWwork : usersAtWwork,
+						usersInHoliday : usersInHoliday,
+						usersAlreadyApprovedButNotStart : usersAlreadyApprovedButNotStart
+					};
+					resolve(dataToSend);
+				}
+			}
 		});
+	});
+}
+
+
+exports.IndexQueryOnePersonHolidayInfo = function (req, res, next) {
+	debugRequest(req);
+	var userName = req.body.otherPersonName;
+	var emptyWhenNoSuchUser = [];
+	// var userName = 'a12345';
+	User.findLikeUserName(userName) // 模糊查询
+	.then(function(users){
+		debug('Got users by name:%s, users:%s', userName, users);
+		if(users.length === 0) {
+			res.render('index', {title:'index', usersAtWwork:emptyWhenNoSuchUser, usersInHoliday:emptyWhenNoSuchUser, usersAlreadyApprovedButNotStart:emptyWhenNoSuchUser});
+		}
+		return renderIndexHolidayInfoByUsers(users)
+					.then(function(dataToSend){
+						res.render('index', {title:'index', usersAtWwork:dataToSend.usersAtWwork, usersInHoliday:dataToSend.usersInHoliday, usersAlreadyApprovedButNotStart:dataToSend.usersAlreadyApprovedButNotStart});
+					});
+	})
+	.catch(next);
+};
+
+exports.IndexWithHolidayInfo = function (req, res, next) {
+	User.fetch()
+	.then(function(users){
+		debug('Fetch all users, length:%s', users.length);
+		return renderIndexHolidayInfoByUsers(users)
+					.then(function(dataToSend){
+						res.render('index', {title:'index', usersAtWwork:dataToSend.usersAtWwork, usersInHoliday:dataToSend.usersInHoliday, usersAlreadyApprovedButNotStart:dataToSend.usersAlreadyApprovedButNotStart});
+					});
 	})
 	.catch(next);
 

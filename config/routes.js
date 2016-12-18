@@ -17,8 +17,9 @@ module.exports = function(app){
   });
 
   //Index
-  app.get('/', Index.index);
-
+  // app.get('/', Index.index);
+	app.get('/', Note.IndexWithHolidayInfo);
+	app.post('/queryOtherPersonHoliday', Note.IndexQueryOnePersonHolidayInfo); // Better to be get
   app.get('/holandUser', Index.holandUser);
 
   //admin
@@ -75,7 +76,7 @@ module.exports = function(app){
   });
 
   // 测试函数，替换想要测试的数据库操作函数即可
-  app.get('/test/note', Note.test);
+  // app.get('/test/note', Note.test);
   app.get('/test/index', Index.test);
 
 

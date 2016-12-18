@@ -65,15 +65,22 @@ NoteSchema.statics = {
             .find({curState : state}).populate('user').populate('holidayType')
             .sort("meta.updateAt")
             .exec(cb);
-  },
-	
-	// 根据时间取出多条数据
-	fetchEndtimeGreaterThanNow: function(cb){
+  },	
+	// 已申请成功但未开始假期
+	fetchAlreadyApprovedButNotStartByUserId: function(userId, cb) {
 		return this.
-					find({})
-					.lte('startTime',Data.now())
-					.sort("meta.updateAt")
-					.exec(cb);
+						find({curState : -1, user: userId})
+						.gt("startTime", Date.now())
+						.sort("meta.updateAt")
+						.exec(cb);
+	},
+	// 已申请成功且正在进行假期
+	fetchInHolidayByUserId: function(userId, cb) {
+		return this.
+						find({curState : -1, user: userId})
+						.lte("startTime", Date.now())
+						.sort("meta.updateAt")
+						.exec(cb);
 	}
 };
   //实例方法

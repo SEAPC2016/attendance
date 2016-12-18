@@ -278,11 +278,107 @@ exports.updateStateByManager = function (req, res, next){
 };
 
 
-exports.test = function (req, res, next) {
-	fetchEndtimeGreaterThanNow()
-	.then(function(notes){
-		debug('Get notes by dates:', notes);
-		res.send(notes);
+function getUserIdsInvolvedInHoliday(){
+	return new Promise(function(resolve) {
+		var userIdsInvolvedInHoliday = new Map(); // userId -> [1,2,3]. 1:usersInHoliday, 2:usersAlreadyApprovedButNotStart, 3:usersForgetToReportBack
+				
+		Note.fetchByStateWithoutPopulate(-1) // -1 means note was approved
+		.then(function(notes){
+			debug('Get notes by state -1, length:', notes.length);
+			var now = Moment();
+			notes.forEach(function(note, index){
+				var timeLength = note.timeLength;
+				var startTime = Moment(note.startTime);
+				
+				var _startTime = Moment(note.startTime);
+				var endTime = startTime.add(timeLength, 'days');
+				
+				if(now.diff(endTime) > 0){ // time ends but state is still -1, forget to report back from leave
+					userIdsInvolvedInHoliday.set(note.user, 3);
+				}
+				else if (now.diff(startTime) > 0) { // now <-> [startTime, endTime], in holiday
+					userIdsInvolvedInHoliday.set(note.user, 1);
+				}
+				else { // now < startTime, have not start
+					userIdsInvolvedInHoliday.set(note.user, 2);
+				}
+			});
+			
+			resolve(userIdsInvolvedInHoliday);
+			
+		}); // then
+		
+	}); // promise
+}
+
+
+
+function judgeUserHolidayInfoByUserId(userId){
+	return new Promise (function(resolve) {
+		debug('now user id: ' + userId);
+		var userHolidayInfo = [true, false, false]; // at work, approvedButNotStart, inHoliday
+		var approvedButNotStart = Note.fetchAlreadyApprovedButNotStartByUserId(userId);
+		var inHoliday = Note.fetchInHolidayByUserId(userId);
+		Promise.all([approvedButNotStart, inHoliday])
+		.then(function(notes){
+			if(notes[0].length > 0) { // approvedButNotStart, so still at work
+				userHolidayInfo[1] = true;
+			}
+			if(notes[1].length > 0) { // in holiday, not at work
+				userHolidayInfo[2] = true;
+				userHolidayInfo[0] = false;
+			}
+			resolve(userHolidayInfo);
+		});
+	});
+}
+
+
+exports.test2 = function (req, res, next) {
+	var userId = '584e1f5d125e0f2bc260a6f4';
+	
+	judgeUserHolidayInfoByUserId(userId)
+	.then(function(results){
+		res.send(results);
 	})
 	.catch(next);
+};
+
+
+exports.test = function (req, res, next) {
+	var usersInHoliday = [], usersAtWwork = [], usersAlreadyApprovedButNotStart = []; //, usersForgetToReportBack = [];
+	
+	User.fetch()
+	.then(function(users){
+		return Promise.all(users.map(function (user) {
+				return judgeUserHolidayInfoByUserId(user._id);
+    }))
+		.then(function(allresults){
+			// res.send(allresults);
+			
+			users.forEach(function(user, index){
+				var userHolidayInfo = allresults[index];
+				if(userHolidayInfo[0] === true) {
+					usersAtWwork.push(user);
+				}
+				if(userHolidayInfo[1] === true) {
+					usersAlreadyApprovedButNotStart.push(user);
+				}
+				if(userHolidayInfo[2] === true) {
+					usersInHoliday.push(user);
+				}
+			});
+			
+			var dataToSend = {
+				title : 'index',
+				usersAtWwork : usersAtWwork,
+				usersInHoliday : usersInHoliday,
+				usersAlreadyApprovedButNotStart : usersAlreadyApprovedButNotStart
+			};
+			// res.send(dataToSend);
+			res.render('index', {title:'index', usersAtWwork:usersAtWwork, usersInHoliday:usersInHoliday, usersAlreadyApprovedButNotStart:usersAlreadyApprovedButNotStart});
+		});
+	})
+	.catch(next);
+
 };

@@ -26,7 +26,7 @@ block content
 										span.line
 										| 状态
 							tbody
-								each user in users_at_work
+								each user in usersAtWwork
 									// row
 									tr.first
 										td
@@ -36,7 +36,7 @@ block content
 											| &nbsp &nbsp
 											a.name(href='user-profile.html') #{user.userName}
 										td
-											| 上班
+											| 正常上班
 					table.table.table-hover.span6
 						thead
 							tr
@@ -46,16 +46,36 @@ block content
 									span.line
 									| 状态
 						tbody
-							each user in users_at_holiday
+							each user in usersInHoliday
 								// row
 								tr.first
 									td
 										img.img-circle.avatar.hidden-phone(src='/img/contact-img.png')
-										span.subtext Graphic Design
+										span.subtext Graphic Design &nbsp #{user.userDepartment}
 										| &nbsp &nbsp
-										a.name(href='user-profile.html') Alejandra Galvan Castillo
+										a.name(href='user-profile.html') #{user.userName}
 									td
-										| 请假
+										| 假期中
+										
+					table.table.table-hover.span6
+						thead
+							tr
+								th.span8.sortable
+									| 姓名
+								th.span4.sortable
+									span.line
+									| 状态
+						tbody
+							each user in usersAlreadyApprovedButNotStart
+								// row
+								tr.first
+									td
+										img.img-circle.avatar.hidden-phone(src='/img/contact-img.png')
+										span.subtext Graphic Design &nbsp #{user.userDepartment}
+										| &nbsp &nbsp
+										a.name(href='user-profile.html') #{user.userName}
+									td
+										| 即将离开
 							
 				// end users table
 	// end main container

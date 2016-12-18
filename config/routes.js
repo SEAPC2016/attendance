@@ -25,7 +25,7 @@ module.exports = function(app){
   //这里是什么意思？？
   // app.get('/', Index.index);
 	app.get('/', Note.IndexWithHolidayInfo);
-  
+
 	app.post('/queryOtherPersonHoliday', Note.IndexQueryOnePersonHolidayInfo); // Better to be get
   app.get('/holandUser', Index.holandUser);
 
@@ -80,13 +80,18 @@ module.exports = function(app){
   app.get('/note/reqAllState', User.signinRequired, Note.reqAllState);
 
 
-
+  //Record
+  app.get('/user/calendar', User.signinRequired, function(req, res){
+    res.render('calendar' ,{
+        title: '上班记录'
+    });
+  });
 
   // 测试页面效果
   app.get('/page/:pageName', function (req, res) {
     var pageName = req.params.pageName;
     res.render(pageName, { title: 'Hey', message: 'Hello there!'});
-    
+  });
   // app.get('/test/note', Note.test);
   app.get('/test/index', Index.test);
 

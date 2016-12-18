@@ -17,9 +17,15 @@ module.exports = function(app){
   });
 
   //Index
-  app.get('/', Index.index);
+  //app.get('/', Index.index);
 
   app.get('/holandUser', User.signinRequired, Index.holandUser);
+
+
+  //这里是什么意思？？
+  // app.get('/', Index.index);
+	app.get('/',  Note.IndexWithHolidayInfo);
+	app.post('/queryOtherPersonHoliday', User.signinRequired, Note.IndexQueryOnePersonHolidayInfo); // Better to be get
 
   //admin
 
@@ -79,24 +85,9 @@ module.exports = function(app){
     var pageName = req.params.pageName;
     res.render(pageName, { title: 'Hey', message: 'Hello there!'});
   });
-
-  app.get('/test/personal-info', function (req, res) {
-    var user = {
-        "_id": "584aab9f23ac5520a7cf0947",
-        "userRole": "584aab46b4f2d71f8a186278",
-        "userPwd": "$2a$10$HVl5Bm1HpPjoeCegwaC/Wez6kH8R/lg.gQlqzXiyvDx2KpwzYLTky",
-        "userName": "Bruce"
-    };
-    var data = { title: 'test/personal-info', user: user, alreadyLogin:true};
-    res.render('personal-info', data);
-    // res.render('test_jade');
-    // res.status(200).json(data);
-    // res.send(data);
-  });
-
-
-  // 测试函数，替换想要测试的数据库操作函数即可
-  app.get('/test/db', Note.test);
+   // 测试函数，替换想要测试的数据库操作函数即可
+  // app.get('/test/note', Note.test);
+  app.get('/test/index', Index.test);
 
 
   // catch 404 and forward to error handler

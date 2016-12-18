@@ -13,6 +13,15 @@ exports.index = function(req, res, next) {
     });
 };
 
+exports.test = function(req, res, next) {
+	User.fetch()
+	.then(function(users){
+		console.log('Get all users from db, users length: ' + users.length);
+		// res.send(users);
+		res.render('index', { title: 'index', users_at_work:users, users_at_holiday:users });
+	})
+	.catch(next);
+};
 
 // HolidayType Holiday And User Info
 exports.holandUser = function(req, res, next){

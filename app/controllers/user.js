@@ -55,10 +55,11 @@ function getUserInfoCombined(userWithAllInfo) {
 // personal-info page
 exports.findUserInfo = function(req, res, next){
   debugRequest(req);
-
+  var _user = req.session.user;
+  var id = _user._id;
   //从session 中获取
   //var id = req.session.user._id;
-  var id = '584aab9f23ac5520a7cf0947';
+  //var id = '584aab9f23ac5520a7cf0947';
   console.log('Get userId from session: ', id);
 
   User.findById(id)
@@ -78,10 +79,11 @@ exports.findUserInfo = function(req, res, next){
 // personal-info update
 exports.updateUserInfo = function(req, res, next){
   debugRequest(req);
-
+  var _user = req.session.user;
+  var id = _user._id;
   //从session 中获取
   //var id = req.session.user._id;
-  var id = '584aab9f23ac5520a7cf0947';
+  //var id = '584aab9f23ac5520a7cf0947';
   console.log('Get userId from session: ', id);
 
   var conditions = {_id : id};

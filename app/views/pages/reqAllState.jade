@@ -43,16 +43,21 @@ block content
 												span.label.label-success 已注销
 										td.align-right
 											a(target="_blank",href="/note/noteInfo/#{item._id}") 点击查看详情
-				ul.pagination
-					- for(var i = 0; i < totalPage; i++){
-						- if(currentPage == (i+1)){
-								li.active
-									span #{currentPage}
-						- }else{
-								li
-									a(href='/note/reqAllState?p=#{i}') #{i+1}
+				.pagination.pull-right
+					ul
+						li
+							a &#8249;
+						- for(var i = 0; i < totalPage; i++){
+							- if(currentPage == (i+1)){
+									li.active
+										a #{currentPage}
+							- }else{
+									li
+										a(href='/note/reqAllState?p=#{i}') #{i+1}
+							- }
 						- }
-					- }		
+						li
+							a &#8250;		
 		// end users table
 	// end main container
 	// scripts

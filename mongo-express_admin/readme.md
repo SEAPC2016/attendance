@@ -9,7 +9,7 @@ A bypass, use npm install and config, the official website wrote it pretty clear
 
 ``` vi
 npm install mongo-express
-cp config.js node_modules/mongo-express
+cp config_aliyun.js node_modules/mongo-express/config.js
 npm start
 ```
 

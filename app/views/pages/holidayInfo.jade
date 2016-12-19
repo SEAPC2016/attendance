@@ -9,36 +9,33 @@ block content
 					form
 						.field-box
 							label 申请人:
-							input.span8(type='text', readonly='readonly', value='员工A')
+							input.span8(type='text', readonly='readonly', value='#{user.userName}')
 						.field-box
 							label 职    位:
-							input.span8(type='text', readonly='readonly', value='职位A')
-						.field-box
-							label 部    门:
-							input.span8(type='text', readonly='readonly', value='部门A')
+							input.span8(type='text', readonly='readonly', value='#{roleName}')
 						.field-box
 							label 请假类别:
-							input.span8(type='text', readonly='readonly', value='事假')
+							input.span8(type='text', readonly='readonly', value='#{holidayName}')
 						.field-box
 							label 开始时间:
-							input.span8(type='text', readonly='readonly', value='12/01/2016')
+							input.span8(type='text', readonly='readonly', value='#{note.start}')
 						.field-box
 							label 请假时长（天）:
-							input.span8(type='text', readonly='readonly', value='2')
+							input.span8(type='text', readonly='readonly', value='#{note.timeLength}')
 						.field-box
 							label 申请理由:
-							textarea.span8(rows='4', readonly='readonly', value='tadayima')
+							textarea.span8(rows='4', readonly='readonly', value='#{note.reason}')
 						.field-box
-							button.btn.btn-primary(type="button") 结束假期
+							a.btn.btn-primary(href='/note/destroy/#{note._id}') 结束假期
 							//a的href='/user/signin'
-	script(src='js/wysihtml5-0.3.0.js')
+	script(src='/js/wysihtml5-0.3.0.js')
 	script(src='http://code.jquery.com/jquery-latest.js')
-	script(src='js/bootstrap.min.js')
-	script(src='js/bootstrap-wysihtml5-0.0.2.js')
-	script(src='js/bootstrap.datepicker.js')
-	script(src='js/jquery.uniform.min.js')
-	script(src='js/select2.min.js')
-	script(src='js/theme.js')
+	script(src='/js/bootstrap.min.js')
+	script(src='/js/bootstrap-wysihtml5-0.0.2.js')
+	script(src='/js/bootstrap.datepicker.js')
+	script(src='/js/jquery.uniform.min.js')
+	script(src='/js/select2.min.js')
+	script(src='/js/theme.js')
 	script(type='text/javascript').
 		$(function () {
 			$('.arr_holiday').addClass("active");

@@ -36,29 +36,7 @@ exports.findOne = function(req, res){
     });
 };
 
-/*
-class Student {
-    constructor(userWithAllInfo) {
-      var user = userWithAllInfo;
-
-      this.userRealName = user.userRealName;
-      this.userName = user.userName;
-      this.userDepartment = user.userDepartment;
-      this.userEmail = user.userEmail;
-      this.userRoleName = user.userRole.roleName;
-    }
-}
-
-function getUserInfoCombined(userWithAllInfo) {
-  return new Promise(function(resolve) {
-
-    resolve(new Student(userWithAllInfo));
-  });
-
-}
-*/
-
-// personal-info page
+  // personal-info page
 exports.findUserInfo = function(req, res, next){
   debugRequest(req);
   var _user = req.session.user;

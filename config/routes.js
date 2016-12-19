@@ -80,8 +80,15 @@ module.exports = function(app){
   //最新假期状态
   app.get('/note/reqLatestState', User.signinRequired ,Note.reqLatestState);
 
+  
   //过往假期状态
   app.get('/note/reqAllState', User.signinRequired, Note.reqAllState);
+
+  //假期详情
+  app.get('/note/noteInfo/:id', User.signinRequired, Note.noteInfo);
+
+  //注销假期
+  app.get('/note/destroy/:id', User.signinRequired, Note.destroy);
 
 
   //Record   查询打卡记录
@@ -90,6 +97,7 @@ module.exports = function(app){
         title: '上班记录'
     });
   });
+
 
   // 测试页面效果
   app.get('/page/:pageName', function (req, res) {

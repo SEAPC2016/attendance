@@ -5,7 +5,7 @@ block content
 		.container-fluid
 			#pad-wrapper.users-list
 				.row-fluid.header
-					h3 User
+					h3 #{user.userName} 的过往假期
 				// Users table
 				.row-fluid.table
 					table.table.table-hover
@@ -27,20 +27,32 @@ block content
 									span.line
 									| 详情
 						tbody
-							each item in notes
-								tr(class="item-id-#{item._id}")
-									td 1
-									td 病假
-									td #{item.start}
-									td #{item.timeLength}
-									if(item.curState > 0)
-										td 
-											span.label.label-info 未注销
-									else 
-										td
-											span.label.label-success 已注销
-									td.align-right
-										a(target="_blank",href="/note/noteInfo/#{item._id}") 点击查看详情
+							- var lineNum = 0
+							if notes && notes.length > 0
+								each item in notes
+									tr(class="item-id-#{item._id}")
+										td #{++lineNum}
+										td #{item.holidayType.holidayName}
+										td #{item.start}
+										td #{item.timeLength}
+										if(item.curState > 0)
+											td 
+												span.label.label-info 未注销
+										else 
+											td
+												span.label.label-success 已注销
+										td.align-right
+											a(target="_blank",href="/note/noteInfo/#{item._id}") 点击查看详情
+				ul.pagination
+					- for(var i = 0; i < totalPage; i++){
+						- if(currentPage == (i+1)){
+								li.active
+									span #{currentPage}
+						- }else{
+								li
+									a(href='/note/reqAllState?p=#{i}') #{i+1}
+						- }
+					- }		
 		// end users table
 	// end main container
 	// scripts

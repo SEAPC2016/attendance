@@ -36,7 +36,8 @@ exports.findOne = function(req, res){
     });
 };
 
-  // personal-info page
+
+// personal-info page
 exports.findUserInfo = function(req, res, next){
   debugRequest(req);
   var _user = req.session.user;
@@ -195,7 +196,55 @@ exports.logout = function(req, res){
 
 //User中间件权限控制
 
+
+function mockSessionForTest(){
+  debug('WE ARE GOING TO MOCK A USER FOR TEST');
+  var userId = '58574da4b3c7c31c7c56c36d'; // this is a DM
+  return new Promise(function(resolve) {
+    User.findById(userId)
+    .then(function(user){
+      var mockSession = {};
+      mockSession.user = user;
+      mockSession._roleNum = user.userRole;
+      resolve(mockSession);
+    });
+  });
+}
+
+
+exports.signinRequired = function(req, res, next){
+  //signinRequired_test(req, res, next)
+  signinRequired_real(req, res, next);
+};
+
+
+//midware for test
+function signinRequired_test(req, res, next){
+  debug('WE ARE GOING TO MOCK A SINGIN');
+  mockSessionForTest()
+  .then(function(mockSession){
+    req.session.user = mockSession.user;
+    req.session._roleNum = mockSession.user.userRole;
+    var user = req.session.user;
+    if(!user){
+      return res.redirect('/');
+    }
+    next();
+  })
+  .catch(next);
+}
+
 //midware for user
+function signinRequired_real(req, res, next){
+  var user = req.session.user;
+  if(!user){
+    return res.redirect('/');
+  }
+  next();
+}
+
+//midware for user
+/*
 exports.signinRequired = function(req, res, next){
   var user = req.session.user;
   if(!user){
@@ -203,6 +252,7 @@ exports.signinRequired = function(req, res, next){
   }
   next();
 };
+*/
 
 //midware for admin
 exports.adminRequired = function(req, res, next){

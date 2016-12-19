@@ -36,14 +36,8 @@ block content
 										| 总经理 
 										br
 										|  已审批
-								li(data-target='#step4')
-									span.step 4
-									span.title
-										| 总经理 
-										br
-										|  已审批
 						.step-content
-							#step1.step-pane
+							#step1.step-pane.active
 								.row-fluid.form-wrapper
 									.span8
 										form
@@ -55,47 +49,8 @@ block content
 												input.span8.inline-input(type='text', readonly='readonly', value='#{roleName}')
 											.field-box
 												label 状    态:
-												input.span8.inline-input(type='text', readonly='readonly', value='您的假期申请已发送哦(๑•ᴗ•๑)')
-							#step2.step-pane
-								.row-fluid.form-wrapper
-									.span8
-										form
-											.field-box
-												label 申请人:
-												input.span8.inline-input(type='text', readonly='readonly', value='#{user.userName}')
-											.field-box
-												label 职    位:
-												input.span8.inline-input(type='text', readonly='readonly', value='#{roleName}')
-											.field-box
-												label 状    态:
-												input.span8.inline-input(type='text', readonly='readonly', value='您的假期申请已被部门经理审批哦(๑•ᴗ•๑)')
-							#step3.step-pane
-								.row-fluid.form-wrapper
-									.span8
-										form
-											.field-box
-												label 申请人:
-												input.span8.inline-input(type='text', readonly='readonly', value='#{user.userName}')
-											.field-box
-												label 职    位:
-												input.span8.inline-input(type='text', readonly='readonly', value='#{roleName}')
-											.field-box
-												label 状    态:
-												input.span8.inline-input(type='text', readonly='readonly', value='您的假期申请已被副总经理审批哦(๑•ᴗ•๑)')
-							#step4.step-pane
-								.row-fluid.form-wrapper.payment-info
-									.span8
-										form
-											.field-box
-												label 申请人:
-												input.span8.inline-input(type='text', readonly='readonly', value='#{user.userName}')
-											.field-box
-												label 职    位:
-												input.span8.inline-input(type='text', readonly='readonly', value='#{roleName}')
-											.field-box
-												label 状    态:
-												input.span8.inline-input(type='text', readonly='readonly', value='您的假期申请已被总经理审批哦(๑•ᴗ•๑)')
-											input(type='hidden', value='#{curState}', id="state")
+												input#tips.span8.inline-input(type='text', readonly='readonly')
+												input(type='hidden', value='#{curState}', id="state")
 						.wizard-actions
 							button.btn-glow.primary.btn-prev(type='button', disabled='')
 								| 撤销申请
@@ -110,40 +65,37 @@ block content
 	script(src='/js/fuelux.wizard.js')
 	script(type='text/javascript').
 		var stat = $("#state").val();
-		//alert(stat);
+		
 		$(function () {
-			//- var j = this.$element.find("li");
-			//- j.removeClass("active");
-	
-			if(stat == 1){
-					$('.wizard-steps li:eq(0)').addClass("active");
-					$('#step1').addClass("active");
-					$('.btn-prev').removeAttr("disabled");
-			}else if(stat == 10){
-					$('.wizard-steps li:eq(0)').addClass("active");
-					$('.wizard-steps li:eq(1)').addClass("active");
-					$('#step2').addClass("active");
-					$('.btn-prev').removeAttr("disabled");
-			}else if(stat == 20){
-					$('.wizard-steps li:eq(0)').addClass("active");
-					$('.wizard-steps li:eq(1)').addClass("active");
-					$('.wizard-steps li:eq(2)').addClass("active");
-					$('#step3').addClass("active");
-					$('.btn-prev').removeAttr("disabled");
-			}else if(stat == 30 || stat == -1){
-					$('.wizard-steps li:eq(0)').addClass("active");
-					$('.wizard-steps li:eq(1)').addClass("active");
-					$('.wizard-steps li:eq(2)').addClass("active");
-					$('.wizard-steps li:eq(3)').addClass("active");
-					$('#step4').addClass("active");
-					$('.btn-next').removeAttr("disabled");
-			}else if(stat == -2){
-					$('.btn-prev').removeAttr("disabled");
-					$('.btn-next').removeAttr("disabled");
-			}
-			$('.arr_holiday').addClass("active");
-			$('.arr_holiday').append("<div class='pointer'><div class='arrow'></div><div class='arrow_border'></div></div>");
-			$('#sub').addClass("active");
-			$('#reql').addClass("active");
-
+		if(stat == 1){
+				$('.wizard-steps li:eq(0)').addClass("active");
+				$('.btn-prev').removeAttr("disabled");
+				$("#tips").val('您的假期申请已发送哦(๑•ᴗ•๑)');
+		}else if(stat == 10){
+				$('.wizard-steps li:eq(0)').addClass("active");
+				$('.wizard-steps li:eq(1)').addClass("active");
+				$('#tips').val('您的假期申请已被部门经理审批哦(๑•ᴗ•๑)');
+				$('.btn-prev').removeAttr("disabled");
+		}else if(stat == 20){
+				$('.wizard-steps li:eq(0)').addClass("active");
+				$('.wizard-steps li:eq(1)').addClass("active");
+				$('.wizard-steps li:eq(2)').addClass("active");
+				$('#tips').val('您的假期申请已被副总经理审批哦(๑•ᴗ•๑)');
+				$('.btn-prev').removeAttr("disabled");
+		}else if(stat == 30 || stat == -1){
+				$('.wizard-steps li:eq(0)').addClass("active");
+				$('.wizard-steps li:eq(1)').addClass("active");
+				$('.wizard-steps li:eq(2)').addClass("active");
+				$('.wizard-steps li:eq(3)').addClass("active");
+				$('#tips').val('您的假期申请已被总经理审批哦(๑•ᴗ•๑)');
+				$('.btn-next').removeAttr("disabled");
+		}else if(stat == -2){
+				$('#tips').val('您的假期申请已被驳回哦(๑•ᴗ•๑)');
+		}else if(stat == -3){
+				$('#tips').val('您的上次假期已经结束并且没有新的假期(๑•ᴗ•๑)');
+		}
+		$('.arr_holiday').addClass("active");
+		$('.arr_holiday').append("<div class='pointer'><div class='arrow'></div><div class='arrow_border'></div></div>");
+		$('#sub').addClass("active");
+		$('#reql').addClass("active");
 		});

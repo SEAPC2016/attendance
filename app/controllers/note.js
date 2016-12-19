@@ -123,6 +123,8 @@ exports.reqLatestState = function(req, res){
                     var _note = new Note();
                     if(note.length <=0){
                       _note.curState =  -3;
+                    }else{
+                      _note.curState = note[0].curState;
                     }
                 //    var user = new User();
                 //    user.userName = "COll";

@@ -14,13 +14,16 @@ function change_note_state(noteId, approved){
     dataType: 'json'
   })
   .done(function (data) {
-      notes = data;
-      console.log(data);
+      changedInfo = data;
+      console.log(changedInfo);
       window.location.reload(); // THIS IS NOT WHAT AJAX DO ~~
   }).fail(function (jqXHR, textStatus) {
       console.log('Error: ' + jqXHR.status);
   });
 }
+
+
+
 
 function testNoteChange(){
   var noteId = '5853fab72e5baac361a430d7';

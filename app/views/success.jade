@@ -1,0 +1,20 @@
+extends layout
+
+block content
+	.content
+		.container-fluid
+			#pad-wrapper.form-page
+				.row-fluid.form-wrapper
+					.field-box
+						h1 #{msg}
+					.field-box
+						a.btn.btn-primary(href='/') 返回主页
+						//a的href='/user/signin'
+	script(src='/js/wysihtml5-0.3.0.js')
+	script(src='http://code.jquery.com/jquery-latest.js')
+	script(src='/js/bootstrap.min.js')
+	script(src='/js/bootstrap-wysihtml5-0.0.2.js')
+	script(src='/js/bootstrap.datepicker.js')
+	script(src='/js/jquery.uniform.min.js')
+	script(src='/js/select2.min.js')
+	script(src='/js/theme.js')

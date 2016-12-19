@@ -144,12 +144,23 @@ exports.reqLatestState = function(req, res){
 exports.reqAllState = function(req, res){
     var _user = req.session.user;
     var userId = _user._id;
+    var p = req.query.p;
+//    var p = 0;
+     console.log(p);
+     if(p === undefined){
+       p = 0;
+     }
+     console.log(p);
+    var Count = 10;
+    var index = p*Count;
+
     //var userId = '584aab9f23ac5520a7cf0947';
     var year = Moment().year();
     console.log(year);
     Note
       .find({'user': userId})
       .gte('startTime',new Date(year))
+      .populate({path:'holidayType'})
       .sort({'startTime': -1})
       .exec(function(err, notes){
         if(err){
@@ -160,14 +171,63 @@ exports.reqAllState = function(req, res){
             notes[i].start = Moment(notes[i].startTime).format('YYYY-MM-DD');
         //    console.log("时间 : "+notes[i].start);
           }
+          var results = notes.slice(index,index+Count);
           console.log("ok"+notes);
           console.log("ok");
           res.render('reqAllState', {
             title: "请假状态页",
-            notes: notes
+            notes: results,
+            currentPage: (p+1),
+            totalPage: Math.ceil(notes.length/Count)
           });
         }
       });
+};
+
+exports.noteInfo = function(req, res){
+  var _user = req.session.user;
+
+  var noteId = req.params.id;
+
+  console.log(noteId);
+  Note
+    .findOne({"_id": noteId})
+    .populate({path:'holidayType'})
+    .exec(function(err, _note){
+      if(err){
+        console.log(err);
+      }else{
+        _note.start = Moment(_note.startTime).format('YYYY-MM-DD');
+        Role
+          .findOne({'_id': _user.userRole})
+          .exec(function(err, _role){
+            res.render('holidayInfo',{
+              title: '请假详情',
+              note: _note,
+              roleName : _role.roleName,
+              holidayName: _note.holidayType.holidayName
+            });
+          });
+
+      }
+    });
+};
+
+//注销假期
+exports.destroy = function(req, res){
+    var noteId = req.params.id;
+
+    Note
+      .update(
+          {'_id': noteId},
+          {$set:{'curState': -3}},
+          function(err, _note){
+            console.log(_note);
+            res.render('../success', {
+              title: '结果页',
+              msg: '销假成功'
+            });
+          });
 };
 
 
@@ -263,21 +323,7 @@ exports.updateStateByManager = function (req, res, next){
       .then(function(changedInfo){
         debug('Update note info succeeded');
 
-        res.send(changedInfo);
-
-        //refresh the page, I do not think it's right.
-        /*
-                return  _findNotesByManagerId(managerId)
-                  .then(function(notes){
-                    debug('Find all notes by manager preState, notes.length:' + notes.length);
-                    return res.send(notes);
-                    // res.render('examine', {
-                    //       title: "待审核假期",
-                    //       notes: notes
-                    // });
-                  });
-                  // .catch(next);
-        */
+          res.send(changedInfo);
       });
     });
   })

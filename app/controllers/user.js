@@ -159,22 +159,25 @@ exports.signin = function(req, res){
        if(isMatch){
          //保存用户状态，利用会话
          req.session.user = user;
-
+         console.log(user);
          Role
-          .find({'_id': user._id})
+          .find({'_id': user.userRole})
           .exec(function(err, role){
             if(err){
               console.log(err);
             }else{
-              var _role = null;
-              if(role.roleName === '员工'){
-                _role = 0;
+              console.log(role);
+              if(role[0].roleName === '员工'){
+                req.session._role = null;
               }else{
-                _role = 1;
+                console.log(role[0]);
+                req.session._role = role[0];
+                console.log('cool');
               }
+              console.log(req.session._role);
               console.log("password is match");
-              //返回登录后的首页
-              req.session._roleNum = _role;
+
+                //返回登录后的首页
               return res.redirect('/');
             }
           });

@@ -13,6 +13,10 @@ module.exports = function(app){
     var _user = req.session.user;
     //console.log(_user);
     app.locals.user = _user;
+    var _role = req.session._role;
+    if(_role){
+      app.locals._role = _role;
+    }
     next();
   });
 
@@ -80,7 +84,7 @@ module.exports = function(app){
   //最新假期状态
   app.get('/note/reqLatestState', User.signinRequired ,Note.reqLatestState);
 
-  
+
   //过往假期状态
   app.get('/note/reqAllState', User.signinRequired, Note.reqAllState);
 

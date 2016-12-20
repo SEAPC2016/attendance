@@ -24,15 +24,16 @@ exports.new = function(req, res){
   .populate({path: 'userRole'})
   .exec(function(err, _user){
     var user = _user[0];
-    debug('Get User and UserRole,note:\n' + JSON.stringify(user));
-    debug('curNote,note:\n' + JSON.stringify(curNote));
-
+    //debug('Get User and UserRole,note:\n' + JSON.stringify(user));
+    //debug('curNote,note:\n' + JSON.stringify(curNote));
+    console.log(curNote);
     //var note = setState(user[0],curNote);
     HolidayType
        .find({_id: curNote.holidayType})
        .exec(function(err, holidayTypes){
          debug('setState holidayTYpe:\n' + JSON.stringify(holidayTypes));
-         var holidayType = holidayTypes;
+         var holidayType = holidayTypes[0];
+
          if(holidayType.holidayName === '事假' || holidayType.holidayName === '年假' || holidayType.holidayName === '病假'){
              if(curNote.timeLength <= 1){//t<=1          部门经理
                  curNote.highState = 10;
@@ -41,7 +42,7 @@ exports.new = function(req, res){
              }else{//3<t          部门经理+副总经理+总经理
                curNote.highState = 30;
              }
-           }else if(holidayType.holidayName === '工伤假'  || holidayType.holidayName === '产假' || holidayType.holidayName === '婚假'){
+           }else if(holidayType.holidayName === '工商假'  || holidayType.holidayName === '产假' || holidayType.holidayName === '婚假'){
              //总经理
              curNote.highState = 30;
            }else if(holidayType.holidayName === '产检假'){
@@ -71,7 +72,8 @@ exports.new = function(req, res){
            }else if(user.userRole.roleName === '总经理'){
              curNote.curState = 30;
            }
-           debug('setState 中 note:\n' + JSON.stringify(curNote));
+           //debug('setState 中 note:\n' + JSON.stringify(curNote));
+           console.log("结果:"+curNote);
            //res.send(note);
            if(curNote.highState <= curNote.curState){
              curNote.curState = -1;

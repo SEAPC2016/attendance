@@ -40,11 +40,11 @@
 						a#reql(href='/note/reqLatestState') 最新假期状态
 					li
 						a#reqa(href='/note/reqAllState') 过往假期状态
-			if _roleNum == 1
+			if _role
 				li.arr_examine
 					a(href='/notes/manager')
 						i.icon-th-large
-						span 我的审批
+						span 我的审批 
 			li.arr_calendar
 				a(href='/user/calendar')
 					i.icon-calendar-empty

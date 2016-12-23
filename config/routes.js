@@ -14,7 +14,7 @@ module.exports = function(app){
     //console.log(_user);
     app.locals.user = _user;
     var _role = req.session._role;
-    if(_role){
+    if(_role !== undefined){
       app.locals._role = _role;
     }
     next();

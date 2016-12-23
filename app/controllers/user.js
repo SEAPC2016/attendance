@@ -174,7 +174,7 @@ exports.signin = function(req, res){
                 req.session._role = role[0];
                 console.log('cool');
               }
-              console.log(req.session._role);
+            //  console.log(req.session._role);
               console.log("password is match");
 
                 //返回登录后的首页

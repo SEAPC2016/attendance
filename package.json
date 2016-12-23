@@ -1,8 +1,9 @@
 {
   "name": "attendance",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "private": true,
   "scripts": {
+    "debug": "DEBUG=attendance:* npm start",
     "start": "set DEBUG=attendance:* & supervisor ./bin/www",
     "test": "set DEBUG=attendance:* & supervisor --inspect --debug-brk ./bin/www"
   },

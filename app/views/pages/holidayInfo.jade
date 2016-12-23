@@ -24,7 +24,7 @@ block content
 							input.span8(type='text', readonly='readonly', value='#{note.timeLength}')
 						.field-box
 							label 申请理由:
-							textarea.span8(rows='4', readonly='readonly', value='#{note.reason}')
+							textarea.span8(rows='4', readonly='readonly') #{note.reason}
 						.field-box
 							a.btn.btn-primary(href='/note/destroy/#{note._id}') 结束假期
 							//a的href='/user/signin'
